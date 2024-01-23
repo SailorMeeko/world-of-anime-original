@@ -1,0 +1,54 @@
+[% META title = "World of Anime | The Anime Social Network | Browse Members" %]
+[% META keywords = "anime,social networking" %]
+[% META description = "World of Anime is a social networking site specifically for anime fans" %]
+
+[% IF alert %]
+		<div id="alert">
+				[% alert %]
+		</div>
+[% END %]
+		<div id="content">
+<h1 class="front_header">Browse Members</h1>
+
+<div id="pager_line">
+[% page_counter_num = 1 %]
+
+[% IF pager.previous_page %]
+<a href="[% c.request.uri_with( page => pager.previous_page ) %]">Previous</a>
+[% END %]
+
+[% page_count = pager.current_page - 3 %]
+[% IF page_count < 1 %]
+     [% page_count = 1 %]
+[% END %]
+
+[% WHILE page_count <= pager.last_page %]
+     [% IF page_counter_num <= 20 %]
+          [% IF page_count == pager.current_page %]
+          [% page_count %]
+          [% ELSE %]
+          <a href="[% c.request.uri_with( page => page_count ) %]">[% page_count %]</a>
+          [% END %]
+     [% END %]
+[% page_count = page_count + 1 %]
+[% page_counter_num = page_counter_num + 1 %]
+[% END %]
+
+[% IF pager.next_page %]
+<a href="[% c.request.uri_with( page => pager.next_page ) %]">Next</a>
+[% END %]
+</div>
+
+<br clear="all">
+[% MembersHTML %]
+
+</div>
+				
+		<div id="right_column">
+
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1) %]
+			
+		</div>

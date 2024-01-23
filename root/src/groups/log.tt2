@@ -1,0 +1,146 @@
+[% meta.title = "World of Anime | The Anime Social Network | $group.name's Group" %]
+[% meta.keywords = "anime, $user.username, $favorite_anime, $favorite_movies" %]
+[% meta.description = "World of Anime Group $group.name | Log" %]
+
+[% IF alert %]
+		<div id="alert">
+				[% alert %]
+		</div>
+[% END %]
+
+     
+
+		<div id="content">
+		
+		[% site.jquery = "$jquery" %]
+		
+[% IF notice_header %]
+		<h1 class="notice_header">[% notice_header %]</h1>
+[% END %]
+
+[% IF group %]
+
+		[% IF IsAdmin %]
+
+		[% i = image_info( group.profile_image_id ) %]
+
+<div id="plain_user_profile_box">
+<table border="0">
+	<tr>
+		<td valign="top" rowspan="2">
+			<a href="/groups/[% group.id %]/[% group.pretty_url %]"><img src="[% i.thumb_url %]"></a>		</td>
+		<td valign="top" width="360">
+			<span class="plain_user_profile_name">[% group.name %]</span><br />
+
+		</td>
+		<td valign="top">
+		</td>
+	</tr>
+</table>
+</div>
+
+<p />
+
+
+
+<table id="notification_table" cellspacing="0" cellpadding="5" border="0" width="640">
+[% WHILE (note = Entries.next) %]
+[% day = prettify_date( note.create_date, 3) %]
+[% IF day != last_day %]
+    <tr><td width="640" colspan="4" class="notify_date_header">[% day %]</td></tr>
+    [% last_day = day %]
+[% END %]
+<tr class="note_[% note.id %]">
+  <td width="20" align="center" class="notification_table_row">
+  [% IF note.log_type == 1 %]
+    <img src="/static/images/icons/groups.gif">
+  [% END %]
+  [% IF note.log_type == 2 %]
+    <img src="/static/images/icons/invitation.gif">
+  [% END %]  
+  [% IF note.log_type == 3 OR note.log_type == 6 %]
+    <img src="/static/images/icons/accept.gif">
+  [% END %]
+  [% IF note.log_type == 4 OR note.log_type == 7 %]
+    <img src="/static/images/icons/reject.gif">
+  [% END %]
+  [% IF note.log_type == 5 %]
+    <img src="/static/images/icons/pm.gif">
+  [% END %]
+  [% IF note.log_type == 8 %]
+    <img src="/static/images/icons/subscribe.gif">
+  [% END %]
+  [% IF note.log_type == 9 OR note.log_type == 10 OR note.log_type == 12 OR note.log_type == 13 OR note.log_type == 14 %]
+    <img src="/static/images/icons/unsubscribe.gif">
+  [% END %]
+  [% IF note.log_type == 11 %]
+    <img src="/static/images/icons/blog.gif">
+  [% END %]
+  </td>
+  <td width="535" align="left" class="notification_table_row">[% note.log %]</td>
+  <td width="85" align="center" class="notification_table_row">[% prettify_date( note.create_date, 2) %]</td>
+</tr>
+[% END %]
+</table>
+
+<p />
+
+<div id="pager_line">
+[% page_counter_num = 1 %]
+
+[% IF pager.previous_page %]
+<a href="[% c.request.uri_with( page => pager.previous_page ) %]">Previous</a>
+[% END %]
+
+[% page_count = pager.current_page - 3 %]
+[% IF page_count < 1 %]
+     [% page_count = 1 %]
+[% END %]
+
+[% WHILE page_count <= pager.last_page %]
+     [% IF page_counter_num <= 30 %]
+          [% IF page_count == pager.current_page %]
+            [% IF pager.next_page %]
+                [% page_count %]
+            [% END %]
+          [% ELSE %]
+          <a href="[% c.request.uri_with( page => page_count ) %]">[% page_count %]</a>
+          [% END %]
+     [% END %]
+[% page_count = page_count + 1 %]
+[% page_counter_num = page_counter_num + 1 %]
+[% END %]
+
+[% IF pager.next_page %]
+<a href="[% c.request.uri_with( page => pager.next_page ) %]">Next</a>
+[% END %]
+</div>
+
+
+
+		
+
+				[% ELSE %]
+		
+			You must be an admin of this group to be here.
+		[% END %]
+
+
+[% ELSE %]
+<h1 class="error_header">Not a Valid Group</h1>
+This Group either does not exist, or is private.
+[% END %]
+
+
+
+		</div>
+
+		
+				
+		<div id="right_column">
+			
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1) %]
+			
+		</div>

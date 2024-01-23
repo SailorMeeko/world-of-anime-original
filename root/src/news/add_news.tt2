@@ -1,0 +1,88 @@
+[% meta.title = "World of Anime | The Anime Social Network | Add News Article" %]
+[% META keywords = "anime, social networking, news, anime news, add news" %]
+[% meta.description = "World of Anime - a social networking site for anime fans: Add Anime News Article" %]
+
+<div id="content">
+
+[% site.jquery = "$jquery" %]
+
+[% IF error_message %]		
+<h1 class="error_header">Error</h1>
+[% error_message %]
+<p />
+[% END %]
+
+<div class="section_image"><img src="/static/images/icons/anime_news.jpg"></div>
+<span class="conversation_text">Find some juicy news you think your fellow anime, manga and video game lovers will like?  Share it here!</span>
+
+<br clear="all">
+
+[% IF ! c.user_exists %]
+
+You must be logged in to add a new news article.
+
+[% ELSE %]
+
+<!-- Only logged in people can do this -->
+
+
+<div id="new_thread_box" style="display: block;"></a>
+<form id="group_form" class="removable_button" action="/news/submit_news" method="post" enctype="multipart/form-data">
+
+    <h2>Submit News Article</h2>
+    
+    <span class="normal_text">World of Anime News is powered by your contributions!  If you see a news article or web site or anything that you think you be of interest to people who love anime, manga, or video games, please submit it to us!  You will receive 5 points for submitting a news article, and 25 points if your news article is posted to the web site!<p /></span>
+
+    <h3>Article Title:</h3>
+    <br />
+    <span class="form-field"><input id="news_entry" type="text" name="article_title" value="[% article_title %]" size="65" maxlength="255"></span>
+    
+    <p />
+
+    <h3>Article Source URL:</h3>
+    <br />
+    <span class="form-field"><input type="text" name="source_url" value="[% source_url %]" size="65" maxlength="255"></span>
+
+    <p />
+
+    <h3>Name of Source:</h3>
+    <br />
+    <span class="form-field"><input type="text" name="source_name" value="[% source_url %]" size="65" maxlength="255"></span>
+    
+    <p />
+    
+    <div id="form_field">
+
+    <h3>Website:</h3>
+    <br />
+    <span><input type="text" name="website" size="75" maxlength="255"></span>
+    </div>
+
+    <h3>Article Body</h3>
+    <br />
+    <span class="form-field"><textarea name="article" rows="8" cols="64">[% article %]</textarea></span>
+	
+    <p />
+    
+    <h3>Image for Article: (If you have one)</h3>
+    <br><input type="file" name="article_image" size="50">
+    
+    <p />
+
+    <input type="submit" value="Submit News Article" class="removable">
+    </form>
+</div>
+[% END %]
+
+
+		</div>
+		
+				
+		<div id="right_column">
+
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1) %]
+
+		</div>

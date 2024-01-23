@@ -1,0 +1,107 @@
+[% meta.title = "World of Anime | The Anime Social Network | $group.name's Group" %]
+[% meta.keywords = "anime, $user.username, $favorite_anime, $favorite_movies" %]
+[% meta.description = "World of Anime Group page for $group.name - Edit Your Group" %]
+
+[% IF alert %]
+		<div id="alert">
+				[% alert %]
+		</div>
+[% END %]
+
+		<div id="content">
+		
+		[% site.jquery = "$jquery" %]
+		
+[% IF notice_header %]
+		<h1 class="notice_header">[% notice_header %]</h1>
+[% END %]
+
+
+[% IF group %]
+
+
+[% IF IsOwner %]
+
+[% i = image_info( group.profile_image_id ) %]
+
+<a href="/groups/[% group.id %]/[% group.pretty_url %]"><img src="[% i.thumb_url %]"></a>
+<div id="profile_table"><form action="update_group" method="post" enctype="multipart/form-data">
+<input type="hidden" name="do_update" value="1">
+<table id="profile_table" cellspacing="1" cellpadding="2">
+<tr>
+        <td bgcolor="#ffffff">&nbsp;</td>
+				<td class="field_value">To change the group profile picture, upload an image here.</td>
+</tr>
+<tr>
+  <th class="field_name">Picture:</th>
+  <td class="field_value"><input type="file" name="profile_image" size="50"></td>
+</tr>
+<tr><td colspan="2"><hr></td></tr>
+<tr>
+        <td bgcolor="#ffffff">&nbsp;</td>
+				<td class="field_value">To change the background picture, upload an image here.</td>
+</tr>
+<tr>
+  <th class="field_name">Background Picture:</th>
+  <td class="field_value"><input type="file" name="background_image" size="50"></td>
+</tr>
+<tr>
+  <th class="field_name">Scroll Background:</th>
+  <td class="field_value"><input type="checkbox" name="scroll_background" [% IF group.scroll_background %]checked[% END %]></td>
+</tr>
+<tr>
+  <th class="field_name">repeat-x:</th>
+  <td class="field_value"><input type="checkbox" name="repeat_x" [% IF group.repeat_x %]checked[% END %]></td>
+</tr>
+<tr>
+  <th class="field_name">repeat-y:</th>
+  <td class="field_value"><input type="checkbox" name="repeat_y" [% IF group.repeat_y %]checked[% END %]></td>
+</tr>
+<tr>
+  <th class="field_name">Remove:</th>
+  <td class="field_value"><input type="checkbox" name="remove_background_image"> (Check this box to remove your background picture)</td>
+</tr>
+<tr><td colspan="2"><hr></td></tr>
+<tr>
+	<th class="field_name">Name:</th>	<td class="field_value"><input type="text" name="name" size="50" maxlength="255" value="[% group.name %]"></td>
+</tr>
+<tr>
+        <th class="field_name">Description:</th>
+	<td class="field_value"><textarea name="description" rows="15" cols="45">[% group.description %]</textarea></td>
+</tr>
+<tr>
+        <td bgcolor="#ffffff">&nbsp;</td>
+	<td class="field_value"><input type="checkbox" name="is_private" [% IF group.is_private %]checked[% END %]> Private Group</td>
+</tr>
+</table>
+<input type="Submit" value="Update Group">
+</div>
+
+
+
+[% ELSE %]
+<h1 class="error_header">Not a Valid Group</h1>
+Sorry, you are not the owner of this group.
+[% END %]
+
+
+[% ELSE %]
+<h1 class="error_header">Not a Valid Group</h1>
+This Group either does not exist, or is private.
+[% END %]
+
+
+
+
+
+		</div>
+
+		
+				
+		<div id="right_column">
+			
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1) %]
+		
+		</div>

@@ -1,0 +1,98 @@
+[% meta.title = "World of Anime | The Anime Social Network" %]
+[% meta.description = "World of Anime is the #1 social networking site for fans of Japanese anime and manga.  Create your own profile and find friends who share your love of anime!" %]
+[% META keywords = "anime, manga, social networking, friends, community, social, networking, japanese, forum, blog, image gallery, reviews, groups, answers" %]
+
+<script>
+$(function() {
+    $('[image-desc]').each(function() {
+		$(this).qtip({
+	
+      content: $(this).attr('image-desc'),
+      position: {
+               my: 'bottom center',
+               at: 'top center' },
+      style: { 
+      name: 'dark', // Inherit from preset style
+      classes: 'ui-tooltip-dark ui-tooltip-rounded'
+   }
+    });
+    });
+});
+</script>
+
+<div id="content">
+
+<div id="newsletter_box">
+  World of Anime has a <a href="/newsletter">Newsletter</a> now!
+</div>
+
+
+[% IF ! c.user_exists %]
+<div id="greeting_box">
+<img src="/static/images/icons/anime_hi.jpg">
+<p>Hi there!  It doesn't look like you're a member of World of Anime yet.  (Either that or you aren't logged in)</p>
+<p>If you are not a member, we'd love to have you!  Please join the world's best Anime Social Networking Site, and start having fun today!</p>
+<p><a href="/join" class="more_info_button" style="float: none;">Yes, I'd love to join!</a></p>
+</div>
+[% END %]
+
+<div class="icon" style="padding-right: 15px;"><img src="/static/images/icons/welcome_new_members.jpg"></div>		
+<span class="intro">
+<h1>Welcome to World of Anime!</h1>
+<p>World of Anime is a social networking site custom created just for anime fans, and the best place for meeting new friends who all share your love of anime!  </p>
+</span>
+
+<br clear="all">
+<span class="intro" ng-controller="MembersController" ng-init="getNewest()">
+<p>Please take a moment to welcome our newest members!</p>
+   	<ul class="random_members">
+        <li class="thumb_image_group" ng-repeat="m in members"><a href="/profile/{{ m.username }}" class="ng-cloak"><img src="{{ m.thumb_url }}" border="0" 
+          title="{{ m.username }}"></a></li>
+    </ul>
+<br clear="all">
+</span>
+<br clear="all">
+
+<div id="new_stuff_box">
+<h2>Random Anime</h2>
+[% RandomAnimeHTML %]
+<a class="text_link" href="/anime">View More in the Anime Database</a>
+</div>
+
+
+<div id="latest_review_box">
+<h2>Latest Anime Review</h2>
+[% LatestAnimeReview %]
+<br clear="all">
+</div>
+
+
+<div id="latest_fiction_box">
+<h2>Latest Fan Fiction Activity</h2>
+[% LatestFictionActivity %]
+<br clear="all">
+<a class="text_link" href="/artist/fiction">View More in the Fan Fiction section</a>
+</div>
+
+
+		</div>
+		
+				
+		<div id="right_column">
+
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% EmbedTip = 'The Latest Activities blocks have been removed from the home page for performance reasons.<p>More performance optimizations will be coming soon.' %]
+		
+<div class="icon"><img src="/static/images/icons/latest_activity.jpg"></div>
+<p class="conversation_text">Want to know what's been going on lately?</p>
+<p><a class="btn btn-info" href="/latest/activity">Latest Activity</a></p>
+<p><a class="btn btn-info" href="/latest/gallery_images">Latest Gallery Images</a></p>
+<p><a class="btn btn-info" href="/blogs">Latest Blog Entries</a></p>
+<br clear="all">
+<a href="#" title="[% EmbedTip %]" id="tip" class="tip_question">Why isn't this on the homepage anymore?</a>
+
+[% pick_ad(1, images_approved) %]
+			
+		</div>

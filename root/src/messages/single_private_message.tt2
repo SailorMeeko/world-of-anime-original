@@ -1,0 +1,75 @@
+[% meta.title = "World of Anime | Private Message from $message.from_username" %]
+[% META keywords = "anime,social networking,forums" %]
+[% META description = "World of Anime - Private Message" %]
+
+<script src="/static/javascript/pm.js?v=3"></script>
+
+[% profile = get_user_profile_image( message.from_user_id ) %]
+[% i = image_info( profile.profile_image_id ) %]
+
+		<div id="content">
+
+<div id="story_header">
+		<div class="header_image">
+				<a href="/profile/[% message.from_username %]"><img src="[% i.thumb_url %]"></a>
+		</div>
+		
+		<div class="header_extra">
+				<h1>[% message.subject %]</h1>
+				<h2>From <a href="/profile/[% message.from_username %]">[% message.from_username %]</a> to <a href="/profile/[% message.to_username %]">[% message.to_username %]</a></h2><br>
+				<h2>Sent on [% prettify_date( message.createdate, 1) %]</h2>
+				
+		</div>
+
+
+<p>
+    <div id="fiction_description_box">
+	
+[% parse_bbcode( message.message ) %]
+
+    </div>
+
+</div>
+
+<p />
+
+[% IF message.parent_pm %]
+<span class="plain_text">This message is part of a longer thread.  <a href="/pm/thread/[% message.parent_pm %]">View entire thread</a></span>
+<p />
+[% END %]
+
+[% IF !sent_screen %]
+<a href="#" class="delete_pm share_button comment_button" pm_id="[% message.id %]" from_id="[% message.from_user_id %]">Delete</a>  <a href="/pm/setup/[% message.from_user_id %]?orig=[% message.id %]" class="newWindow share_button comment_button">Reply</a>
+[% END %]
+
+[% IF sent_screen %]
+
+[% ELSE %]
+<a href="/pm/setup/[% message.from_user_id %]" class="newWindow share_button comment_button">New private message to [% message.from_username %]</a>
+[% END %]
+
+<br clear="all">
+
+[% IF sent_screen %]
+<a href="/pm/to/[% message.user_id %]" class="action_button">Back to private messages you have sent to [% message.to_username %]</a>
+[% ELSE %]
+<a href="/pm/from/[% message.from_user_id %]" class="action_button">Back to [% message.from_username %]'s private messages</a>
+[% END %]
+
+[% IF !sent_screen %]
+		[% IF !is_read %]
+		[% pm_mark_read( message.id ) %]
+		[% END %]
+[% END %]
+
+
+		</div>
+		
+				
+		<div id="right_column">
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1, images_approved) %]
+			
+		</div>

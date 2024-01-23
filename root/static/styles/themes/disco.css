@@ -1,0 +1,8 @@
+body { background-color: #FFF; background-image: url('/static/images/backgrounds/disco.jpg');  background-repeat: repeat-x repeat-y; background-attachment: fixed; }
+#page { border: solid 0.125em #421C52; }
+#navbar { width:auto; display:block; height:1.875em; background: #732C7B; margin-bottom: 1em; }
+#links_box_link a { color: #CCC; }
+#links_box_link a:hover { color: #CCC; background-color: #421C52; }
+.sf-menu li { background: #732C7B; }
+.sf-menu li li { background: #732C7B; }
+.sf-menu li:hover, .sf-menu li.sfHover, .sf-menu a:focus, .sf-menu a:hover, .sf-menu a:active { background: #421C52; }

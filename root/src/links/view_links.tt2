@@ -1,0 +1,38 @@
+[% META title = "World of Anime | The Anime Social Network | Anime Link" %]
+[% META keywords = "anime sites, anime links, add resources, anime directory, anime web sites" %]
+[% META description = "Anime Links | Directory of Anime Web Sites" %]
+
+[% IF alert %]
+		<div id="alert">
+				[% alert %]
+		</div>
+[% END %]
+		<div id="content">
+		
+<h1 class="front_header">Anime Links</h1>
+
+<span class="info_text">
+<a href="/links/add_link">Add your anime web site to our directory</a>
+</span>
+
+<p />
+
+<h1 class="front_header">[% cat_word %]</h1>
+[% categories_html %]
+
+<h1 class="front_header">Links</h1>
+[% links_html %]
+		
+
+		</div>
+		
+				
+		<div id="right_column">
+
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1) %]
+
+			
+		</div>

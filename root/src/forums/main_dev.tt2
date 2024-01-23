@@ -1,0 +1,62 @@
+[% META title = "World of Anime | The Anime Social Network | Forums" %]
+[% META keywords = "anime,social networking,forums" %]
+[% META description = "World of Anime Forums" %]
+
+[% IF alert %]
+		<div id="alert">
+				[% alert %]
+		</div>
+[% END %]
+		<div id="content">
+			<h1 class="front_header">World of Anime Forums</h1>
+<p />
+
+[% IF is_admin %]
+<!-- New Code -->
+[% END %]
+
+<div id="forums">
+[% WHILE (cat = categories.next) %]
+    <div id="forum_category">
+        <h1 class="category_name">[% cat.category_name %]</h1>
+    </div>
+    <div id="forum_forums">
+
+				<table id="forum_threads" border="0" cellpadding="0" cellspacing="0" width="100%">
+				<tr>
+						<th width="50%">Forum</th>
+						<th width="35%">Last Post</th>
+						<th width="15%">Threads</th>				
+				</tr>
+
+        [% FOREACH forum IN cat.forum_forums.sort('display_order') %]
+
+            [% IF forum.visible %]
+            <tr>
+                <td><a href="/forums/[% cat.pretty_url %]/[% forum.pretty_url %]">[% forum.forum_name %]</a></td>
+                <td>[% forum.forum_threads.last.last_post_format_medium_datetime %]</td>
+                <td align="center">
+                [% IF forum.forum_threads.max() == 0 %]
+                	1
+                [% ELSIF forum.forum_threads.max() > 0 %]
+                  [% forum.forum_threads.max() + 1 %]
+                [% END %]
+                </td>
+            </tr>
+            [% END %]
+        [% END %]
+
+				</table>
+
+    </div>
+[% END %]
+</div>
+
+		</div>
+		
+				
+		<div id="right_column">
+
+[% PROCESS 'users/login_form.tt2' %]
+			
+		</div>

@@ -1,0 +1,34 @@
+
+[% IF ! c.user %]				
+
+<div class="well">
+      <form action="/login" method="post">
+        <div class="control-group">
+          <div class="controls">
+            <div class="input-prepend">
+              <span class="add-on"><i class="icon-envelope"></i></span>
+              <input class="span2" id="inputIcon" type="text" name="username" placeholder="Username">
+            </div>
+             <div class="input-prepend">
+              <span class="add-on"><i class="icon-key"></i></span>
+              <input class="span2" id="inputIcon2" type="password" name="password" placeholder="Password">
+            </div>	    
+          </div>
+        </div>
+	<p class="text-center">
+	<button type="submit" class="btn btn-primary">
+          <i class="icon-user icon-white"></i> Login
+        </button>
+	</p>
+      </form>
+
+	<small><a href="/join">Join</a></small> . 
+	<small><a href="/forgot_password">Forgot Password?</a></small>
+
+</div>
+
+[% ELSE %]
+
+
+
+[% END %]

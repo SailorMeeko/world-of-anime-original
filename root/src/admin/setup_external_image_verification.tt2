@@ -1,0 +1,34 @@
+[% META title = "World of Anime | The Anime Social Network | Verify Images" %]
+[% META keywords = "" %]
+[% META description = "" %]
+
+    
+Mark the images that would not pass Google Adsense.  For reference:
+<p>
+Google ads may not be placed on pages with adult or mature content. This includes, but is not limited to, pages with images or videos containing:
+<ul>
+    <li>Strategically covered nudity</li>
+    <li>Sheer or see-through clothing</li>
+    <li>Lewd or provocative poses</li>
+    <li>Close-ups of breasts, buttocks, or crotches</li>
+</ul>
+</p>
+<p />
+[% check_images = "" %]
+<form action="/admin/verify_external_images" method="post">
+[% WHILE (image = Images.next) %]
+
+    [% check_images = check_images _ image.id _ "," %]
+    <label for="check_[% image.id %]" style="display: inline">
+    <div style="display: inline-block; padding: 25px; width: 120px;">
+        <img src="[% image.url %]" style="padding-bottom: 10px;"><br>
+        <div style="text-align: center"><a href="[% image.url %]">(enlarge)</a></div>
+        <input type="checkbox" name="is_approved_[% image.id %]" id="check_[% image.id %]" value="1" checked> Is Approved
+    </div>
+    </label>
+
+[% END %]
+<p>
+<input type="hidden" name="check_images" value="[% check_images %]">
+<input type="Submit" value="Approve these images">
+</form>

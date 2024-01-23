@@ -1,0 +1,110 @@
+[% meta.title = "World of Anime | The Anime Social Network | Questions and Answers for $group.name" %]
+[% META keywords = "anime, social networking, friends, members, users, top members, top users" %]
+[% meta.description = "World of Anime - a social networking site for anime fans: Questions and Answers for $group.name" %]
+
+[% IF alert %]
+		<div id="alert">
+				[% alert %]
+		</div>
+[% END %]
+		<div id="content">
+		
+		[% site.jquery = "$jquery" %]
+
+[% IF error_message %]		
+<h1 class="error_header">Error</h1>
+[% error_message %]
+<p />
+[% END %]
+
+
+[% IF group %]
+
+		[% IF !IsPrivate || IsMember %]
+		
+		[% i = image_info( group.profile_image_id ) %]
+
+<div id="plain_user_profile_box">
+<table border="0">
+	<tr>
+		<td valign="top" rowspan="2">
+			<a href="/groups/[% group.id %]/[% group.pretty_url %]"><img src="[% i.thumb_url %]"></a>		</td>
+		<td valign="top" width="360">
+			<span class="plain_user_profile_name">[% group.name %]</span><br />
+
+		</td>
+		<td valign="top">
+		</td>
+	</tr>
+</table>
+</div>
+
+
+
+<span class="normal_text">
+Have a question?  Have an answer?  This is the place for you to ask your questions and have them answered by your fellow [% group.name %] members.
+</span>
+
+<br clear="all">
+
+[% IF !IsMember %]
+You must be a member of this group to ask a question.
+[% ELSE %]
+<a class="action_button removable" href="#" onclick="javascript:$('#new_thread_box').toggle();">Ask a New Question</a>
+<br clear="all">
+<div id="new_thread_box"></a>
+<form class="removable_button" action="[% current_uri %]/add_new_question" method="post">
+
+    <h2>Ask a Question</h2>
+
+    <h3>Subject:</h3>
+    <br />
+    <span class="form-field"><input type="text" name="subject" value="[% subject %]" size="45" maxlength="255"></span>
+    
+    <p />
+    
+    <div id="form_field">
+
+    <h3>Website:</h3>
+    <br />
+    <span><input type="text" name="website" size="75" maxlength="255"></span>
+    </div>
+
+    <h3>Question</h3>
+    <br />
+    <span class="form-field"><textarea name="question" rows="8" cols="64">[% question %]</textarea></span>
+	
+    <p />
+    
+    <input type="checkbox" name="subscribe">Subscribe to this question
+    <p />
+    <input type="submit" value="Ask Question" class="removable">
+    </form>
+</div>
+<br clear="all">
+[% END %]
+
+
+[% AnswersHTML %]
+
+
+				[% ELSE %]
+		
+			This group is private, and you are not a member.<p />
+				[% END %]
+[% ELSE %]
+<h1 class="error_header">Not a Valid Group</h1>
+This Group either does not exist, or is private.
+[% END %]				
+
+		</div>
+		
+				
+		<div id="right_column">
+
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1) %]
+
+		</div>

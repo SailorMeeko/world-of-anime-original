@@ -1,0 +1,176 @@
+[% meta.title = "Anime Groups" %]
+[% META keywords = "anime, social networking, groups, clubs, community, manga" %]
+[% meta.description = "These are Groups created by World of Anime Users." %]
+
+[% IF alert %]
+		<div id="alert">
+				[% alert %]
+		</div>
+[% END %]
+		<div id="content">
+
+<script>
+    $(function() {
+       $('#search_group').submit(function(e) {
+            var searchString = $('input:first').val();
+	    var data = '&searchString=' + searchString;
+
+	    $.ajax({  
+                url: "/groups/search",
+                type: "POST",
+                dataType: 'json',
+		data: data,
+                cache: false,
+		complete: function(data) {
+		     if (data.responseText == 'N') {
+				// calculating offset for displaying popup message
+				var height = $('#popuup_reject_div').height();
+				var width = $('#popuup_reject_div').width();
+				leftVal = data.pageX-(width/2)+"px";
+				topVal = data.pageY-(height/2)+"px";
+				// show the popup message and hide with fading effect
+				$('#popuup_reject_div').css({ left:leftVal,top:topVal }).show().fadeOut(2000);
+		     } else {
+				var results = JSON.parse(data.responseText);
+				var allGroups = JSON.parse(results.results);
+				$('#main_page').empty();
+				$('#pager_line').empty();
+				for (var i = 0; i < allGroups.length; i++) {
+					group = allGroups[i];
+					var groupLink = '/groups/' + group.id + '/' + group.prettyurl;
+					var description = group.description.replace(/\n/g,"<br>");
+					
+					var newGroup = '<p><div class="top_user_profile_box">';
+					newGroup += '<table border="0"><tr><td valign="top" rowspan="2">';
+					newGroup += '<a href="' + groupLink + '"><img src="' + group.profile_image_url + '" border="0"></a></td>';
+					newGroup += '<td valign="top" width="560"><span class="group_name_link"><a href="' + groupLink + '">' + group.name + '</a></span><br />';
+					newGroup += '<span class="top_user_profile_date">+' + group.members + ' members<p /><span class="group_description">' + description;
+					newGroup += '</span></td></tr><tr><td colspan="2" valign="bottom"><span class="top_user_profile_date">';
+					newGroup += 'Created on ' + group.create_date + '</span></td></tr></table></div>';
+					
+					$('#main_page').append(newGroup);
+				}
+		     }
+		
+		}
+            });	    
+	    
+            return false;
+	});
+    });
+</script>
+
+
+
+
+[% IF error_message %]		
+<h1 class="error_header">Error</h1>
+[% error_message %]
+<p />
+[% END %]
+
+<h1 class="front_header">Groups</h1>
+
+
+<div id="popuup_reject_div" class="popup_reject_msg">
+   No Results Found
+</div>
+
+<form id="search_group" class="search_box form-search">
+Find a Group: <input type="text" id="search" name="searchString" size="45" maxlength="255" placeholder="Group Name or Description" class="search-query"> <input type="Submit" value="Search!">
+</form>
+
+<p />
+
+[% IF ! c.user_exists %]
+Please log in if you wish to create a new group.
+[% ELSE %]
+<a class="thread_link" href="#" onclick="javascript:$('#new_thread_box').toggle();$('#group_form #group_entry').focus();">Create a New Group</a><br />
+<div id="new_thread_box"></a>
+<form id="group_form" class="removable_button" action="/groups/add_new_group" method="post">
+
+    <h2>Create a New Group</h2>
+
+    <h3>Group Name:</h3>
+    <br />
+    <span class="form-field"><input id="group_entry" type="text" name="group_name" value="[% group_name %]" size="45" maxlength="255"></span>
+    
+    <p />
+    
+    <div id="form_field">
+
+    <h3>Website:</h3>
+    <br />
+    <span><input type="text" name="website" size="75" maxlength="255"></span>
+    </div>
+
+    <h3>Group Description</h3>
+    <br />
+    <span class="form-field"><textarea name="description" rows="8" cols="64">[% description %]</textarea></span>
+	
+    <p />
+    
+    <input type="checkbox" name="is_private">Make this group private
+    <br />
+    <p />
+    <input type="submit" value="Create New Group" class="removable">
+    </form>
+</div>
+[% END %]
+
+
+<div id="pager_line">
+[% cpage_counter_num = 1 %]
+
+[% IF cpager.previous_page %]
+<a href="[% c.request.uri_with( cpage => cpager.previous_page ) %]">Previous</a>
+[% END %]
+
+[% cpage_count = cpager.current_page - 3 %]
+[% IF cpage_count < 1 %]
+     [% cpage_count = 1 %]
+[% END %]
+
+[% WHILE cpage_count <= cpager.last_page %]
+     [% IF cpage_counter_num <= 10 %]
+          [% IF cpage_count == cpager.current_page %]
+		[% IF cpager.next_page %]
+				[% cpage_count %]
+		[% END %]
+          [% ELSE %]
+          <a href="[% c.request.uri_with( cpage => cpage_count ) %]">[% cpage_count %]</a>
+          [% END %]
+     [% END %]
+[% cpage_count = cpage_count + 1 %]
+[% cpage_counter_num = cpage_counter_num + 1 %]
+[% END %]
+
+[% IF cpager.next_page %]
+<a href="[% c.request.uri_with( cpage => cpager.next_page ) %]">Next</a>
+[% END %]
+</div>
+
+<p>
+
+<div id="newest_members">
+
+
+<div id="main_page">
+
+[% GroupsHTML %]
+
+</div>
+
+</div>
+
+		</div>
+		
+				
+		<div id="right_column">
+
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1) %]
+
+		</div>

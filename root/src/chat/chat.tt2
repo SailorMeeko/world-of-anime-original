@@ -1,0 +1,70 @@
+[% meta.title = "World of Anime | The Anime Social Network | Chat" %]
+[% META keywords = "anime, social networking, chat" %]
+[% meta.description = "World of Anime chat." %]
+
+[% IF alert %]
+		<div id="alert">
+				[% alert %]
+		</div>
+[% END %]
+		<div id="content">
+
+
+  </script>
+
+
+	
+        	
+<h1 class="front_header">Chat</h1>
+
+
+[% IF ! c.user_exists %]
+You must be logged in to participate in chat
+[% ELSE %]
+
+<div id="posts">
+<span class="normal_text">
+This chat is provided by <a href="http://www.mibbit.com/">Mibbit</a>.
+<p />
+By default, your World of Anime username will try to be used as your nick, but in case it is taken by someone else on the Mibbit network, you will need to pick another nick.
+<p />
+To change your nick, type:  /nick YOUR_DESIRED_NEW_NICK
+<p />
+If your nick is available, and you would like to register it to prevent someone else from using it, follow the instructions here:  <a href="http://wiki.mibbit.com/index.php/Create_Your_Own_Nickname">http://wiki.mibbit.com/index.php/Create_Your_Own_Nickname</a>
+</span>
+</div>
+
+<p />
+
+<div id="setup_answer">
+<a href='#synirc/test' 
+ onclick='window.open("http://widget.mibbit.com/?server=irc.mibbit.com&channel=%23WorldOfAnime&settings=cd6f74ce3847d1ec56118035373ef5cc&nick=[% username %]","","width=999,height=555")' class="reply_button">
+ Click here to join chat</a></div>
+ <br />(This will pop open a new window)
+
+
+
+[% END %]
+
+
+		</div>
+		
+				
+		<div id="right_column">
+
+
+[% PROCESS 'users/login_form.tt2' %]
+
+<script type="text/javascript"><!--
+google_ad_client = "pub-2012337006268482";
+/* 300x250, created 12/31/09 */
+google_ad_slot = "6089235599";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+			
+		</div>

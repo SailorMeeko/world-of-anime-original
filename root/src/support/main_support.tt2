@@ -1,0 +1,76 @@
+[% META title = "World of Anime | The Anime Social Network | Support" %]
+[% META keywords = "anime,social networking" %]
+[% META description = "Support World of Anime" %]
+
+
+		<div id="content">
+
+                <span class="normal_text">
+<h3>So you want to help support World of Anime?</h3>
+
+<p>Since 2009, World of Anime has grown from nothing into one of the largest anime community sites around.  In all that time, it has been running custom built software that is reaching the extent of its useful life.  In order for the site to grow to the next level, we will be starting over, with everything brand new.  New software, new hardware, and lots of work to get it all working just right for all of you.</p>
+
+<p>All of this costs money, and time.  Quite a bit of it.  If you would like to help support the site, and its transition to the next stage of its life, you can do any of the following:</p>
+
+<ol>
+	<li>
+Subscribe to <a target="_blank" href="http://contv.go2cloud.org/aff_c?offer_id=22&aff_id=1039">ConTV</a>.  Discover a universe of elusive and exclusive programming including original shows, genre movies, cult series, user-generated content, and Comic Con events.  Subscribe today using <a target="_blank" href="http://contv.go2cloud.org/aff_c?offer_id=22&aff_id=1039">this link</a>.
+	</li>
+<p />
+	<li>
+<p>If you are going to be doing any shopping online, using the following links and sites will help support our site:</p>
+
+<div align="center">
+
+<p>
+<script type="text/javascript"><!--
+amazon_ad_tag = "worldofanime09-20"; amazon_ad_width = "468"; amazon_ad_height = "60"; amazon_ad_link_target = "new";//--></script>
+<script type="text/javascript" src="http://ir-na.amazon-adsystem.com/s/ads.js"></script>
+</p>
+
+<p />
+
+<p>
+<a target="_blank" href="http://shareasale.com/r.cfm?b=405230&amp;u=637047&amp;m=38080&amp;urllink=&amp;afftrack="><img src="http://static.shareasale.com/image/38080/300x250.jpg" border="0" alt="COSPLAY" /></a>
+</p>
+
+<p />
+
+<a target="_blank" href="http://shareasale.com/r.cfm?b=415483&amp;u=637047&amp;m=5993&amp;urllink=&amp;afftrack="><img src="http://static.shareasale.com/image/5993/lizardspock_728_90_2.jpg" border="0" /></a>
+
+<p />
+
+<a target="_blank" href="http://shareasale.com/r.cfm?b=64542&amp;u=637047&amp;m=10692&amp;urllink=&amp;afftrack="><img src="http://static.shareasale.com/image/strapya-world-welcome.jpg" border="0" /></a>
+
+<p />
+
+<a href="http://www.anrdoezrs.net/click-5254229-11973666-1413331168000" target="_top">
+<img src="http://www.lduhtrp.net/image-5254229-11973666-1413331168000" width="728" height="90" alt="http://www.entertainmentearth.com/cjdoorway.asp?url=hitlist.asp?collect=Pop!+Vinyl+Figures" border="0"/></a>
+
+<p />
+
+	</li>
+<p />
+	<li>
+If you want to help by providing any graphic or design work or give any suggestions or advice, you can <a href="/contact">contact me here</a>.
+	</li>
+</ol>
+
+These are exciting times for the site.  I'm committed to taking this site to the next level and making it the best anime community on the web.  I'm glad you're here to be a part of it!
+
+
+</span>
+
+
+
+		</div>
+
+		
+				
+		<div id="right_column">
+			
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1) %]
+		
+		</div>

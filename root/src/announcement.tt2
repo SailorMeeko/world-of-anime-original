@@ -1,0 +1,68 @@
+[% meta.title = "World of Anime | The Anime Social Network | Announcement" %]
+[% META keywords = "anime, social networking, friends, members, users, top members, top users" %]
+[% meta.description = "World of Anime is getting a reboot!" %]
+
+		<div id="content">
+<p />
+
+<h1 class="front_header">Important Announcement</h1>
+<br clear="all">
+
+<span class="terms">
+
+
+<h1>World of Anime is getting a reboot!</h1>
+
+<h3>What is happening?</h3>
+
+<p>World of Anime is moving to a new social networking platform!</p>
+
+
+<h3>When is this happening?</h3>
+
+<p>I'm not sure exactly, but I am targetting sometime during the week of September 21-25, 2015.</p>
+
+
+<h3>What does this mean to me?</h3>
+
+<p>User accounts will not be transferrable to the new platform.  This means you will need to create a new account on World of Anime once the new site goes live.  This also means that you will need to save any current content that you have before the new site goes live.  This means any of your Fan Fiction, Image Gallery Images, Blog posts you have made, etc...  Please make sure to save anything from the site that you want to keep as soon as possible.</p>
+
+
+<h3>What will the new site be like?</h3>
+
+<p>The new site will be based on a popular social networking platform, so all of the basic functionality you would expect from a social network will be there.  And they will probably work more like you would expect from a social network than they have in the past with World of Anime.  If you have interacted with me in the past, you know that I do not use any social networking site other than World of Anime, so I've built my site according to how I would have expected and would have liked things to work.  I have read many, many comments from people on here however who are confused as to how things work or what they should do, so for those people, the new format of the site should be a big improvement.</p>
+
+<p>However, since World of Anime was completely custom built, there are some features built in that will not be initially available in the new site.  Some of these features include the Anime Database, and Fan Fiction.  The platform has APIs and development tools available to allow you to build these kinds of features yourself, so I will definitely work to get these features, and others, rebuilt into the new platform, but they will not be there at the beginning.</p>
+
+<p>I will be saving all the content of the Anime Database, and the Fan Fiction, before the old site goes away.  So when these features gets built into the new site, I will be able to bring the content back.  However, like I said in the prior paragraph, I would recommend you to save all content you would like to keep as soon as possible, including your Fan Fiction.</p>
+
+
+<h3>How can I help?</h3>
+
+<p>Glad you asked!  There are many ways you can help.  For a list of how you can help, see the <a href="/support">this page.</a></p>
+
+<h3>Why are you doing this?</h3>
+
+<p>When I started this site back in 2009, it was just a personal pet project.  A playground for me to try to build a community web site from the ground up, completely by myself.  I wanted to build and control every aspect of the platform, never really knowing if it was even going to take off.  I enjoyed building things and seeing them used, and seeing a community form around things I had built.</p>
+
+<p>Now, nearly 6 years later, I no longer have the desire to own the core platform.  There are a number of reasons for this.  One of the biggest one is that the site is now old legacy code, and is difficult to work with.  This is 6 years of mostly experimental code, much of it written without knowledge of where the site was going in the future.  At this point in the sites life, I can't add features easily, and even worse, I can't fix bugs fast enough.  I have been planning for a couple of years now to start over creating the site from scratch, but the task is so daunting that at this point in my life, I do not want to re-start the task of building a new social networking platform.</p>
+
+<p>However, in these 6 years, this site has built up a nice community of people who share a love of anime, and I want to be able to continue to provide the means for this community to grow and interact and share with each other.  By alleviating myself of the burden of owning the core social networking platform, I can focus on providing features and content that sets this community apart from others.  In a way, the success of the site, and the liveliness of the community has forced the necessity of deprecating the platform I have built.  In short, it has reached the end of its useful life.  I've known it for quite some time, but just haven't convinced myself to believe it until now.</p>
+
+<p>So in conclusion, this should be seen as a re-birth of the site, a necessary step for it to grow and flourish long into the future.  I look forward to all of you being a part of it.</p>
+
+- <a href="/profile/meeko">Meeko</a>
+
+
+</span>
+		</div>
+		
+				
+		<div id="right_column">
+
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1) %]
+
+		</div>

@@ -1,0 +1,76 @@
+[% meta.title = "World of Anime | The Anime Social Network | Forums | Create New Thread" %]
+[% META keywords = "anime,social networking,forums" %]
+[% META description = "World of Anime Forums - New Thread" %]
+[% IF alert %]
+		<div id="alert">
+				[% alert %]
+		</div>
+[% END %]
+		<div id="content">
+			World of Anime Forums.
+<p />
+New Thread for [% forum_name %]
+<p />
+[% IF ! c.user_exists %]
+You have to be logged in to begin a new thread.
+[% ELSIF preview %]
+<div id="threads">
+<h1>Preview New Thread</h1>
+<div id="individual_thread">
+<span class="thread">[% display_thread %]</span>
+</div>
+<form action="new_thread_add" method="post">
+<input type="hidden" name="subject" value="[% subject %]">
+<input type="hidden" name="thread" value="[% thread %]">
+<input type="Submit" value="Looks good, post it!">
+</form>
+<p />
+<form action="new_thread" method="post">
+<input type="hidden" name="subject" value="[% subject %]">
+<input type="hidden" name="thread" value="[% thread %]">
+<input type="Submit" value="Oops, let me go back and edit some more">
+</form>
+</div>
+[% ELSE %]
+<div id="new_thread_box"></a>
+<form action="new_thread_preview" method="post">
+
+    <h2>Begin a New Thread</h2>
+	
+    <h3>Subject:</h3>
+    <br />
+    <span class="form-field"><input type="text" name="subject" value="[% subject %]" size="45" maxlength="255"></span>
+	
+    <p />
+	
+    <div id="form_field">
+
+    <h3>Website:</h3>
+    <br />
+    <span><input type="text" name="website" size="75" maxlength="255"></span>
+    </div>
+
+    <span class="form-field"><textarea name="thread" rows="8" cols="64">[% thread %]</textarea></span>
+
+	
+    <p />
+	
+    <input type="submit" value="Preview New Thread">
+    </form>
+</div>
+[% END %]
+
+
+
+
+
+		</div>
+		
+				
+		<div id="right_column">
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1) %]
+
+		</div>

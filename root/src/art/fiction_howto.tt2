@@ -1,0 +1,73 @@
+[% meta.title = "World of Anime | The Anime Social Network | How to use Fan Fiction" %]
+[% META keywords = "anime, social networking, how to use fan fiction" %]
+[% meta.description = "World of Anime - a social networking site for anime fans: How to use Fan Fiction" %]
+
+<script src="/static/javascript/artist.js"></script>
+
+<div id="content">
+
+<div id="main_page">
+
+
+<div class="section_image"><img src="/static/images/icons/anime_fanfiction.jpg"></div>
+<span class="conversation_text">How to use Fan Fiction</span>
+[% IF c.user %]
+<p class="break_code"><a href="/artist/fiction/setup_add" class="btn btn-success">Add a New Fan Fiction</a></p>
+[% ELSE %]
+<p>You must be a member of the site and logged in to add a new Fan Fiction.</p>
+[% END %]
+<br clear="all">
+
+<span class="normal_text">
+
+<h3>To create a new Fan Fiction</h3>
+<ul>
+<li>Click on the button on this page that says "Add a New Fan Fiction" (You must be logged in to see it)</li>
+<li>Fill out the Title</li>
+<li>Choose an appropriate Rating (hover over the ? to get a description of the ratings)</li>
+<li>Select if this is an original story or based on an existing anime (if it is based on an existing anime, a drop down box of titles will show up for you to select the title; if the title is not in the database yet, please add it)</li>
+<li>Enter a short description of your fan fiction</li>
+<li>Write the first chapter.  The Chapter Title is optional, but you can add one if you want. - <a href="#notice">note</a></li>
+<li>Click the "Add New Fan Fiction Title" button and your fan fiction will now be added to the site.</li>
+</ul>
+
+<h3>Finding Fan Fiction</h3>
+<ul>
+<li>You can find all original Fan Fiction by going to Artists Alley -> Fan Fiction, then clicking the "Browse Original Fiction" button.</li>
+<li>You can find all Fan Fiction based on anime titles by going to Artists Alley -> Fan Fiction, then clicking the "Browse by Anime Title" button.</li>
+<li>You will see a list of all titles with Fan Fictions written, along with a count of how many Fan Fiction titles there are.</li>
+<li>Click on the title to be taken to the Fan Fiction section of that anime, to see all of the Fan Fictions.</li>
+<li>On any given Anime Database page, you can also click the "Fan Fiction" tab on that title to see the Fan Fictions.</li>
+</ul>
+<h3>Reading Fan Fiction</h3>
+<ul>
+<li>When viewing a Fan Fiction, you will see the Title, who started the Fan Fiction and when, which anime it is based on (if it is based on an anime), along with a Subscription button which lets you toggle between being subscribed to this Fan Fiction or not.</li>
+<li>If you are subscribed to the Fan Fiction, you will receive notifications when new chapters are written, or when comments are made on the Fan Fiction.</li>
+<li>If you are on Chapter 1, you will also see the Short Description of this Fan Fiction.  Subsequent chapters do not show the Short Description.</li>
+<li>You will then see the Chapter Number, Chapter Title, and the content of the chapter.</li>
+<li>If there are more chapters, there will be a "Next" button you can click to see the next chapter.</li>
+<li>There will also be a drop down menu of all chapters, which lets you easily jump from one chapter to another.</li>
+<li>You will see comments people have posted about this chapter.</li>
+<li>If you are logged in, you will see a bar with a "Post Comment" button, that lets you post a comment about this chapter.</li>
+<li>If you are on the last chapter, and this is your story, there will also be a "Write Next Chapter" button, which lets you write the next chapter. - <a href="#notice">note</a></li>
+<li>If this is your story, you will see "Edit" buttons for both the Fan Fiction Title, and for the current chapter which you can use to edit your own story.</li>
+</ul>
+<p>
+<a name="notice"></a>
+<h3>Important Recommendation About Writing Chapters</h3>
+<span class="note">It is highly advisable that you don't actually spend the time to write your story directly in the text boxes, because there is no save feature and something unexpected could cause you to lose your work.  I would recommend writing your story with another text editor on your computer, saving frequently, and then copy and pasting the text into the box when you are ready to post your chapter.</span>
+</a>
+</span>
+
+</div>
+
+		</div>
+		
+				
+		<div id="right_column">
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1, images_approved) %]
+
+		</div>

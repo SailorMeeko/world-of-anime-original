@@ -1,0 +1,22 @@
+[% META title = "World of Anime | The Anime Social Network | Memached Objects" %]
+[% META keywords = "" %]
+[% META description = "" %]
+
+<h2>Newest Members</h2>
+[% newest_ref %]
+<p />
+<h2>Remove a memcached key</h2>
+Common keys:<p />
+<p />
+<form action="/admin/memcached/clear" method="post">
+<input type="text" name="key" value="worldofanime:" size="45" maxlength="255"><p>
+<input type="submit" value="Remove This Key">
+</form>
+<p>
+<hr>
+<p>
+Warning: Only do this if you really, really, really mean it!
+<p>
+<form action="/admin/memcached/clear_all" method="post">
+<input type="Submit" value="Clear Entire Cache">
+</form>

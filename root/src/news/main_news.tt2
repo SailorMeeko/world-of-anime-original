@@ -1,0 +1,90 @@
+[% meta.title = "World of Anime | The Anime Social Network | News" %]
+[% META keywords = "anime, social networking, friends, news, manga, video games" %]
+[% meta.description = "World of Anime News - Anime, Manga, and Video Game News" %]
+
+<script src="/static/javascript/news.js"></script>
+
+<div id="content">
+
+<div id="popuup_reject_div" class="popup_reject_msg">
+   No Results Found
+</div>
+
+<!--
+<form id="search_news" class="search_box">
+<label for="search">Find news</label>
+<input type="text" id="search" name="searchString" size="50" maxlength="255" placeholder="Search Term"> <input type="Submit" value="Search!">
+</form>
+-->
+
+<div id="main_page">
+
+
+<div class="section_image"><img src="/static/images/icons/anime_news.jpg"></div>
+<span class="conversation_text">Recent anime, manga, and video game news</span>
+
+[% IF c.user %]
+<p><a href="/news/add_news" class="action_button">Submit a New Article</a></p>
+[% END %]
+
+<br clear="all">
+
+<div id="news_block">
+[% WHILE (a = articles.next) %]
+[% i = image_info( a.image_id ) %]
+<div class="news_article">
+<h1><a href="/news/article/[% a.id %]/[% a.pretty_url %]">[% a.title %]</a></h1>
+<a href="/news/article/[% a.id %]/[% a.pretty_url %]"><img src="[% i.small_url %]"></a>
+<p class="article">[% a.teaser.replace('\n', '<p />') %]</p>
+<br clear="all">
+<h2><a href="/news/article/[% a.id %]/[% a.pretty_url %]#comments"><img src="/static/images/comment.gif"> <span id="num_comments">[% num_news_comments( a.id ) %]</span> comments</a></h2>
+<h2 style="float: right">Submitted by <a href="/profile/[% a.submitted_by.username %]">[% a.submitted_by.username %]</a> on [% prettify_date( a.create_date, 1) %]</h2><br />
+</div>
+[% END %]
+</div>
+
+<h4>more articles</h4>
+
+<div id="pager_line">
+[% page_counter_num = 1 %]
+
+[% IF pager.previous_page %]
+<a href="[% c.request.uri_with( page => pager.previous_page ) %]">Previous</a>
+[% END %]
+
+[% page_count = pager.current_page - 3 %]
+[% IF page_count < 1 %]
+     [% page_count = 1 %]
+[% END %]
+
+[% WHILE page_count <= pager.last_page %]
+     [% IF page_counter_num <= 20 %]
+          [% IF page_count == pager.current_page %]
+          [% page_count %]
+          [% ELSE %]
+          <a href="[% c.request.uri_with( page => page_count ) %]">[% page_count %]</a>
+          [% END %]
+     [% END %]
+[% page_count = page_count + 1 %]
+[% page_counter_num = page_counter_num + 1 %]
+[% END %]
+
+[% IF pager.next_page %]
+<a href="[% c.request.uri_with( page => pager.next_page ) %]">Next</a>
+[% END %]
+</div>
+
+
+</div>
+
+		</div>
+		
+				
+		<div id="right_column">
+
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1) %]
+
+		</div>

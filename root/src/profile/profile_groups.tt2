@@ -1,0 +1,50 @@
+[% meta.title = "World of Anime | The Anime Social Network | $user.username's Groups" %]
+[% META keywords = "anime, social networking, friends, members, users, top members, top users" %]
+[% meta.description = "Groups for World of Anime - a social networking site for anime fans." %]
+
+[% IF alert %]
+		<div id="alert">
+				[% alert %]
+		</div>
+[% END %]
+		<div id="content">
+
+[% IF error_message %]		
+<h1 class="error_header">Error</h1>
+[% error_message %]
+<p />
+[% END %]
+
+[% i = image_info( user.profile_image_id ) %]
+
+<div id="user_header">
+
+		<div class="header_image">
+				<a href="/profile/[% user.username %]"><img src="[% i.thumb_url %]" border="0"></a>
+		</div>
+		
+		<div class="header_extra">
+				<span class="header_topic">[% user.username %]'s Groups</span><p>
+		</div>
+</div>
+
+<p />
+
+[% IF is_self %]
+[% GroupsHTML %]
+[% ELSE %]
+Sorry, you can only see your own groups here.
+[% END %]
+
+
+		</div>
+		
+				
+		<div id="right_column">
+
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1) %]
+
+		</div>

@@ -1,0 +1,143 @@
+[% META title = "World of Anime | The Anime Social Network | Notifications" %]
+[% META keywords = "anime,social networking,notifications" %]
+[% META description = "World of Anime - Notifications" %]
+
+<script type="text/javascript">
+    $(function() {
+       $('.delete-note').click( function() {
+	    var id = $(this).attr('id');
+	    // if ( confirm("Are you sure you want to permanently delete this notification?") ) {
+		
+		var data = 'note='  + id;
+		
+	        $.ajax({
+		    url: "/notifications/delete",
+		    type: "GET",
+		    data: data,
+                    cache: false
+                });
+                
+		$(this).parent().parent().remove();
+	    // }
+            return false;
+	});
+});
+</script>
+
+[% IF alert %]
+		<div id="alert">
+				[% alert %]
+		</div>
+[% END %]
+		<div id="content">
+			<h1 class="front_header">Your Notifications</h1>
+			
+			<div id="setup_removal" style="float: right; display: inline; font-size: 10px;"><a href="#" class="reply_link" onclick="javascript:$('#delete_image_box').show();$('#setup_removal').remove();return false">Delete All Notifications</a></div>
+			
+			<div id="delete_image_box">This will delete all your notifications, not just the ones on this page.  This action can not be undone.  Are you sure you want to do this?<p />
+			<form action="notifications/delete_all" method="post"><input type="Submit" value="Yes, delete all my notifications"></form><p />
+			</div>
+
+<table id="notification_table" cellspacing="0" cellpadding="5" border="0" width="640">
+[% WHILE (note = Notifications.next) %]
+[% day = prettify_date( note.create_date, 3) %]
+[% IF day != last_day %]
+    <tr><td width="640" colspan="4" class="notify_date_header">[% day %]</td></tr>
+    [% last_day = day %]
+[% END %]
+<tr class="note_[% note.id %]">
+  <td width="20" align="center" class="notification_table_row">
+  [% IF note.notification_type == 1 OR note.notification_type == 28 OR note.notification_type == 36 %]
+    <img src="/static/images/comment.gif">
+  [% END %]
+  [% IF note.notification_type == 2 %]
+    <img src="/static/images/icons/gallery.gif">
+  [% END %]
+  [% IF note.notification_type == 3 OR note.notification_type == 12 OR note.notification_type == 34 OR note.notification_type == 35 %]
+    <img src="/static/images/icons/blog.gif">
+  [% END %]
+  [% IF note.notification_type == 4 %]
+    <img src="/static/images/icons/pm.gif">
+  [% END %]
+  [% IF note.notification_type == 5 %]
+    <img src="/static/images/icons/friends.gif">
+  [% END %]
+  [% IF note.notification_type == 8 OR note.notification_type == 24 OR note.notification_type == 30 OR note.notification_type == 32 %]
+    <img src="/static/images/icons/subscribe.gif">
+  [% END %]
+  [% IF note.notification_type == 9 %]
+    <img src="/static/images/icons/question.gif">
+  [% END %]
+  [% IF note.notification_type == 10 OR note.notification_type == 21 %]
+    <img src="/static/images/icons/accept.gif">
+  [% END %]
+  [% IF note.notification_type == 11 OR note.notification_type == 22 %]
+    <img src="/static/images/icons/reject.gif">
+  [% END %]
+  [% IF note.notification_type == 13 OR note.notification_type == 6 OR note.notification_type == 7 OR note.notification_type == 25 OR note.notification_type == 26 OR note.notification_type == 31 OR note.notification_type == 33 OR note.notification_type == 37 %]
+    <img src="/static/images/icons/unsubscribe.gif">
+  [% END %]
+  [% IF note.notification_type == 14 %]
+    <img src="/static/images/icons/answer.gif">
+  [% END %]
+  [% IF note.notification_type == 15 OR note.notification_type == 16 OR note.notification_type == 17 OR note.notification_type == 18 %]
+    <img src="/static/images/icons/now_action.gif">
+  [% END %]
+  [% IF note.notification_type == 19 OR note.notification_type == 23 OR note.notification_type == 27 %]
+    <img src="/static/images/icons/groups.gif">
+  [% END %]
+  [% IF note.notification_type == 20 %]
+    <img src="/static/images/icons/invitation.gif">
+  [% END %]
+  [% IF note.notification_type == 29 %]
+    <img src="/static/images/icons/star.png">
+  [% END %]  
+  </td>
+  <td width="520" align="left" class="notification_table_row">[% formatter( note.notification ) %]</td>
+  <td width="85" align="center" class="notification_table_row">[% prettify_date( note.create_date, 2) %]</td>
+  <td width="15" align="center" class="notification_table_row"><a href="#" class="delete-note" id="[% note.id %]"><img src="/static/images/icons/delete-grey.gif" border="0"></a></td>
+</tr>
+[% END %]
+</table>
+
+<p />
+
+<div id="pager_line">
+[% page_counter_num = 1 %]
+
+[% IF pager.previous_page %]
+<a href="[% c.request.uri_with( page => pager.previous_page ) %]">Previous</a>
+[% END %]
+
+[% page_count = pager.current_page - 3 %]
+[% IF page_count < 1 %]
+     [% page_count = 1 %]
+[% END %]
+
+[% WHILE page_count <= pager.last_page %]
+     [% IF page_counter_num <= 30 %]
+          [% IF page_count == pager.current_page %]
+          [% page_count %]
+          [% ELSE %]
+          <a href="[% c.request.uri_with( page => page_count ) %]">[% page_count %]</a>
+          [% END %]
+     [% END %]
+[% page_count = page_count + 1 %]
+[% page_counter_num = page_counter_num + 1 %]
+[% END %]
+
+[% IF pager.next_page %]
+<a href="[% c.request.uri_with( page => pager.next_page ) %]">Next</a>
+[% END %]
+</div>
+
+		</div>
+		
+				
+		<div id="right_column">
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1, images_approved) %]
+
+</div>

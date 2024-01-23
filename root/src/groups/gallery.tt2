@@ -1,0 +1,128 @@
+[% meta.title = "Group $group.name's Image Galleries" %]
+[% meta.keywords = "anime, $group.name, image, galleries" %]
+[% meta.description = "Here are the Group $group.name's Image Galleries" %]
+
+[% IF alert %]
+		<div id="alert">
+				[% alert %]
+		</div>
+[% END %]
+
+     
+
+		<div id="content">
+		
+		[% site.jquery = "$jquery" %]
+		
+[% IF notice_header %]
+		<h1 class="notice_header">[% notice_header %]</h1>
+[% END %]
+
+[% IF group %]
+
+		[% IF !IsPrivate || IsMember %]
+		
+		[% i = image_info( group.profile_image_id ) %]
+
+
+<div id="plain_user_profile_box">
+<table border="0">
+	<tr>
+		<td valign="top" rowspan="2">
+			<a href="/groups/[% group.id %]/[% group.pretty_url %]"><img src="[% i.thumb_url %]"></a>		</td>
+		<td valign="top" width="360">
+			<span class="plain_user_profile_name">[% group.name %]</span><br />
+
+		</td>
+		<td valign="top">
+		</td>
+	</tr>
+</table>
+</div>
+
+<p />
+
+[% IF IsMember %]
+<a class="add_image_link" href="#" onclick="javascript:$('#add_image_box').toggle(400);">Upload a new Image</a><p />
+
+<div id="add_image_box">    
+<form class="removable_button" action="[% current_uri %]/add_image" method="post" enctype="multipart/form-data">
+<table>
+<tr>
+  <td valign="top"><span class="qa_subject">Image:</td>
+  <td class="field_value"><input type="file" name="image" size="45"></td>
+</tr>
+<tr>
+  <td valign="top"><span class="qa_subject">Image Title:</span></td>
+  <td class="field_value"><input type="text" name="image_title" size="50" maxlength="255"></td>
+</tr>
+<tr>
+  <td valign="top"><span class="qa_subject">Image Description:</span></td>
+  <td class="field_value"><textarea name="image_description" rows="6" cols="65"></textarea></td>
+</tr>
+</table>
+<input type="Submit" value="Upload Image" class="removable">
+</form>
+<p />
+</div>
+<p />
+[% END %]
+
+
+<div id="pager_line">
+[% page_counter_num = 1 %]
+
+[% IF pager.previous_page %]
+<a href="[% c.request.uri_with( page => pager.previous_page ) %]">Previous</a>
+[% END %]
+
+[% page_count = pager.current_page - 3 %]
+[% IF page_count < 1 %]
+     [% page_count = 1 %]
+[% END %]
+
+[% WHILE page_count <= pager.last_page %]
+     [% IF page_counter_num <= 18 %]
+          [% IF page_count == pager.current_page %]
+          [% page_count %]
+          [% ELSE %]
+          <a href="[% c.request.uri_with( page => page_count ) %]">[% page_count %]</a>
+          [% END %]
+     [% END %]
+[% page_count = page_count + 1 %]
+[% page_counter_num = page_counter_num + 1 %]
+[% END %]
+
+[% IF pager.next_page %]
+<a href="[% c.request.uri_with( page => pager.next_page ) %]">Next</a>
+[% END %]
+</div>
+
+[% images %]
+
+		
+
+				[% ELSE %]
+		
+			This group is private, and you are not a member.
+		[% END %]
+
+
+[% ELSE %]
+<h1 class="error_header">Not a Valid Group</h1>
+This Group either does not exist, or is private.
+[% END %]
+
+
+
+		</div>
+
+		
+				
+		<div id="right_column">
+			
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(5) %]
+			
+		</div>

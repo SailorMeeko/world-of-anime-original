@@ -1,0 +1,142 @@
+[% meta.title = "World of Anime | The Anime Social Network | $username's Blog" %]
+[% meta.keywords = "anime sites, anime blog, blog, $username's blog" %]
+[% meta.description = "World of Anime Blog for $username" %]
+
+<script>
+function checkform()
+{
+	if (document.blog_form.blog_title.value == "")
+	{
+		// something is wrong
+		alert('Please enter a title for this blog entry.');
+		return false;
+	}
+	// If the script gets this far through all of your fields
+	// without problems, it's ok and you can submit the form
+
+	return true;
+}
+</script>
+
+<script>
+    $(document).ready(function(){
+
+	// checkBlogSubscription();
+
+        });
+
+	function checkBlogSubscription() {
+		// $('#subscription_box').load('/blogs/check_subscription/[% username.replace(" ", "%20") %]/[% user.id %]/[% c.user.id %]/0');
+		return false;
+        }
+</script>
+
+
+[% IF alert %]
+		<div id="alert">
+				[% alert %]
+		</div>
+[% END %]
+
+
+[% IF c.user_exists && !add_blog_link %]
+		<div id="subscription_box">
+		</div>
+[% END %]
+
+
+		<div id="content">
+
+		
+		[% IF add_blog_link %]
+			<a href="#" onclick="javascript:$('#new_thread_box').toggle(); $('#blog_form #blog_title').focus();">
+			<div id="add_button">+ Add</div>
+			</a>
+		[% END %]
+		
+<div id="blog_header">
+
+[% i = image_info( user.profile_image_id ) %]
+		
+		<div class="header_image">
+				<a href="/profile/[% user.username %]"><img src="[% i.thumb_url %]" border="0"></a>
+		</div>
+		
+		<div class="header_extra">
+				<span class="header_topic">[% user.username %]'s Blog</span><p>
+		</div>
+
+</div>
+
+[% IF add_blog_link %]
+<p>
+[% EmbedTip = 'To embed video from YouTube, do the following:<p>
+First, on your blog entry, click the Source button so you are in HTML Source mode.<p>
+Now, on the YouTube Video you want to embed, click Share, then Embed.<p>
+Copy and Paste the Embed Code into your blog where you want it to appear.<p>
+Now, click the Source button again to go back into WYSIWIG mode.' %]
+
+<div id="new_thread_box">    
+<form class="removable_button" id="blog_form" name="blog_form" action="/blogs/add_blog_entry/[% user.username %]" method="post" enctype="multipart/form-data" onSubmit="return checkform()">
+    <h2>Post a New Blog Entry</h2>
+
+    <h3>Title:</h3>
+    <br />
+
+    <span class="form-field"><input type="text" id="blog_title" name="blog_title" value="" size="45" maxlength="255"></span>
+    
+    <p />
+    
+    <div id="form_field">
+
+    <h3>Website:</h3>
+    <br />
+    <span><input type="text" name="website" size="75" maxlength="255"></span>
+    </div>
+
+    <span class="form-field">
+
+	<a href="#" title="[% EmbedTip %]" id="tip" class="tip_question">(How do I embed video?)</a>
+	<p>
+
+    <textarea name="blog_post"></textarea>
+    
+    </span>
+
+    <p />
+	
+    <input type="submit" value="Post New Blog Entry" class="removable">
+
+</form>
+</div>
+
+<script type="text/javascript">
+	CKEDITOR.replace( 'blog_post', {
+	toolbar: 
+        [
+            ['Source','-','Preview','-','Bold','Italic','Underline','Strike','-','Subscript','Superscript'],
+            ['NumberedList','BulletedList','-','Outdent','Indent','Blockquote','/'],
+            ['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
+            ['Link','Unlink','Anchor'],
+	    ['Image','Flash','Table','HorizontalRule','Smiley','SpecialChar','PageBreak','/'],
+            ['Styles','Format','Font','FontSize','TextColor','BGColor'],
+        ]
+
+    } );
+</script>
+
+[% END %]
+
+[% blog_html %]
+
+		</div>
+		
+				
+		<div id="right_column">
+
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1) %]
+		
+		</div>

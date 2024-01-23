@@ -1,0 +1,228 @@
+[% meta.title = "World of Anime | The Anime Social Network | $Title.english_title Reviews" %]
+[% meta.keywords = "anime, $Title.english_title Reviews" %]
+[% meta.description = "World of Anime | $Title.english_title Reviews" %]
+
+<script src="/static/javascript/anime.js?v=1"></script>
+
+[% USE SimpleJson %]
+[% USE format %]
+[% USE Math %]
+
+[% rating = Title.avg_rating | format('%.2f') %]
+[% tip = "$rating out of 10; based on $Title.num_ratings rating" %]
+[% IF Math.int(Title.num_ratings) != 1 %][% tip = tip _ "s" %][% END %]
+
+<div id="content">
+		
+[% site.jquery = "$jquery" %]
+
+<script>
+
+$(function() {
+    $('.write_review').click(function(e) {
+        $('#anime_db_box').empty();
+	$('#review_form').show();
+    });	    
+});
+
+
+$(function() {
+    $('#review_form').submit(function(e) {
+		rating = $("#review_rating").val();
+		use_existing = $('#use_existing').val();
+	
+		if (!(rating) && !(use_existing)) {
+		     alert("You must submit a rating between 1 - 10 for this anime");
+		     return false;
+		}
+
+		review = $("#review_text").val();
+		if (!(review)) {
+		     alert("Please submit a review for this anime");
+		     return false;
+		}
+    });	    
+});
+
+$(function() {
+     $('#rating_box').qtip({
+	
+          content: '[% tip %]',
+          position: {
+               my: 'right bottom',
+               at: 'left center' },
+          style: { 
+               name: 'dark', // Inherit from preset style
+               classes: 'ui-tooltip-dark ui-tooltip-rounded' }
+    });
+});
+</script>
+
+
+[% IF notice_header %]
+		<h1 class="notice_header">[% notice_header %]</h1>
+[% END %]
+
+		
+<!-- User Profile -->
+
+		<h1 class="media_title">[% Title.english_title %]</h1>
+
+
+<div class="gen_profile_box">
+
+     <div id="anime_profile_box">
+	  [% i = image_info( Title.profile_image_id ) %]
+
+          <a href="/anime/[% Title.id %]/[% prettify_text( Title.english_title) %]"><img src="[% i.small_url %]"></a>
+     
+     </div>
+
+<br clear="all">
+
+<p>
+
+<nav>
+    <div class="vert_tabs">
+        <ul>
+            <li><a href="/anime/[% Title.id %]/[% prettify_text( Title.english_title) %]">Main Title</a></li>
+            <li><a href="/anime/[% Title.id %]/[% prettify_text( Title.english_title) %]/episodes">Episodes</a></li>
+            <li><a href="/anime/[% Title.id %]/[% prettify_text( Title.english_title) %]/ratings">Ratings</a></li>	    
+            <li><a class="current" href="/anime/[% Title.id %]/[% prettify_text( Title.english_title) %]/reviews">Reviews</a></li>
+	    <li><a href="/anime/[% Title.id %]/[% prettify_text( Title.english_title) %]/fan_fiction">Fan Fiction</a></li>
+	    <li><a href="/anime/[% Title.id %]/[% prettify_text( Title.english_title) %]/store">Anime Store</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div id="anime_ratings_box">
+		<h1>User Rating</h1>
+		
+		<span id="rating_box"><span class="rating_stars">[% show_star_rating( Title.avg_rating ) %]</span></span>
+		<p>
+				<div id="user_rating">
+		[% IF UserRating == "C" %]
+				Please log in to rate
+		[% ELSE %]
+				[% IF UserRating == "N" %]
+		<a class="rate_link" onclick="javascript:$('#rate_form').show();$(this).hide();return false;">Rate</a>
+    <form id="rate_form" title_id="[% Title.id %]">
+    <select name="rating" id="rating">
+		<option value=""><-Rating-></option>
+		[% n = 10 %]
+		[% WHILE n > 0 %]
+		<option value="[% n %]">[% n %][% IF n == 10 %] - Best[% END %][% IF n == 1 %] - Worst[% END %]</option>
+		[% n = n - 1 %]
+		[% END %]
+    </select>
+    <input type="Submit" value="Rate!">
+    </form>
+    <br clear="all">
+				[% ELSE %]
+						Your Rating: [% UserRating %]
+				[% END %]
+		[% END %]
+				</div>
+				
+		</div>
+		
+		<div id="your_hidden_rating"></div>
+		<br clear="all">
+		
+
+</div>
+
+
+<div id="anime_db_box">
+
+
+[% IF can_review %]           
+<a class="write_review normal_text">Write a Review</a>
+<p>
+[% END %]
+
+[% IF existing_review %]
+<span class="normal_text">You have already written a <a href="/anime/[% Title.id %]/[% Title.pretty_title %]/review/[% existing_review.id %]">review</a> for this anime.</a></span>
+<p>
+[% END %]
+
+
+[% IF Reviews %]
+[% RatingTotal = 0 %]
+[% RatingCount = 0 %]
+
+<table id="anime_titles">
+<tr>
+		<th>Reviewer</th>
+		<th>Rating</th>
+		<th>Review Date</th>
+</tr>
+
+[% reviews = SimpleJson.fromJson(Reviews) %]
+
+[% FOREACH r IN reviews %]
+<tr>
+		<td align="left"><a href="/anime/[% Title.id %]/[% prettify_text( Title.english_title) %]/review/[% r.id %]">Review by [% r.username %]</a></td>
+		<td align="center">[% r.rating %]/10</td>
+		<td align="right">[% prettify_date( r.createdate, 1) %]</td>
+</tr>
+
+[% RatingCount = RatingCount + 1 %]
+[% RatingTotal = RatingTotal + r.rating %]
+
+[% END %]
+
+</table>
+<p>
+Average Rating: [% RatingTotal / RatingCount | format('%.2f') %]
+
+[% ELSE %]
+There are no reviews for this anime yet
+[% END %]
+		
+
+</div>
+
+<div id="review_form" style="display: none;">
+
+    <form action="/anime/[% Title.id %]/[% prettify_text( Title.english_title) %]/submit_review" id="review_form">
+    Please write your review
+    <p>
+    <fieldset>
+    [% IF UserRating == "N" %]
+    <label for="review_rating">Rating</label>
+    <select name="rating" id="review_rating">
+		<option value=""><- Select Rating -></option>
+		[% n = 10 %]
+		[% WHILE n > 0 %]
+		<option value="[% n %]">[% n %][% IF n == 10 %] - The Best![% END %][% IF n == 1 %] - The Worst![% END %]</option>
+		[% n = n - 1 %]
+		[% END %]
+    </select>
+    [% ELSE %]
+		<input type="hidden" id="use_existing" value="1">
+		Your rating for this anime was a [% UserRating %] out of 10
+    [% END %]
+    <p>
+    <textarea name="review" rows="25" id="review_text"></textarea>
+    <p>
+    <input type="Submit" value="Submit Review">
+    </form>
+    <p>
+
+</div>
+
+
+
+
+		</div>
+		
+				
+		<div id="right_column">
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1, images_approved) %]
+			
+		</div>
+	    

@@ -1,0 +1,199 @@
+[% meta.title = "World of Anime | The Anime Social Network | Artists Alley - Fan Fiction" %]
+[% META keywords = "anime, social networking, database, fan fiction" %]
+[% meta.description = "World of Anime - a social networking site for anime fans: Fan Fiction" %]
+
+<script src="/static/javascript/artist.js"></script>
+
+<script>
+fetched = 0;
+
+function hideAnime() {
+    $('#anime_selection').hide();
+}
+
+function populateAnime() {
+    if (fetched == 0) {
+        $('#anime_selection').load('/artists/fiction/ajax/populate_anime_box');
+        fetched = 1;
+    } else {
+        $('#anime_selection').show();
+    }
+}
+
+$(document).ready(function(){
+    checkSubscription();
+});
+
+function checkSubscription() {
+    $('#subscription_box').load('/artist/fiction/check_subscription/[% story.id %]');
+}
+
+</script>
+
+<div id="content">
+
+[% IF can_edit %]
+<a class="discrete_edit" href="#" onclick="javascript:$('#content').hide(); javascript:$('#content_hidden').load('/artist/fiction/ajax/setup_edit_title/' + [% story.id %] + '?chapter=' + [% chapter_num %]); javascript:$('#content_hidden').show()">Edit</a>
+[% END %]
+
+<div id="story_header">
+
+		<div class="header_image" style="display: none;">
+				<a href="/profile/[% user.username %]"><img src="/[% user.filedir.replace("/u/", "/t80/") %]/[% user.filename %]" border="0"></a>
+		</div>
+		
+		<div class="header_extra">
+				<h1>[% story.title %]</h1>
+				<h2>Started by <a href="/profile/[% user.username %]">[% user.username %]</a> on [% prettify_date( story.createdate, 1) %]</h2>
+				[% IF story.db_title_id > 0 %]
+				<br>
+				    <h2>Based on <a href="/anime/[% story.db_title_id %]/[% prettify_text( story.based_on_title ) %]">[% story.based_on_title %]</a></h2>[% END %]
+		</div>
+
+[% IF chapter_num == 1 %]
+<p>
+    <div id="fiction_description_box">
+	[% clean_html( story.description.replace("\n", "<p>") ) %]
+    </div>
+[% END %]
+
+<br clear="all">
+<div id="subscription_box" story_id="[% story.id %]"></div>
+<br clear="all">
+
+</div>
+
+<p>
+
+[% IF chapters %]
+
+    [% chapter_selector = '<select id="chapter_selector" story_id="' _ story.id _ '" pretty_title="' _ pretty_title _ '">' %]
+    [% FOREACH chap IN chapters %]
+        [% selected = '' %]
+        [% IF chap.chapter_num == chapter_num %]
+            [% selected = 'selected' %]
+        [% END %]
+        [% chapter_selector = chapter_selector _ '<option value="' _ chap.chapter_num _ '"' _ selected _ '>Chapter ' _ chap.chapter_num %]
+            [% IF chap.chapter_title %]
+                [% chapter_selector = chapter_selector _ ': ' _ chap.chapter_title %]
+                [% chapter_selector = chapter_selector _ '</option>' %]
+            [% END %]
+            
+        
+        [% IF chap.chapter_num == chapter_num %]
+	
+	    <div id="fiction_story">
+		<div class="story_chapter">
+		[% IF can_edit %]
+		    <a class="discrete_edit" href="#" onclick="javascript:$('#content').hide(); javascript:$('#content_hidden').load('/artist/fiction/ajax/setup_edit_chapter/' + [% chap.id %]); javascript:$('#content_hidden').show()">Edit</a>
+		[% END %]
+		<h1>Chapter [% chapter_num %][% IF chap.chapter_title %]: [% chap.chapter_title %][% END %]</h1>
+		<p>
+		[% chapter.chapter_content.replace('\n', '<p>') %]
+
+		</div>
+	    </div>
+        [% END %]
+    [% END %]
+    [% chapter_selector = chapter_selector _ '</select>' %]
+
+[% END %]
+
+<p>
+
+[% IF chapter_selector %]
+<div align="right">
+    [% IF chapter_num > 1 %]
+        <form id="previous_chapter" chapter="[% chapter_num %]" story_id="[% story.id %]" pretty_title="[% pretty_title %]" style="display: inline;"><input type="Submit" value="Previous"></form>
+    [% END %]
+    [% chapter_selector %]
+    [% IF chapter_num < num_chapters %]
+        <form id="next_chapter" chapter="[% chapter_num %]" story_id="[% story.id %]" pretty_title="[% pretty_title %]" style="display: inline;"><input type="Submit" value="Next"></form>
+    [% END %]
+</div>
+[% END %]
+
+<p>
+
+<div id="sharing_tools_box">
+
+    [% IF c.user %]
+	<a href="#" onclick="javascript:$('#new_comment_box').toggle();$('#comment_box').focus();return false" class="share_button comment_button" >Post Comment</a>
+    [% END %]
+		[% IF can_write %]
+		    [% IF num_chapters == chapter_num %]
+		    <a href="#" onclick="javascript:$('#chapter_writer').toggle();$('#chapterContent').focus();return false" class="share_button" >Write Next Chapter</a>
+		    [% END %]
+		[% END %]
+</div>
+
+<p>
+
+[% IF c.user %]
+<div id="new_comment_box"></a>
+<form class="removable_button" id="add_comment" story="[% story.id %]" chapter="[% chapter_id %]" latest="[% latest %]">
+
+    <h2>Post Comment</h2>
+	
+    <div id="form_field">
+
+    <h3>Website:</h3>
+    <br />
+    <span><input type="text" name="website" size="75" maxlength="255"></span>
+    </div>
+
+    <span class="form-field"><textarea name="comment" rows="8" cols="60" id="comment_box">[% post %]</textarea></span>
+	
+    <p />
+	
+    <input type="submit" value="Add New Comment" class="removable">
+    </form>
+</div>
+[% END %]
+
+<p>
+
+
+    [% IF can_write %]
+    <div id="chapter_writer">
+    <form class="removable_button" story_id="[% story.id %]" pretty_title="[% pretty_title %]" id="chapter_fiction_form">
+
+    <fieldset>
+    <label for="chapter-title">Chapter [% chapter_num + 1 %] Title</label>
+    <input type="text" id="chapterTitle" size="45" maxlength="255" id="chapter-title">
+    <p>
+    <textarea id="chapterContent" cols="45" rows="54"></textarea>
+    <p>
+    <input type="Submit" value="Submit Chapter" class="final_removable">
+    </form>
+    </div>
+    <p>
+    [% END %]
+    
+<a name="comments">
+<div id="posts">
+
+<div id="new_comments"></div>
+
+[% comments_html %]
+
+</div>
+
+</a>    
+    
+</div>
+
+
+<div id="content_hidden">
+
+</div>
+		
+				
+		<div id="right_column">
+
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1, images_approved) %]
+
+		</div>

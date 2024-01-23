@@ -1,0 +1,22 @@
+[% META title = "World of Anime | The Anime Social Network | Something Bad Happened" %]
+[% META keywords = "anime,social networking" %]
+[% META description = "World of Anime is a social networking site specifically for anime fans" %]
+		<div id="content">
+
+<h1 class="error_header">Oops!</h1>
+
+<span class="info_text">
+Something really, really bad just happened.  If you are feeling particularly helpful, please click on the <a href="/contact">Contact Us</a> link and let us know what you were doing when you got this error.  Thanks!
+</span>
+
+		</div>
+
+		
+				
+		<div id="right_column">
+			
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1) %]
+		
+		</div>

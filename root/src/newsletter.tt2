@@ -1,0 +1,64 @@
+[% META title = "World of Anime | The Anime Social Network | Newsletter" %]
+[% META keywords = "anime,anime newsletter" %]
+[% META description = "World of Anime Newsletter" %]
+
+		<div id="content">
+			
+<div class="section_image" style="float: left;"><img src="/static/images/icons/anime_newsletter.jpg"></div>
+<span class="conversation_text">
+		<p>World of Anime has a newsletter!</p>
+</span>
+<span class="normal_text">
+	Subscribe today to begin receiving...
+	<p />
+		<ul>
+				<li>The latest info on recent and upcoming improvements to World of Anime</li>
+				<li>Anime news, and other stuff you all love</li>
+				<li>Updates on upcoming releases of anime</li>
+				<li>Cool anime stuff I find</li>
+				<li>Lots of other fun stuff and surprises!</li>
+		</ul>
+</span>
+
+<span class="normal_text">
+To join the World of Anime Newsletter, simply enter your e-mail address below.  Of course, you can unsubscribe any time you want.  Subscribe today, you'll love it!
+</span>
+
+<br clear="all">
+
+<div id="join_form">
+
+<!-- Begin MailChimp Signup Form -->
+<link href="//cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+	#mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; }
+	/* Add your own MailChimp form style overrides in your site stylesheet or in this style block.
+	   We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
+</style>
+<div id="mc_embed_signup">
+<form action="//worldofanime.us9.list-manage.com/subscribe/post?u=d7df37c6a635140d3940d116f&amp;id=a3837245a3" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+    <div id="mc_embed_signup_scroll">
+	<label for="mce-EMAIL">Subscribe to the World of Anime Newsletter</label>
+	<input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
+    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+    <div style="position: absolute; left: -5000px;"><input type="text" name="b_d7df37c6a635140d3940d116f_a3837245a3" tabindex="-1" value=""></div>
+    <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+    </div>
+</form>
+</div>
+
+<!--End mc_embed_signup-->	
+
+</div>
+
+		</div>
+
+		
+				
+		<div id="right_column">
+			
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1) %]
+		
+		</div>

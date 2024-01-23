@@ -1,0 +1,345 @@
+[% meta.title = "$group.name's Group Page" %]
+[% meta.keywords = "anime, group, community" %]
+[% meta.description = "World of Anime Group page for $group.name" %]
+
+<script src="/static/javascript/groups.js?v=2"></script>
+
+
+		<div id="content">
+		
+		[% site.jquery = "$jquery" %]
+
+
+<script type="text/javascript">
+
+    $(function() {
+       $('a[title]').qtip({
+            position: {
+               my: 'left center',
+               at: 'right center'
+            },
+	   style: {
+	      classes: 'ui-tooltip-green ui-tooltip-shadow'
+	   },
+	   show: {
+               event: false, // Don't specify a show event...
+               ready: true // ... but show the tooltip when ready
+            },
+		hide: false, // Don't specify a hide event either!
+       });
+    });
+
+
+    $(function() {
+       $('.invite-user').click( function(e) {
+	    var group_id = [% group.id %];
+	    var user = $("input#user").val();
+	    
+		$('.remove_invite').remove();
+	    
+		var data = 'group_id='  + group_id + '&user=' + user;
+
+		// getting height and width of the message box
+		var height = $('#popuup_accept_div').height();
+		var width = $('#popuup_accept_div').width();
+		// calculating offset for displaying popup message
+		leftVal = e.pageX-(width/2)+"px";
+		topVal = e.pageY-(height/2)+"px";
+		// show the popup message and hide with fading effect
+		$('#popuup_accept_div').css({ left:leftVal,top:topVal }).show().fadeOut(3000);
+
+		
+	        $.ajax({
+		    url: "/groups/invite",
+		    type: "GET",
+		    data: data,
+                    cache: false
+                });
+		
+            return false;
+	});
+    });
+</script>		
+		
+		
+[% IF notice_header %]
+		<h1 class="notice_header">[% notice_header %]</h1>
+[% END %]
+
+[% IF group %]
+
+
+		[% IF !IsPrivate || IsMember %]
+		
+<!-- User Profile -->
+
+[% i = image_info( group.profile_image_id ) %]
+
+<div id="user_profile_box">
+
+     <img src="[% i.small_url %]">
+
+<p />
+
+[% IF IsMember %]
+
+<div id="popuup_accept_div" class="popup_accept_msg">
+   Invitation Sent!
+</div>
+
+<p />
+     <div id="setup_invite"><a href="#" class="reply_button" onclick="javascript:$('#invite_user').show(100);$('#setup_invite').remove();return false">Invite a user to join</a></div>
+     <div id="invite_user" class="remove_invite" style="display: none;"><form class="removable_button">User: <input type="text" name="user" id="user" size="15" maxlength="255"><p /><input type="Submit" value="Send Invitation" class="removable invite-user" style="align: right;"></form></div>
+<p />
+[% END %]
+
+[% IF IsOwner %]
+   <div id="resource_box">
+   
+		<h4 class="resource_box_header">Creator Resources</h4>
+
+		<span class="resource_link"><a href="/groups/[% group.id %]/[% group.pretty_url %]/setup_edit">Edit Group</a></span>
+		<span class="resource_link"><a href="/groups/[% group.id %]/[% group.pretty_url %]/log">Detailed Log</a></span>
+   </div>
+[% END %]
+
+[% IF IsAdmin %]
+   <div id="resource_box">
+   
+		<h4 class="resource_box_header">Admin Resources</h4>
+		
+		[% IF JoinRequests > 0 %]
+		<span class="resource_link"><a href="/groups/[% group.id %]/[% group.pretty_url %]/join_requests" title="[% JoinRequests %] Pending">Join Requests</a></span>
+		[% END %]
+		<span class="resource_link"><a href="/groups/[% group.id %]/[% group.pretty_url %]/member_maintenance">Member Maintenance</a></span>
+   </div>
+[% END %]
+
+
+<br clear="all">
+<nav>
+    <div class="vert_tabs">
+        <ul>
+            <li><a class="current" href="/groups/[% group.id %]/[% group.pretty_url %]">Group Profile</a></li>
+            <li><a href="/groups/[% group.id %]/[% group.pretty_url %]/gallery">Image Gallery</a></li>
+	    <li><a href="/groups/[% group.id %]/[% group.pretty_url %]/answers">Answers</a></li>
+	    <li><a href="/groups/[% group.id %]/[% group.pretty_url %]/members">Members</a></li>
+        </ul>
+    </div>
+</nav>
+
+
+[% IF IsMember AND !IsOwner %]
+<p>
+<span id="leave_group" group_id="[% group.id %]"><a href="#" class="share_button comment_button line">Leave Group</a></span>
+</p>
+[% END %]
+
+</div>
+
+
+
+
+<div id="user_info_box">
+
+		<span class="group_name">[% group.name %]</span>
+
+		<div id="description_box">
+				[% group.description.replace('\n', '<p />') %]
+		</div>
+		
+		<br clear="all">
+
+
+		<div id="box_comments">
+
+[% IF Invites > 0 %]
+[% num_of_invites = Invites %]
+<div id="group_invite">
+<span class="group_invite_header">You have been invited to join this group!</span>
+<p />
+You have been invited to join this group by the following people: 
+[% i = Invites.next %]
+<a href="/profile/[% i.invited_by.username %]">[% i.invited_by.username %]</a>
+[% WHILE (i = Invites.next) %]
+<a href="/profile/[% i.invited_by.username %]">[% i.invited_by.username %]</a>
+[% END %]
+
+<p />
+Do you want to join?
+<a href="[% current_uri %]/accept_invite">Yes, Join</a> | <a href="[% current_uri %]/decline_invite">No, Do Not Join</a>
+</div>
+[% ELSIF IsMember %]
+<a class="comment_link" href="#" onclick="javascript:$('#new_comment_box').toggle();$('#new_comment_box #comment_box').focus();return false">Post Comment</a>
+[% ELSIF IsJoinRequest %]
+You have asked to join this group.
+[% ELSIF user %]
+<span class="removable_button"><a href="[% current_uri %]/join_request" class="reply_link" finish="1" style="float: left; color: #A9A9A9; margin-bottom: 10px;" onClick="javascript:$('.removable_button').remove();">Request to join this group</a></span>
+<br clear="all" />
+[% END %]
+
+
+
+
+<p />
+
+<div id="new_comment_box"></a>
+<form class="removable_button" action="[% current_uri %]/add_comment" method="post">
+
+    <h2>Post Comment</h2>
+	
+    <div id="form_field">
+
+    <h3>Website:</h3>
+    <br />
+    <span><input type="text" name="website" size="75" maxlength="255"></span>
+    </div>
+
+    <span class="form-field"><textarea id="comment_box" name="comment" rows="8" cols="40">[% post %]</textarea></span>
+	
+    <p />
+	
+    <input type="submit" value="Add New Comment" class="removable">
+    </form>
+</div>
+
+<p>
+
+[% GroupComments %]
+
+<div id="pager_line">
+[% cpage_counter_num = 1 %]
+
+[% IF cpager.previous_page %]
+<a href="[% c.request.uri_with( cpage => cpager.previous_page ) %]">Previous</a>
+[% END %]
+
+[% cpage_count = cpager.current_page - 3 %]
+[% IF cpage_count < 1 %]
+     [% cpage_count = 1 %]
+[% END %]
+
+[% WHILE cpage_count <= cpager.last_page %]
+     [% IF cpage_counter_num <= 15 %]
+          [% IF cpage_count == cpager.current_page %]
+		[% IF cpager.next_page %]
+				[% cpage_count %]
+		[% END %]
+          [% ELSE %]
+          <a href="[% c.request.uri_with( cpage => cpage_count ) %]">[% cpage_count %]</a>
+          [% END %]
+     [% END %]
+[% cpage_count = cpage_count + 1 %]
+[% cpage_counter_num = cpage_counter_num + 1 %]
+[% END %]
+
+[% IF cpager.next_page %]
+<a href="[% c.request.uri_with( cpage => cpager.next_page ) %]">Next</a>
+[% END %]
+</div>
+
+
+     
+		</div>
+		
+
+</div>
+
+				[% ELSE %]
+		
+			This group is private, and you are not a member.<p />
+			
+						[% IF Invites > 0 %]
+[% num_of_invites = Invites %]
+<div id="group_invite">
+<span class="group_invite_header">You have been invited to join this group!</span>
+<p />
+You have been invited to join this group by the following people: 
+[% i = Invites.next %]
+<a href="/profile/[% i.invited_by.username %]">[% i.invited_by.username %]</a>
+[% WHILE (i = Invites.next) %]
+<a href="/profile/[% i.invited_by.username %]">[% i.invited_by.username %]</a>
+[% END %]
+<p />
+Do you want to join?
+<a href="[% current_uri %]/accept_invite">Yes, Join</a> | <a href="[% current_uri %]/decline_invite">No, Do Not Join</a>
+</div>
+						[% END %]
+						
+				[% END %]
+
+
+[% ELSE %]
+<h1 class="error_header">Not a Valid Group</h1>
+This Group either does not exist, or is private.
+[% END %]
+
+
+
+		</div>
+
+		
+				
+		<div id="right_column">
+			
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1) %]
+		
+		</div>
+		
+		
+<script>
+$(function() {
+       $('.reply_link').live('click', function(e) {
+            var finish = $(this).attr('finish');
+            var id   = $(this).attr('id');
+	    $('#reply_' + id).show();
+	    $('#comment_form_' + id + ' #comment_box_' + id).focus();
+            if (finish != 1) {
+	         return false;
+            }
+	});
+    });
+
+    $(function() {
+       $('#add_comment').live('submit', function(e) {
+            var parent = $(this).attr('parent');
+	    var user   = $(this).attr('user');
+	    var latest = $(this).attr('latest');
+            var group  = $(this).attr('group');
+	    $('#reply_' + parent).hide();
+
+	    var message = $('textarea#comment_box_' + parent);
+            var data = 'post='  + encodeURIComponent(message.val()) + '&user=' + user + '&latest=' + latest + '&group=' + group;
+	    $('textarea#comment_box_' + parent).val("");
+
+	    $.ajax({  
+               url: "/groups/ajax/add_reply/" + parent,
+               type: "POST",
+               data: data,       
+               cache: false,
+               success: function(response) {
+
+		    $.ajax({
+		         url: "/groups/ajax/load_profile_replies/" + parent,
+			 type: "POST",
+			 data: data,
+			 cache: false,
+                         success: function(new_replies) {
+			        $('.replies_' + parent).empty();
+				$('.replies_' + parent).append(new_replies);
+				$('#setup_reply_' + parent).show();
+		          },
+                          dataType: 'html'
+                     });
+		     
+		}
+            });
+	    
+
+            return false;
+	});
+    });
+    
+</script>	

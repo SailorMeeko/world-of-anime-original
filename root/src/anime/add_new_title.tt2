@@ -1,0 +1,120 @@
+[% meta.title = "World of Anime | The Anime Social Network | Add New Title to Anime Database" %]
+[% META keywords = "anime, social networking, database, add new title" %]
+[% meta.description = "World of Anime - a social networking site for anime fans: Add New Title to Anime Database" %]
+
+[% IF alert %]
+		<div id="alert">
+				[% alert %]
+		</div>
+[% END %]
+		<div id="content">
+		
+		[% site.jquery = "$jquery" %]
+
+[% IF error_message %]		
+<h1 class="error_header">Error</h1>
+[% error_message %]
+<p />
+[% END %]
+
+<h1 class="front_header">Anime Database - Add New Title</h1>
+
+<p />
+
+[% IF ! c.user_exists %]
+
+You must be logged in to add a new title.
+
+[% ELSE %]
+
+<!-- Only logged in people can do this -->
+
+
+<div id="new_thread_box" style="display: block;"></a>
+<form class="removable_button" action="/anime/add_new_title" method="post" enctype="multipart/form-data">
+
+    <h2>Add New Title</h2>
+    
+    <span class="normal_text">The World of Anime Database needs your help to grow!  Contribute a new title to the database, and earn the love, appreciation, and admiration of all World of Anime users everywhere!  And 10 points.<p /></span>
+    
+    <p />
+
+    <h3>Main Profile Image:</h3>
+    <br />
+    <span class="form-field"><input type="file" name="profile_image" size="50"></span>
+    
+    <p />
+    
+    <h3>English Title:</h3>
+    <br />
+    <span class="form-field"><input type="text" name="english_title" value="[% english_title %]" size="45" maxlength="255"></span>
+    
+    <p />
+    
+    <h3>Japanese Title: (if known)</h3>
+    <br />
+    <span class="form-field"><input type="text" name="japanese_title" value="[% japanese_title %]" size="45" maxlength="255"></span>
+    
+    <p />
+
+    <h3>Category:</h3>
+    <br />
+    <span class="form-field">[% category_select %]</span>
+    
+    <p />
+    
+    <h3>Genres:</h3> (<a href="/contact">Contact Us</a> to suggest additional genres to add.)
+    <br />
+    <span class="form-field">[% genres_select %]</span>
+
+
+    <p />
+
+    <h3>Year Published:</h3>
+    <br />
+    <span class="form-field"><input type="text" name="publish_year" value="[% publish_year %]" size="6" maxlength="10"></span>
+    
+    <p />
+
+    <h3># of Episodes:</h3>
+    <br />
+    <span class="form-field"><input type="text" name="num_episodes" value="[% num_episodes %]" size="4" maxlength="10"></span>
+    
+    <p />
+
+    <h3>Episode Length:</h3>
+    <br />
+    <span class="form-field"><input type="text" name="episode_length" value="[% episode_length %]" size="4" maxlength="10"> minutes</span>
+    
+    <p />
+    
+    <div id="form_field">
+    <h3>Website:</h3>
+    <br />
+    <span><input type="text" name="website" size="75" maxlength="255"></span>
+    </div>
+
+    <h3>Description</h3>
+    <br />
+    <span class="form-field"><textarea name="description" rows="8" cols="64">[% description %]</textarea></span>
+	
+    <p />
+
+    <input type="submit" value="Add New Title" class="removable">
+    </form>
+</div>
+
+[% END %]
+
+
+		</div>
+		
+				
+		<div id="right_column">
+
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1, images_approved) %]
+
+		</div>

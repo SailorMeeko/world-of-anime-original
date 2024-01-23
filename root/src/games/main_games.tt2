@@ -1,0 +1,43 @@
+[% meta.title = "World of Anime | The Anime Social Network | Games" %]
+[% META keywords = "anime,social networking,games" %]
+[% META description = "World of Anime Games" %]
+[% IF alert %]
+		<div id="alert">
+				[% alert %]
+		</div>
+[% END %]
+		<div id="content">
+
+[% IF ! c.user_exists %]
+You must be logged in to play games.
+[% ELSE %]
+
+<h1 class="front_header">Latest Games</h1>
+
+[% WHILE (game = RecentGames.next) %]
+<div id="game">
+<a href="/games/[% game.pretty_url %]"><img src="/static/images/games/[% game.image %]" border="0"></a><br />
+[% game.name %]
+</div>
+[% END %]
+
+<br clear="all">
+
+<h1 class="front_header">Categories of games.</h1>
+[% WHILE (cat = GameCategories.next) %]
+<a href="/games/category/[% cat.pretty_url %]">[% cat.name %]</a> ([% IF cat.games.max() == 0 %]1 game[% ELSE %][% cat.games.size %] games[% END %])<br />
+[% END %]
+
+[% END %]
+
+                
+                </div>
+		
+				
+		<div id="right_column">
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1) %]
+			
+		</div>

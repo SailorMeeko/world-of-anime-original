@@ -1,0 +1,32 @@
+[% META title = "World of Anime | The Anime Social Network | Thank you for joining" %]
+[% META keywords = "anime,social networking" %]
+[% META description = "World of Anime is a social networking site specifically for anime fans" %]
+[% IF alert %]
+		<div id="alert">
+				[% alert %]
+		</div>
+[% END %]
+		<div id="content">
+			
+<div class="section_image"><img src="/static/images/icons/anime_join.jpg"></div>
+<span class="conversation_text">
+		<p>Thanks  for joining!  We're sure you'll have lots of fun here!</p>
+</span>
+
+<br clear="all">
+
+		<div id="invite_user">
+                Your account has been created.  You will now receive an e-mail with a verification link.  You must click on that link in order for your account to become active.
+		</div>
+
+		</div>
+
+		
+				
+		<div id="right_column">
+			
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1) %]
+
+		</div>

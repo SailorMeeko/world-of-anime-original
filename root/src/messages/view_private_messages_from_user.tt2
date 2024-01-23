@@ -1,0 +1,86 @@
+[% META title = "World of Anime | The Anime Social Network | View Private Messages" %]
+[% META keywords = "anime,social networking,forums" %]
+[% META description = "World of Anime - View Private Messages" %]
+
+<script src="/static/javascript/pm.js?v=3"></script>
+
+[% IF !messages %]
+<script>
+$(document).ready(function() {
+     location.replace('/pm');
+});
+</script>
+[% END %]
+
+<script>
+$(document).ready(function() 
+    { 
+        $("#myTable").tablesorter( {sortList: [[0,1]], widgets: ['zebra'] } ); 
+    } 
+);
+</script>
+
+[% USE SimpleJson %]
+
+[% profile = get_user_profile_image( from_user.id ) %]
+[% i = image_info( profile.profile_image_id ) %]
+
+		<div id="content">
+		
+<div id="story_header">
+		<div class="header_image">
+				<a href="/profile/[% from_user.username %]"><img src="[% i.thumb_url %]"></a>
+		</div>
+		
+		<div class="header_extra">
+				<h1>Private Messages From [% from_user.username %]</h1>
+				<h2><a href="/pm/setup/[% from_user.id %]" class="newWindow share_button comment_button">New private message to [% from_user.username %]</a></h2>
+		</div>
+</div>
+
+<p />
+
+<table id="myTable" class="tablesorter">
+<thead> 
+<tr>
+		<th width="160">Date Received</th>
+		<th width="150">Subject</th>
+		<th>Message</th>
+</tr>
+</thead>
+<tbody>
+[% IF messages %]
+		[% messages_json = SimpleJson.fromJson(messages) %]
+		[% unreads = 0 %]
+
+[% FOREACH m IN messages_json %]
+<tr>
+		<td>[% prettify_date( m.createdate, 1) %]</td>
+		<td><a href="/pm/[% m.id %]"><span class="pm [% IF !m.is_read %]unread[% END %]">[% m.subject %]</span></a></td>
+		<td><a href="/pm/[% m.id %]"><span class="pm [% IF !m.is_read %]unread[% unreads = 1 %][% END %]">[% clean_bbcode( m.message ) %]</span></a></td>
+</tr>
+[% END %]
+
+[% END %]
+</tbody> 
+</table>
+
+[% IF unreads %]
+<span id="mark_user_pms_read" from_user_id="[% from_user.id %]"><a href="#" class="share_button comment_button line">Mark All As Read</a></span>
+[% END %]
+
+<span id="delete_user_pms" from_user_id="[% from_user.id %]"><a href="#" class="share_button comment_button line">Delete All of [% from_user.username %]'s Private Messages</a></span>
+
+<br clear="all">
+
+<a href="/pm" class="action_button">Back to your private messages</a>
+		</div>
+		
+				
+		<div id="right_column">
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1, images_approved) %]
+			
+		</div>

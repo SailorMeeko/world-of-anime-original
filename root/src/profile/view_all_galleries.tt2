@@ -1,0 +1,167 @@
+[% meta.title = "$user.username's Image Galleries" %]
+[% META keywords = "anime, social networking, image gallery, pictures" %]
+[% meta.description = "Here are $user.username's Image Galleries" %]
+
+[% USE SimpleJson %]
+
+[% IF alert %]
+		<div id="alert">
+				[% alert %]
+		</div>
+[% END %]
+		<div id="content">
+
+[% IF notice_header %]
+		<h1 class="notice_header">[% notice_header %]</h1>
+[% END %]
+
+[% IF user %]
+    
+<span class="info_text">[% reject_message %]</span>
+
+[% IF is_self %]
+		<a href="#" onclick="javascript:$('#add_gallery_box').toggle();return false">
+		<div id="add_button">+ Add</div>
+		</a>
+[% END %]
+
+[% i = image_info( user.profile_image_id ) %]
+			
+<div id="user_header">
+
+		<div class="header_image">
+				<a href="/profile/[% user.username %]"><img src="[% i.thumb_url %]" border="0"></a>
+		</div>
+		
+		<div class="header_extra">
+				<span class="header_topic">[% user.username %]'s Image Galleries</span>
+		</div>
+</div>
+
+
+[% IF is_self %]
+<p>
+<div id="add_gallery_box"></a>
+<form action="[% current_uri %]/add_gallery" method="post">
+<table>
+<tr>
+  <td valign="top"><span class="qa_subject">Gallery Name:</span></td>
+  <td class="field_value"><input type="text" name="gallery_name" size="30" maxlength="255"></td>
+</tr>
+<tr>
+    <td valign="top"><span class="qa_subject">Description:</span>
+    <td class="field_value"><textarea name="description" rows="6" cols="45"></textarea></td>
+</tr>
+<tr>
+    <td valign="top"><span class="qa_subject">Viewability:</span></td>
+    <td class="gallery_description" style="color: black;"><input type="radio" name="show_all" value="1" checked>Show this gallery to everyone<br />
+                            <input type="radio" name="show_all" value="0">Only show this gallery to my friends</td>
+</tr>
+</table>
+<input type="submit" value="Create Gallery">
+</form>
+</div>
+[% END %]
+
+<p />
+
+[% user_galleries = SimpleJson.fromJson(galleries.galleries) %]
+
+<div id="posts">
+
+[% FOREACH g IN user_galleries %]
+[% gallery = gallery_info( g.id ) %]
+
+    [% IF gallery.show_all OR is_self OR is_admin OR friend_status == 2 %]
+    [% NEXT IF gallery.inappropriate AND !(friend_status == 2 OR is_self OR is_admin) %]
+    <div class="gallery">
+    [% IF is_self %]
+        <div id="setup_change_info" style="float: right; display: inline;"><a href="#" class="reply_link" onclick="javascript:$('#change_info_[% gallery.id %]').show(200);$('.gallery').remove();$('#setup_change_info').remove();return false">Edit Gallery Info</a></div>
+    [% END %]
+    <table>
+    <tr>
+        <td valign="top" rowspan="2">
+	<a href="[% current_uri %]/[% gallery.id %]">
+		[% IF gallery.latest_image %]
+				[% image = image_info( gallery.latest_image ) %]
+				<ul class="photo">
+				<li><img src="[% image.small_url %]"></li>
+				</ul>
+		[% ELSE %]
+				<img src="/static/images/Photo.png" border="0">
+		[% END %]
+		</a>
+	</td>
+        <td valign="top"><span class="gallery_name"><a href="[% current_uri %]/[% gallery.id %]">[% gallery.name %]</a></span>
+                    <span class="gallery_description">[% gallery.description.replace('\n', '<br />') %]</span></td>
+    </tr>
+    <tr>
+        <td valign="bottom">
+            <span class="gallery_byline">Number of images: [% gallery.num_images %]</span>
+        </td>
+    </tr>
+    </table>
+    </div>
+
+       [% IF is_self %]
+
+
+		<div id="change_info_[% gallery.id %]" style="display: none">
+
+			<div id="setup_removal_[% gallery.id %]" style="float: right; display: inline; font-size: 10px;"><a href="#" class="reply_link" onclick="javascript:$('#delete_image_box_[% gallery.id %]').show(200);$('#setup_removal_[% gallery.id %]').remove();return false">Delete This Gallery</a></div>
+		
+			
+			<div id="delete_image_box_[% gallery.id %]" style="display: none; padding: 5px 0 0 10px; background-color: #efefef; border: 1px solid #cccccc; color: #800000;">This will delete this gallery and all images in it.  This action can not be undone.  Are you sure you want to do this?<p />
+			<form action="[% current_uri %]/[% gallery.id %]/delete_gallery" method="post"><input type="Submit" value="Yes, delete this gallery and all its images"></form><p />
+			</div>
+
+				<form class="removable_button" action="[% current_uri %]/[% gallery.id %]/update_gallery" method="post">
+						<table>
+						<tr>
+								<td>Name:</td>
+								<td><input type="text" name="gallery_name" size="25" maxlength="255" value="[% gallery.name %]"></td>
+						</tr>
+						<tr>
+								<td valign="top">Description:</td>
+								<td><textarea name="description" rows="8" cols="45">[% gallery.description %]</textarea></td>
+						</tr>
+						<tr>
+								<td valign="top">Viewability:</td>
+								<td><select name="show_all"><option value="1" [% IF gallery.show_all %]selected[% END %]>Everyone can see this gallery</option>
+                                                                                            <option value="0" [% IF !gallery.show_all %]selected[% END %]>Only allow my friends to see this gallery</option>
+								</td>
+						</table>
+						<br />
+						<input type="Submit" value="Set New Gallery Info" class="removable">
+						<p />
+				</form>
+		</div>
+		
+		<p />
+       
+       [% END %]
+    [% END %]
+[% END %]
+</div>
+
+<br clear="all">
+
+
+[% ELSE %]
+<h1 class="error_header">Not a user</h1>
+This user does not exist.
+[% END %]
+
+
+
+		</div>
+
+		
+				
+		<div id="right_column">
+			
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(5) %]
+			
+		</div>

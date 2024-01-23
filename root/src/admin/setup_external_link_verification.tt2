@@ -1,0 +1,33 @@
+[% META title = "World of Anime | The Anime Social Network | Verify Links" %]
+[% META keywords = "" %]
+[% META description = "" %]
+
+    
+Mark the links that would not pass Google Adsense.  For reference:
+<p>
+Google ads may not be placed on pages with adult or mature content. This includes, but is not limited to, pages with images or videos containing:
+<ul>
+    <li>Strategically covered nudity</li>
+    <li>Sheer or see-through clothing</li>
+    <li>Lewd or provocative poses</li>
+    <li>Close-ups of breasts, buttocks, or crotches</li>
+</ul>
+</p>
+<p />
+[% check_links = "" %]
+<form action="/admin/verify_external_links" method="post">
+[% WHILE (link = Links.next) %]
+
+    [% check_links = check_links _ link.id _ "," %]
+    <label for="check_[% link.id %]" style="display: inline">
+    <div style="display: inline-block; padding: 25px; width: 120px;">
+        <a href="[% link.url %]" target="_new_browser">[% link.url %]</a><br>
+        <input type="checkbox" name="is_approved_[% link.id %]" id="check_[% link.id %]" value="1" checked> Is Approved
+    </div>
+    </label>
+
+[% END %]
+<p>
+<input type="hidden" name="check_links" value="[% check_links %]">
+<input type="Submit" value="Approve these links">
+</form>

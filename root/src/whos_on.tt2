@@ -1,0 +1,52 @@
+[% meta.title = "World of Anime | The Anime Social Network | Who's On" %]
+[% META keywords = "anime, social networking, friends, members, users, who's online" %]
+[% meta.description = "Who's online World of Anime - a social networking site for anime fans." %]
+
+<script>
+$(function() {
+    // $('[image_desc]').qtip({
+    
+    $('[image_desc]').each(function() {
+		$(this).qtip({
+	
+      content: $(this).attr('image_desc'),
+      position: {
+               my: 'bottom center',
+               at: 'top center' },
+      style: { 
+      name: 'dark', // Inherit from preset style
+      classes: 'ui-tooltip-dark ui-tooltip-rounded'
+   }
+    });
+    });
+});
+</script>
+
+[% IF alert %]
+		<div id="alert">
+				[% alert %]
+		</div>
+[% END %]
+		<div id="content">
+		
+<div id="new_members_box">
+<p><h2>Who's Online Right Now?</h2></p>
+
+[% WhosOnHTML %]
+
+<br clear="all">
+<span class="block_byline">Members currently online: [% count %]</span>
+<span class="block_byline">Most ever online: [% highest_count %] on  [% prettify_date(highest_count_date, 1) %]</span>
+</div>
+
+		</div>
+		
+				
+		<div id="right_column">
+
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1, images_approved) %]
+
+		</div>

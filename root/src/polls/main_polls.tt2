@@ -1,0 +1,79 @@
+[% meta.title = "World of Anime | Polls" %]
+[% META keywords = "anime, poll, give your opinion" %]
+[% meta.description = "Anime Polls" %]
+
+<div id="content">
+		
+		[% site.jquery = "$jquery" %]
+
+[% IF error_message %]		
+<h1 class="error_header">Error</h1>
+[% error_message %]
+<p />
+[% END %]
+
+<h1 class="front_header">Anime Polls</h1>
+
+
+<div class="section_image"><img src="/static/images/icons/anime_answers.jpg"></div>
+<span class="conversation_text">These are polls.</span>
+
+<br clear="all">
+
+[% IF ! c.user_exists %]
+<p>Please log in if you wish to suggest a new poll</p>
+[% ELSE %]
+<a class="action_button removable" href="#" onclick="javascript:$('#new_thread_box').toggle();">Suggest New Poll</a>
+<br clear="all">
+<div id="new_thread_box"></a>
+<form class="removable_button" action="[% current_uri %]/suggest_new_poll" method="post">
+
+    <h2>Suggest a New Poll</h2>
+    
+    <div id="form_field">
+
+    <h3>Website:</h3>
+    <br />
+    <span><input type="text" name="website" size="75" maxlength="255"></span>
+    </div>
+
+    <h3>Poll Question</h3>
+    <br />
+    <span class="form-field"><textarea name="question" rows="4" cols="64">[% question %]</textarea></span>
+	
+    <p />
+
+    <h3>Possible Choices</h3> (One per line)
+    <br />
+    <span class="form-field"><textarea name="choices" rows="8" cols="32">[% question %]</textarea></span>
+	
+    <p />
+    
+    <input type="submit" value="Suggest Poll" class="removable">
+    </form>
+</div>
+<br clear="all">
+[% END %]
+
+
+<p />
+
+<p>Current Poll</p>
+
+
+
+<p>Old Polls</p>
+
+
+
+		</div>
+		
+				
+		<div id="right_column">
+
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1) %]
+
+		</div>

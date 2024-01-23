@@ -1,0 +1,20 @@
+[% META title = "World of Anime | Moderators Page" %]
+[% META keywords = "" %]
+[% META description = "" %]
+
+[% IF tweet %]
+Tweet for latest news article:<br>
+<hr>
+[% tweet %]
+<br>
+<hr>
+[% END %]
+    
+Welcome to the Moderator Page.  Here you can:
+<p />
+<h1>News</h1>
+<a href="/moderate/news">Manage News Articles</a>  ([% waiting_articles %] waiting)<br>
+
+<p />
+<h1>Polls</h1>
+<a href="/moderate/polls">Manage Polls</a>  ([% waiting_polls %] waiting)<br>

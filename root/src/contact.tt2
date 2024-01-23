@@ -1,0 +1,71 @@
+[% META title = "World of Anime | The Anime Social Network | Contact Us" %]
+[% META keywords = "anime,social networking" %]
+[% META description = "World of Anime is a social networking site specifically for anime fans" %]
+
+[% IF alert %]
+		<div id="alert">
+				[% alert %]
+		</div>
+[% END %]
+		<div id="content">
+<h1 class="front_header">Contact Us</h1>
+
+[% IF contacted %]
+
+    Thanks for your message!
+    
+[% ELSE %]
+
+<div id="join_form">
+<form action="contact" method="post">
+<table border="0">
+<tr>
+ <td>Subject:</td>
+ <td><select name="Subject">
+
+     <option value="">&lt;-- Please Select a Subject --&gt;
+     <option value="I have a general question or comment">I have a general question or comment
+<option value="I have a suggestion for your site">I have a suggestion for your site
+<option value="I found something broken on your site">I found something broken on your site
+<option value="I would like to exchange links with you">I would like to exchange links with you
+<option value="Other">Other
+
+     </select></td>
+</tr>
+
+<tr>
+ <td>Your Name:</td>
+
+ <td><input class="field span3" type="text" name="Name" maxlength="255" placeholder="Name"></td>
+</tr>
+
+<tr>
+ <td>Your E-mail:</td>
+ <td><input class="field span3" type="text" name="Email" maxlength="255" placeholder="E-mail"></td>
+</tr>
+
+<tr>
+ <td>Message:</td>
+ <td><textarea class="field span6" name="Message" rows="8" placeholder="Your Message Here" wrap></textarea></td>
+
+</tr>
+</table>
+
+<input type="Submit" value="Send Message">
+</form>
+</div>
+
+[% END %]
+
+
+		</div>
+		
+				
+		<div id="right_column">
+
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1, images_approved) %]
+			
+		</div>

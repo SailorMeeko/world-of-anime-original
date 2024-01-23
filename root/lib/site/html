@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="woaApp">
+ <head>
+  <meta charset="utf-8">
+
+  <link rel="stylesheet" href="/static/styles/jquery.qtip.css" />
+  <link rel="stylesheet" href="/static/javascript/tablesorter/themes/blue/style.css" />
+  
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+  
+  <!-- JQuery -->
+  <script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+  
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/2.3.1/css/bootstrap.min.css">
+   
+   
+  <link rel="stylesheet" href="/static/styles/main.css?v=4" />
+
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/2.3.1/js/bootstrap.min.js"></script>
+
+  <!-- Angular JS -->
+  <script src="/static/javascript/angular.js"></script>
+  <script src="/static/javascript/app.js"></script>
+
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.2/angular.min.js"></script> -->
+
+  <script src="/static/javascript/controllers/FriendController.js"></script>
+  <script src="/static/javascript/controllers/MembersController.js"></script>
+
+  <!-- Font Awesome -->
+  <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+  
+  <!-- <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open%20Sans"> -->
+
+  <meta name="keywords" content="[% template.keywords or meta.keywords or site.keywords %]">
+  <meta name="description" content="[% template.description or meta.description or site.description %]">
+  <title>[% template.title or meta.title or site.title %]</title>
+  <script src="/static/javascript/jquery.qtip.min.js"></script>
+  <script src="/static/javascript/jquery.scrollTo-1.4.2-min.js"></script>
+  <script src="/static/ckeditor/ckeditor.js"></script>
+  <script src="/static/javascript/tablesorter/jquery.tablesorter.min.js"></script>
+  <script src="/static/javascript/shared.js?v=4"></script>
+  
+<!--[if IE]>
+ <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+
+
+
+
+    [% site.jquery %]
+
+ <meta name="google-site-verification" content="_l7bxEHPR_LeeYVVjejiv_BZqREPDo4ytNsqnGLaIPo" />
+ </head>
+ <body>
+  
+[% content %]
+
+<script type="text/javascript">
+var infolinks_pid = 1637943;
+var infolinks_wsid = 0;
+</script>
+<script type="text/javascript" src="http://resources.infolinks.com/js/infolinks_main.js"></script>
+ </body>
+ 
+[% group = c.req.path.match('groups/(\d+)') %]
+[% IF group.0 %]
+  [% group_css(group.0) %]
+[% END %] 
+
+
+[% user = c.req.path.match('profile/(.*)') %]
+[% IF user.0 %]
+  [% user_profile_css(user.0) %]
+[% END %] 
+
+
+[% user = c.req.path.match('blogs/(.*)') %]
+[% IF user.0 %]
+  [% user_profile_css(user.0) %]
+[% END %]
+
+
+[% IF c.req.path.match('profile$') %]
+  [% user_profile_css() %]
+[% END %] 
+
+
+[% IF c.req.path.match('pm/?(.*)?') %]
+  [% user_profile_css() %]
+[% END %]
+
+[% IF c.req.path.match('favorites/?(.*)?') %]
+  [% user_profile_css() %]
+[% END %]
+
+
+[% IF c.req.path.match('notifications$') %]
+  [% user_profile_css() %]
+[% END %]
+
+[% IF c.req.path.match('appearance$') %]
+  [% user_profile_css() %]
+[% END %]
+
+[% IF c.req.path.match('group_requests$') %]
+  [% user_profile_css() %]
+[% END %]
+
+</html>

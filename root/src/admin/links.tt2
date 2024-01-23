@@ -1,0 +1,9 @@
+[% META title = "World of Anime | The Anime Social Network | Manage Link Categories" %]
+[% META keywords = "" %]
+[% META description = "" %]
+
+
+Manage Link Categories:
+<p />
+
+[% category_tree %]

@@ -1,0 +1,9 @@
+[% META title = "World of Anime | The Anime Social Network | Announcements" %]
+[% META keywords = "" %]
+[% META description = "" %]
+
+
+<h1>Create your Announcement:</h1>
+<p />
+
+[% content %]

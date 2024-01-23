@@ -1,0 +1,108 @@
+[% meta.title = "Anime Answers" %]
+[% META keywords = "anime, question, answer, ask your anime and manga questions" %]
+[% meta.description = "Anime Questions and Answers" %]
+
+<div id="content">
+		
+		[% site.jquery = "$jquery" %]
+
+[% IF error_message %]		
+<h1 class="error_header">Error</h1>
+[% error_message %]
+<p />
+[% END %]
+
+<h1 class="front_header">Anime Answers</h1>
+
+
+<div class="section_image"><img src="/static/images/icons/anime_answers.jpg"></div>
+<span class="conversation_text">Have a question?  Have an answer?  This is the place for you to ask your questions and have them answered by your fellow World of Anime members.</span>
+
+<br clear="all">
+
+[% IF ! c.user_exists %]
+<p>Please log in if you wish to add a new question</p>
+[% ELSE %]
+<a class="action_button removable" href="#" onclick="javascript:$('#new_thread_box').toggle();">Ask a New Question</a>
+<br clear="all">
+<div id="new_thread_box"></a>
+<form class="removable_button" action="[% current_uri %]/add_new_question" method="post">
+
+    <h2>Ask a Question</h2>
+
+    <h3>Subject:</h3>
+    <br />
+    <span class="form-field"><input type="text" name="subject" value="[% subject %]" size="45" maxlength="255"></span>
+    
+    <p />
+    
+    <div id="form_field">
+
+    <h3>Website:</h3>
+    <br />
+    <span><input type="text" name="website" size="75" maxlength="255"></span>
+    </div>
+
+    <h3>Question</h3>
+    <br />
+    <span class="form-field"><textarea name="question" rows="8" cols="64">[% question %]</textarea></span>
+	
+    <p />
+    
+    <input type="checkbox" name="subscribe">Subscribe to this question
+    <p />
+    <input type="submit" value="Ask Question" class="removable">
+    </form>
+</div>
+<br clear="all">
+[% END %]
+
+
+<div id="pager_line">
+[% cpage_counter_num = 1 %]
+
+[% IF cpager.previous_page %]
+<a href="[% c.request.uri_with( cpage => cpager.previous_page ) %]">Previous</a>
+[% END %]
+
+[% cpage_count = cpager.current_page - 3 %]
+[% IF cpage_count < 1 %]
+     [% cpage_count = 1 %]
+[% END %]
+
+[% WHILE cpage_count <= cpager.last_page %]
+     [% IF cpage_counter_num <= 10 %]
+          [% IF cpage_count == cpager.current_page %]
+                [% IF cpager.next_page %]
+                                [% cpage_count %]
+                [% END %]
+          [% ELSE %]
+          <a href="[% c.request.uri_with( cpage => cpage_count ) %]">[% cpage_count %]</a>
+          [% END %]
+     [% END %]
+[% cpage_count = cpage_count + 1 %]
+[% cpage_counter_num = cpage_counter_num + 1 %]
+[% END %]
+
+[% IF cpager.next_page %]
+<a href="[% c.request.uri_with( cpage => cpager.next_page ) %]">Next</a>
+[% END %]
+</div>
+
+
+<p />
+
+[% AnswersHTML %]
+
+
+		</div>
+		
+				
+		<div id="right_column">
+
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1, images_approved) %]
+
+		</div>

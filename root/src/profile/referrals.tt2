@@ -1,0 +1,109 @@
+[% meta.title = "World of Anime | The Anime Social Network | Referrals" %]
+[% META keywords = "anime, social networking, friends, members, users, top members, top users" %]
+[% meta.description = "Referrals for World of Anime - a social networking site for anime fans." %]
+
+[% IF alert %]
+		<div id="alert">
+				[% alert %]
+		</div>
+[% END %]
+		<div id="content">
+
+[% IF error_message %]		
+<h1 class="error_header">Error</h1>
+[% error_message %]
+<p />
+[% END %]
+
+[% i = image_info( user.profile_image_id ) %]
+
+<div id="user_header">
+
+		<div class="header_image">
+				<a href="/profile/[% user.username %]"><img src="[% i.thumb_url %]" border="0"></a>
+		</div>
+		
+		<div class="header_extra">
+				<span class="header_topic">[% user.username %]'s Referrals</span><p>
+				<span class="header_info">[% referral_count %] people referred</span>
+		</div>
+</div>
+
+<p />
+
+[% IF is_self %]
+<div id="refer_block">
+To refer a new person to the site, give them the following URL:<p />
+<input type="text" value="http://www.worldofanime.com/refer/[% user.username %]" size="50" readonly onclick="this.focus();this.select()">
+</div>
+<p />
+
+<div id="refer_button"><a class="reply_button" href="#" onclick="javascript:$('#new_thread_box').toggle(300);$('#refer_button').remove();">Refer a friend by e-mail</a></div>
+<br />
+<div id="new_thread_box"></a>
+<form class="removable_button" action="[% current_uri %]/add_new_referral" method="post">
+
+    <h2>Recommend this site to a friend</h2>
+
+    <h3>Subject:</h3>
+    <br />
+    <span class="form-field"><input type="text" name="subject" value="You have been invited to join World of Anime" size="45" maxlength="255" readonly></span>
+    
+    <p />
+    
+    <div id="form_field">
+
+    <h3>Website:</h3>
+    <br />
+    <span><input type="text" name="website" size="75" maxlength="255"></span>
+    </div>
+
+    <h3>Your Friend's E-mail Address:</h3>
+    <br />
+    <span class="form-field"><input type="text" name="referral_email" size="25" maxlength="255"></span>
+    
+    <p />
+
+    <p />
+    <h3>(You can edit the message your friend will receive below.  The link to join the site with your referral will automatically be added, so you don't need to put the URL to the site.)</h3>
+    <p />
+
+    <h3>Message</h3>
+    <br />
+    <span class="form-field"><textarea name="referral_text" rows="8" cols="64">
+Your friend [% c.user.username %] has invited you to join World of Anime - the Social Networking site just for fans of anime, manga, and video games.
+
+At World of Anime, you can create your own profile, image galleries, blogs, and groups.  You can find new friends with similar interests, join groups, chat, ask and questions in the Anime Answers section or the forums.
+</textarea></span>
+
+    <p />
+
+    <input type="submit" value="Send this referral" class="removable">
+    </form>
+</div>
+
+
+[% IF referral_count > 0 %]
+Here are the members you have referred:
+<p />
+[% ReferralsHTML %]
+[% ELSE %]
+None of your referrals have joined the site yet.
+[% END %]
+
+[% ELSE %]
+Sorry, you can only see your own referrals.
+[% END %]
+
+
+		</div>
+		
+				
+		<div id="right_column">
+
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1) %]
+
+		</div>

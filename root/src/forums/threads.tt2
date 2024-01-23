@@ -1,0 +1,156 @@
+[% meta.title = "World of Anime | The Anime Social Network | Forums" %]
+[% META keywords = "anime,social networking,forums" %]
+[% META description = "World of Anime Forums - Threads" %]
+[% IF alert %]
+		<div id="alert">
+				[% alert %]
+		</div>
+[% END %]
+		<div id="content">
+
+<script type="text/javascript">
+    $(function() {    
+	$('.removable_button').submit(function() {
+            $('.removable').remove();
+	});
+    });
+</script>
+
+		<h1 class="front_header">Forums -> [% category %] -> [% forum_name %]</h1>
+<p />
+
+[% IF ! c.user_exists %]
+Please log in if you wish to create a new thread.
+[% ELSE %]
+<a class="thread_link" href="#" onclick="javascript:$('#new_thread_box').toggle(400);$('#thread_form #subject').focus();return false;">New Thread</a><br />
+<div id="new_thread_box"></a>
+<form id="thread_form" class="removable_button" action="[% current_uri %]/new_thread_add" method="post">
+
+    <h2>Post a New Thread</h2>
+
+    <h3>Subject:</h3>
+    <br />
+    <span class="form-field"><input id="subject" type="text" name="subject" value="[% subject %]" size="45" maxlength="255"></span>
+    
+    <p />
+    
+    <div id="form_field">
+
+    <h3>Website:</h3>
+    <br />
+    <span><input type="text" name="website" size="75" maxlength="255"></span>
+    </div>
+
+    <span class="form-field"><textarea name="thread" rows="8" cols="64"></textarea></span>
+	
+    <p />
+    
+    <input type="checkbox" name="subscribe" checked>Subscribe to this thread
+    
+    <p />
+	
+    <input type="submit" value="Begin New Thread" class="removable">
+    </form>
+</div>
+[% END %]
+
+<p />
+
+<div id="pager_line">
+[% page_counter_num = 1 %]
+
+[% IF pager.previous_page %]
+<a href="[% c.request.uri_with( page => pager.previous_page ) %]">Previous</a>
+[% END %]
+
+[% page_count = pager.current_page - 3 %]
+[% IF page_count < 1 %]
+     [% page_count = 1 %]
+[% END %]
+
+[% WHILE page_count <= pager.last_page %]
+     [% IF page_counter_num <= 30 %]
+          [% IF page_count == pager.current_page %]
+          [% page_count %]
+          [% ELSE %]
+          <a href="[% c.request.uri_with( page => page_count ) %]">[% page_count %]</a>
+          [% END %]
+     [% END %]
+[% page_count = page_count + 1 %]
+[% page_counter_num = page_counter_num + 1 %]
+[% END %]
+
+[% IF pager.next_page %]
+<a href="[% c.request.uri_with( page => pager.next_page ) %]">Next</a>
+[% END %]
+</div>
+
+<p />
+
+<table id="forum_threads" cellpadding="0" cellspacing="0" width="100%" border="0">
+<tr>
+		<th width="60%">Subject</th>
+		<th width="30%">Last Post</th>
+		<th width="5%">Posts</th>
+		<th width="5%">Views</th>		
+</tr>
+[% WHILE (thread = threads.next) %]
+<tr>
+		<td><span class="forum_topic"><a href="/forums/thread/[% thread.id %]">[% thread.subject %]</a></span>
+				<span class="forum_byline">Started by <a style="color: #000000;" href="/profile/[% thread.started_by_user_id.username %]">[% thread.started_by_user_id.username %]</a> on [% prettify_date( thread.create_date, 1) %]</span>
+				</td>
+		<td><span class="top_user_profile_date">[% prettify_date( thread.last_post, 1) %]</span><br />
+				<span class="forum_byline">by <a style="color: #000000;" href="/profile/[% last_thread_post_user(thread.id) %]">[% last_thread_post_user(thread.id) %]</a></span>
+				</td>
+		[% IF thread.thread_posts.max() == 0 %]
+				<td><span class="forum_byline">1</span></td>
+		[% ELSE %]
+				<td><span class="forum_byline">[% thread.thread_posts.size %]</span></td>
+		[% END %]
+		<td><span class="forum_byline">[% thread.views %]</span></td>
+</tr>
+[% END %]
+</table>
+
+<p />
+
+<div id="pager_line">
+[% page_counter_num = 1 %]
+
+[% IF pager.previous_page %]
+<a href="[% c.request.uri_with( page => pager.previous_page ) %]">Previous</a>
+[% END %]
+
+[% page_count = pager.current_page - 3 %]
+[% IF page_count < 1 %]
+     [% page_count = 1 %]
+[% END %]
+
+[% WHILE page_count <= pager.last_page %]
+     [% IF page_counter_num <= 30 %]
+          [% IF page_count == pager.current_page %]
+          [% page_count %]
+          [% ELSE %]
+          <a href="[% c.request.uri_with( page => page_count ) %]">[% page_count %]</a>
+          [% END %]
+     [% END %]
+[% page_count = page_count + 1 %]
+[% page_counter_num = page_counter_num + 1 %]
+[% END %]
+
+[% IF pager.next_page %]
+<a href="[% c.request.uri_with( page => pager.next_page ) %]">Next</a>
+[% END %]
+</div>
+
+<p />
+		</div>
+		
+				
+		<div id="right_column">
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1, images_approved) %]
+			
+		</div>

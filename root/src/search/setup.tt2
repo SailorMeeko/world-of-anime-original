@@ -1,0 +1,69 @@
+[% META title = "World of Anime | The Anime Social Network | Search Members" %]
+[% META keywords = "anime,social networking" %]
+[% META description = "World of Anime is a social networking site specifically for anime fans" %]
+
+[% IF alert %]
+		<div id="alert">
+				[% alert %]
+		</div>
+[% END %]
+		<div id="content">
+<h1 class="front_header">Search Members</h1>
+
+
+<p />
+
+<form action="search" method="post">
+<input type="hidden" name="search" value="1">
+
+<div id="search_user_box">
+
+<h2>Search Criteria:</h2>  <span class="info_text">(All fields are optional)</span>
+<p />
+<table id="search_user_table">
+<tr>
+	<td width="25%">User Name:</td>
+	<td><input type="text" name="username" size="55" maxlength="255"></td>
+</tr>
+<tr>
+	<td>Real Name:</td>
+	<td><input type="text" name="realname" size="55" maxlength="255"></td>
+</tr>
+<tr>
+	<td>Gender:</td>
+	<td><select name="gender">
+			<option value="">Any
+			<option value="f">Female
+			<option value="m">Male
+			</select></td>
+</tr>
+<tr>	
+	<td>About Me:</td>
+	<td><input type="text" name="about_me" size="55" maxlength="255"></td>
+</tr>
+<tr>
+	<td>Favorite Anime:</td>
+	<td><input type="text" name="favorite_anime" size="55" maxlength="255"></td>
+</tr>
+<tr>
+	<td>Favorite Movies:</td>
+	<td><input type="text" name="favorite_movies" size="55" maxlength="255"></td>
+</tr>
+</table>
+<p />
+<input type="Submit" value="Search for Members">
+</form>
+
+</div>
+
+
+</div>
+				
+		<div id="right_column">
+
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1) %]
+			
+		</div>

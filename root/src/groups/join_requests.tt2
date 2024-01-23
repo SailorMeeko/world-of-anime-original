@@ -1,0 +1,75 @@
+[% META title = "World of Anime | The Anime Social Network | Group Join Requests" %]
+[% META keywords = "anime,social networking" %]
+[% META description = "World of Anime is a social networking site specifically for anime fans" %]
+[% IF alert %]
+		<div id="alert">
+				[% alert %]
+		</div>
+[% END %]
+		<div id="content">
+		
+		[% site.jquery = "$jquery" %]
+		
+[% IF notice_header %]
+		<h1 class="notice_header">[% notice_header %]</h1>
+[% END %]
+
+
+[% IF group %]
+
+		[% IF IsAdmin %]
+
+		[% i = image_info( group.profile_image_id ) %]
+
+<div id="plain_user_profile_box">
+<table border="0">
+	<tr>
+		<td valign="top" rowspan="2">
+			<a href="/groups/[% group.id %]/[% group.pretty_url %]"><img src="[% i.thumb_url %]"></a>		</td>
+		<td valign="top" width="360">
+			<span class="plain_user_profile_name">[% group.name %]</span><br />
+
+		</td>
+		<td valign="top">
+		</td>
+	</tr>
+</table>
+</div>
+
+
+
+<h1 class="front_header">Join Requests for Group</h1>
+<div id="popuup_accept_div" class="popup_accept_msg">
+   Join request accepted!
+</div>
+<div id="popuup_reject_div" class="popup_reject_msg">
+   Join request rejected!
+</div>
+[% message %]
+<p />
+[% JoinRequests %]
+</form>
+
+				[% ELSE %]
+		
+			You must be an admin of this group to be here.
+		[% END %]
+
+
+[% ELSE %]
+<h1 class="error_header">Not a Valid Group</h1>
+This Group either does not exist, or is private.
+[% END %]
+
+
+		</div>
+
+		
+				
+		<div id="right_column">
+			
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1) %]
+
+		</div>

@@ -1,0 +1,75 @@
+[% meta.title = "World of Anime | The Anime Social Network | Anime Database" %]
+[% META keywords = "anime, list of anime, anime list, anime database" %]
+[% meta.description = "World of Anime - a social networking site for anime fans: Anime Database.  A list of anime" %]
+
+<script src="/static/javascript/anime.js?v=1"></script>
+
+		<div id="content">
+
+[% IF error_message %]		
+<h1 class="error_header">Error</h1>
+[% error_message %]
+<p />
+[% END %]
+
+<div id="popuup_reject_div" class="popup_reject_msg">
+   No Results Found
+</div>
+
+<form id="search_title" class="search_box form-search">
+Find anime: <input type="text" id="search_string" name="searchString" size="50" maxlength="255" placeholder="Anime Title" class="search-query"> <input type="Submit" value="Search!">
+</form>
+
+<div id="main_page">
+
+
+<div class="section_image"><img src="/static/images/icons/anime_database.jpg"></div>
+<span class="conversation_text">The World of Anime Database is a growing community built database of information on anime shows and episodes.</span>
+
+[% IF c.user %]
+<p><a href="/anime/add_title" class="action_button">Add a New Title to the Database</a></p>
+[% ELSE %]
+<p>You must be a member of the site and logged in to add or modify the information in this database.</p>
+[% END %]
+
+<br clear="all">
+
+<span class="normal_text"><h2>Browse All</h2></span>
+<span class="normal_text">
+<a href="/anime/browse">Browse all anime alphabetically</a><p />
+</span>
+
+
+<h2>Browse by Genre</h2>
+[% WHILE (g = Genres.next) %]
+<span class="normal_text"><a href="/anime/browse/genre/[% prettify_text( g.name ) %]">[% g.name %]</a></span><br />
+[% END %]
+
+
+</div>
+
+<p />
+
+[% IF ! c.user_exists %]
+
+<!-- Everyone can do this -->
+
+
+[% ELSE %]
+
+<!-- Only logged in people can do this -->
+
+[% END %]
+
+
+		</div>
+		
+				
+		<div id="right_column">
+
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1, images_approved) %]
+
+		</div>

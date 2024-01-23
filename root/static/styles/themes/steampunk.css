@@ -1,0 +1,8 @@
+body { background-color: #FFF; background-image: url('/static/images/backgrounds/steampunk.jpg');  background-repeat: repeat-x repeat-y; background-attachment: fixed; }
+#page { border: solid 0.125em #3D362D; }
+#navbar { width:auto; display:block; height:1.875em; background: #665847; margin-bottom: 1em; }
+#links_box_link a { color: #CCC; }
+#links_box_link a:hover { color: #CCC; background-color: #3D362D; }
+.sf-menu li { background: #665847; }
+.sf-menu li li { background: #665847; }
+.sf-menu li:hover, .sf-menu li.sfHover, .sf-menu a:focus, .sf-menu a:hover, .sf-menu a:active { background: #3D362D; }

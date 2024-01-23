@@ -1,0 +1,59 @@
+[% META title = "World of Anime | The Anime Social Network | About Us" %]
+[% META keywords = "anime, social networking, about this site" %]
+[% META description = "About World of Anime - a social networking site specifically for anime fans" %]
+
+		<div id="content">
+		
+<div class="section_image" style="float: right;"><img src="/static/images/icons/anime_about_us.jpg"></div>
+<p><span class="conversation_text" style="font-size: 1.2em;">A Brief History of World of Anime</span></p>
+<p><span class="conversation_text" style="font-size: 0.9em;">By <a href="/profile/meeko">meeko</a></span></p>
+
+
+<span class="terms">
+<p>The beginnings of World of Anime can be traced back to ancient pre-historic times, which in Internet terms means 1997.  The biggest anime site at the time was
+<a href="http://www.anipike.com/">Anipike</a>.  Most anime web sites back then were geocities sites that people put up with like 5 pictures of Sailor Moon, and
+a Javascript scrolling marquee block that blinked the text "I Love Usagi!!!".  If you didn't get the experience of using the web at that time, you truly missed a
+great time.</p>
+
+<p>It was then that I decided I wanted to build a web site dedicated to anime.  I wasn't sure what I exactly I wanted, I just knew I wanted an
+anime web site that would be awesome and memorable.  So at first I decided I would take elements from 2 of my favorite sites at the time, <a href="http://www.anipike.com/">Anipike</a>
+and <a href="http://www.slashdot.org/">Slashdot</a>, and I would make a site that would have both user contributed news stories that people could comment on
+and catalogs of user contributed links to anime sites.</p>
+
+<p>So sometime in the year 2000, I bought the domain name worldofanime.com, because that was my lofty goal - to create a site that could truly be called the
+<em><b>World</b> of Anime.</em>  I had 2 main requirements I wanted to hold myself to.  It must be ambitious, and I must build it from scratch.  Being a web developer,
+programming is something I love to do.  I had no desire to take other people's packaged software and use it to run my site.  If I were going to be proud of it, I
+was going to do it all myself.</p>
+
+<p>So on the homepage for www.worldofanime.com, I put that image of Sasami that you see above you on the front, along with the text "World of Anime: Coming Soon"
+And that was exactly what you saw on the site all the way until 2009.</p>
+
+<p>In the years from 2000 - 2009, I probably started building the web site no fewer than 5 times, each time giving up because I wasn't happy with where it was going.
+Each time I gave up and started again, I scrapped all the code for the site and started over.  Finally in early 2009, I decided this was going to be the time.  I was
+going to start completely over again, and this time I wasn't going to stop until I had a site I could actually put live.  The whole world seemed fascinated with social
+networking at the time, even though I'm not big into it, so I decided that's what I was going to make the core of the site.  I figured that would leave me enough freedom
+to add more, non-social features in the future, but the core of the site was going to be social networking.</p>
+
+<p>So I started over, coding everything from scratch, and designing all of the database structures.  I working practically every day for months, mostly at night after
+everyone had gone to bed, after already putting in a whole day at my regular day job.  Finally, on December 3rd, 2009, I put the very first version of the web site live,
+and joined as the first user.</p>
+
+<p>The first version of the site resembles very little to what you see today.  There were no Groups, no Anime Database, no Fan Fiction, no Anime Answers, no Points, not
+even Notifications or Private Messages.  Those are all additions that have come over the years, either as suggestions from users or just ideas I've had and thought would be
+fun.</p>
+
+
+
+</span>
+
+		</div>
+		
+				
+		<div id="right_column">
+
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1) %]
+			
+		</div>

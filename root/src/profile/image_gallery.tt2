@@ -1,0 +1,187 @@
+[% meta.title = "World of Anime | The Anime Social Network | $user.username's Image Gallery" %]
+[% META keywords = "anime,social networking" %]
+[% META description = "World of Anime is a social networking site specifically for anime fans" %]
+
+<script>
+$(function() {
+    // $('[image_desc]').qtip({
+    
+    $('[image_desc]').each(function() {
+		$(this).qtip({
+	
+      content: $(this).attr('image_desc'),
+      position: {
+               my: 'bottom center',
+               at: 'top center' },
+      style: { 
+      name: 'dark', // Inherit from preset style
+      classes: 'ui-tooltip-dark ui-tooltip-rounded'
+   }
+    });
+    });
+});
+
+
+$(function() {
+    $('#upload_images').live('submit', function(e) {
+        var image     = $('#image_file').val();
+	var title     = $('#image_title').val();
+	var description = $('#image_description').val();
+
+	
+    return false;
+    });
+});
+</script>
+
+[% IF alert %]
+		<div id="alert">
+				[% alert %]
+		</div>
+[% END %]
+		<div id="content">
+
+		
+[% IF notice_header %]
+		<h1 class="notice_header">[% notice_header %]</h1>
+[% END %]
+
+[% IF user %]
+
+<span class="info_box">[% reject_message %]</span>
+
+[% IF add_image_link %]
+		<a href="#" onclick="javascript:$('#add_image_box').toggle();">
+		<div id="add_button" style="width: 80px;">+ Upload</div>
+		</a>
+[% END %]
+
+[% i = image_info( user.profile_image_id ) %]
+
+<div id="user_header">
+
+		<div class="header_image">
+				<a href="/profile/[% user.username %]"><img src="[% i.thumb_url %]" border="0"></a>
+		</div>
+		
+		<div class="header_extra">
+				<span class="header_topic">[% gallery.gallery_name %]</span><p>
+				<span class="header_info">[% gallery.description %]</span><p>
+				<span class="header_info"><a href="/profile/[% user.username %]/gallery">View all of [% user.username %]'s galleries</a></span>
+		</div>
+</div>
+
+<p />
+
+<div id="desc_box"></div>
+
+
+<p>
+
+[% IF add_image_link %]
+<div id="add_image_box">
+<form class="removable_button" action="[% current_uri %]/add_image" method="post" enctype="multipart/form-data">
+<table>
+<tr>
+  <td valign="top"><span class="qa_subject">Image:</td>
+  <td class="field_value"><input type="file" name="image" size="45"></td>
+</tr>
+<tr>
+  <td valign="top"><span class="qa_subject">Image Title:</span></td>
+  <td class="field_value"><input type="text" name="image_title" size="50" maxlength="255"></td>
+</tr>
+<tr>
+  <td valign="top"><span class="qa_subject">Image Description:</span></td>
+  <td class="field_value"><textarea name="image_description" rows="6" cols="65"></textarea></td>
+</tr>
+</table>
+<input type="Submit" value="Upload Image" class="removable">
+</form>
+<p />
+</div>
+
+<p>
+
+<div id="add_image_box_new" style="display: none;">    
+<form id="upload_images" class="removable_button" method="post" enctype="multipart/form-data">
+<table>
+<tr>
+  <td valign="top"><span class="qa_subject">Image:</td>
+  <td class="field_value"><input type="file" name="image" id="image_file" size="45"></td>
+</tr>
+<tr>
+  <td valign="top"><span class="qa_subject">Image Title:</span></td>
+  <td class="field_value"><input type="text" name="image_title" id="image_title" size="50" maxlength="255"></td>
+</tr>
+<tr>
+  <td valign="top"><span class="qa_subject">Image Description:</span></td>
+  <td class="field_value"><textarea name="image_description" id="image_description" rows="6" cols="65"></textarea></td>
+</tr>
+</table>
+<input type="Submit" value="Upload Image" class="removable">
+</form>
+<p />
+</div>
+
+<p>
+[% END %]
+
+<p />
+
+[% images %]
+
+<p>
+
+<br clear="all">
+
+
+<div id="pager_line">
+[% page_counter_num = 1 %]
+
+[% IF pager.previous_page %]
+<a href="[% c.request.uri_with( page => pager.previous_page ) %]">Previous</a>
+[% END %]
+
+[% page_count = pager.current_page - 3 %]
+[% IF page_count < 1 %]
+     [% page_count = 1 %]
+[% END %]
+
+[% WHILE page_count <= pager.last_page %]
+     [% IF page_counter_num <= 18 %]
+          [% IF page_count == pager.current_page %]
+          [% page_count %]
+          [% ELSE %]
+          <a href="[% c.request.uri_with( page => page_count ) %]">[% page_count %]</a>
+          [% END %]
+     [% END %]
+[% page_count = page_count + 1 %]
+[% page_counter_num = page_counter_num + 1 %]
+[% END %]
+
+[% IF pager.next_page %]
+<a href="[% c.request.uri_with( page => pager.next_page ) %]">Next</a>
+[% END %]
+</div>
+
+
+
+[% ELSE %]
+<h1 class="error_header">Not a user</h1>
+This user does not exist.
+[% END %]
+
+
+
+		</div>
+
+		
+				
+		<div id="right_column">
+			
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(5) %]
+			
+		</div>
+		

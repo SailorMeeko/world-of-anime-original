@@ -1,0 +1,225 @@
+
+<div id="page">
+
+[% THEMES = { 'classic' = 'Classic', 'spring' = 'Spring', 'disco' = 'Disco', 'vintage' = 'Vintage', 'steampunk' = 'Steampunk', 'festival' = 'Festival' } %]
+
+[% IF !c.request.cookies.theme.value %]
+[% theme = "classic" %]
+[% ELSE %]
+[% theme = c.request.cookies.theme.value %]
+[% END %]
+
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+	<div class="navbar-inner">
+		<div class="container">
+			<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</a>
+			<div class="nav-collapse collapse">
+				<ul class="nav">
+					<li><a class="brand" href="/">Home</a></li>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Information <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li><a href="/news">News</a></li>
+							<li><a href="/anime">Anime Database</a></li>
+						</ul>
+					</li>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Community <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li><a href="/groups">Groups</a></li>
+							<li><a href="/answers">Anime Answers</a></li>
+							<li><a href="/forums">Forums</a></li>
+							<li><a href="/chat">Chat</a></li>
+						</ul>
+					</li>											
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Artists Alley <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li><a href="/artist/fiction">Fan Fiction</a></li>
+						</ul>
+					</li>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Members <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li><a href="/browse">Browse all Members</a></li>
+							<li><a href="/search">Search for Members</a></li>
+							<li><a href="/online">Who's Online</a></li>
+						</ul>
+					</li>					
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Site <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li><a href="/terms">Terms of Service</a></li>
+							<li><a href="/newsletter">Newsletter</a></li>
+							<li><a href="http://www.twitter.com/WorldOfAnimeCom">Follow us on Twitter</a></li>
+							<li><a href="/contact">Contact Us</a></li>
+							<!-- <li><a href="/support">Support World of Anime</a></li> -->
+[% IF ! c.user %]
+							<li><a href="/join">Join</a></li>
+[% END %]
+						</ul>
+					</li>
+
+				</ul>				
+
+[% IF ! c.user %]
+
+<div class="pull-right">
+<a class="btn btn-small btn-primary" href="/join"><i class="icon-user"></i> Join World of Anime</a>
+</div>
+
+[% ELSE %]
+
+<script>
+    $(document).ready(function(){
+        
+	checkNotifications();
+	setInterval('checkNotifications()', 60000); 
+
+        });
+
+	function checkNotifications() {
+		$('.unread_notifications').load('/notifications/check');
+		return false;
+        }
+</script>
+
+[% ra() %]
+[% unread_pms = get_unread_pms() %]
+[% num_join_requests = num_group_join_requests() %]
+[% friend_requests = get_friend_requests() %]
+
+
+<div class="btn-group pull-right">
+     <a class="btn" data-toggle="dropdown" href="#"><i class="icon-user"></i> You are logged in</a>
+     <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="icon-caret-down"></span></a>
+     
+     <ul class="dropdown-menu">
+          <li><a href="/profile/[% c.user.username %]"><i class="icon-user"></i> My Profile</a></li>
+	  <li><a href="/profile/[% c.user.username %]/groups"><i class="icon-group"></i> My Groups</a></li>
+	  <li><a href="/profile/[% c.user.username %]/friends"><i class="icon-heart"></i> My Friends</a></li>
+	  <li><a href="/blogs/[% c.user.username %]"><i class="icon-pencil"></i> My Blog</a></li>
+	  <li><a href="/profile/[% c.user.username %]/gallery"><i class="icon-picture"></i> My Image Galleries</a></li>
+	  <li><a href="/profile/[% c.user.username %]/refer"><i class="icon-hand-right"></i> My Referrals</a></li>
+	  <li><a href="/favorites"><i class="icon-leaf"></i> My Favorites</a></li>
+	  <li>
+	       <a href="/pm"><i class="icon-inbox"></i> My Private Messages[% IF unread_pms %] <span class="attention">([% unread_pms %] Unread)</span>[% END %]</a></li>
+	  <li><a href="/notifications"><i class="icon-bell-alt"></i> Notifications <span class="unread_notifications"></span></a></li>
+	  
+	  [% IF friend_requests %]
+               <li class="divider"></li>
+                    <li><a href="/friend_requests"><i class="icon-heart-empty"></i> <span class="attention">You have [% friend_requests %] friend requests</span></a></li>
+          [% END %]
+	  
+	  [% IF num_join_requests > 0 %]
+               [% IF num_join_requests > 1 %][% plural = 's' %][% END %]
+               <li class="divider"></li>
+	            <li><a href="/group_requests"><i class="icon-hand-up"></i> <span class="attention">You have [% num_join_requests %] Group Join Request[% plural %]</span></a></li>
+          [% END %]
+
+	  
+	  <li class="divider"></li>
+	  <li><a href="/logout"><i class="icon-off"></i> Logout</a></li>
+     </ul>
+     
+        <a class="btn btn-small" href="/notifications" style="margin-left: 12px;"><i class="icon-bell-alt"></i> <span class="unread_notifications"></span></a>
+</div>
+[% END %]
+				
+			</div>
+		</div>	
+	</div>
+</div>
+
+
+
+<link rel="stylesheet" href="/static/styles/themes/[% theme %].css" />
+
+<div class="row">
+	<div class="span12">
+		<span class="title"><a href="/"><img src="/static/images/logos/[% theme %].jpg" border="0"></a></span>
+	</div>
+</div>
+	<br clear="all">
+
+
+
+<div id="home_header" class="text-center">
+[% pick_ad(6, images_approved) %]
+</div>
+
+        <br clear="all">
+
+
+[% content %]
+
+	<div class="space">&nbsp;</div>
+	
+<div class="bottom"></div>	
+	
+
+<!--
+<div id="fixed-bar">
+  <div id="bar-inner">
+	<a href="#top">top of this page</a>
+	<a href="/">home</a>
+	[% IF c.user %]<a href="/profile/[% c.user.username %]">my profile</a><a href="/notifications">notifications</a>[% END %]
+	
+	<span class="bar-right">
+	<a href="#" onclick="javascript:$('#fixed-bar').remove();return false;">X</a></span>
+  </div>
+</div>
+-->
+
+
+<div class="navbar navbar-fixed-bottom">
+	<div class="navbar-inner">
+		<div class="container">
+			<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</a>
+			<div class="nav-collapse collapse">
+					<div class="pull-left">
+						<a class="btn btn-small btn-inverse" href="#top"><i class="icon-arrow-up"></i> Top of Page</a>
+					</div>
+					[% IF c.user %]
+					<div class="pull-left">
+						<a class="btn btn-small btn-inverse" href="/profile/[% c.user.username %]" style="margin-left: 12px;"><i class="icon-user"></i> My Profile</a>
+					</div>
+					[% END %]
+					<div class="pull-left">
+						<a class="btn btn-small btn-info" href="/announcement" style="margin-left: 12px;"><i class="icon-info"></i> Important Announcement for all World of Anime Members<a>
+					</div>
+				<ul class="nav pull-right">
+					<li>
+					        Theme: <select id="theme_selector" id="theme">
+						[% FOREACH t IN THEMES.keys.sort %]
+						<option value="[% t %]" [% IF t == theme %]selected[% END %]>[% THEMES.$t %]</option>
+						[% END %]
+						</select>
+					</li>
+				</ul>					
+			</div>
+		</div>	
+	</div>
+</div>
+
+
+<script>
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-75647-12']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>

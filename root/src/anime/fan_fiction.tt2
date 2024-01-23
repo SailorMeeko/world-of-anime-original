@@ -1,0 +1,157 @@
+[% meta.title = "World of Anime | The Anime Social Network | $Title.english_title Fan Fiction" %]
+[% meta.keywords = "anime, $Title.english_title Fan Fiction" %]
+[% meta.description = "World of Anime | $Title.english_title Fan Fiction" %]
+
+<script src="/static/javascript/anime.js?v=1"></script>
+
+[% USE SimpleJson %]
+[% USE format %]
+[% USE Math %]
+
+[% rating = Title.avg_rating | format('%.2f') %]
+[% tip = "$rating out of 10; based on $Title.num_ratings rating" %]
+[% IF Math.int(Title.num_ratings) != 1 %][% tip = tip _ "s" %][% END %]
+
+<div id="content">
+		
+[% site.jquery = "$jquery" %]
+
+<script>
+$(function() {
+     $('#rating_box').qtip({
+	
+          content: '[% tip %]',
+          position: {
+               my: 'right bottom',
+               at: 'left center' },
+          style: { 
+               name: 'dark', // Inherit from preset style
+               classes: 'ui-tooltip-dark ui-tooltip-rounded' }
+    });
+});    
+</script>
+
+		
+[% IF notice_header %]
+		<h1 class="notice_header">[% notice_header %]</h1>
+[% END %]
+
+		
+<!-- User Profile -->
+
+		<h1 class="media_title">[% Title.english_title %]</h1>
+
+
+<div class="gen_profile_box">
+
+     <div id="anime_profile_box">
+	  [% i = image_info( Title.profile_image_id ) %]
+
+          <a href="/anime/[% Title.id %]/[% prettify_text( Title.english_title) %]"><img src="[% i.small_url %]"></a>
+     
+     </div>
+
+<br clear="all">
+
+<p>
+
+<nav>
+    <div class="vert_tabs">
+        <ul>
+            <li><a href="/anime/[% Title.id %]/[% prettify_text( Title.english_title) %]">Main Title</a></li>
+            <li><a href="/anime/[% Title.id %]/[% prettify_text( Title.english_title) %]/episodes">Episodes</a></li>
+	    <li><a href="/anime/[% Title.id %]/[% prettify_text( Title.english_title) %]/ratings">Ratings</a></li>	    
+	    <li><a href="/anime/[% Title.id %]/[% prettify_text( Title.english_title) %]/reviews">Reviews</a></li>
+	    <li><a class="current" href="/anime/[% Title.id %]/[% prettify_text( Title.english_title) %]/fan_fiction">Fan Fiction</a></li>
+	    <li><a href="/anime/[% Title.id %]/[% prettify_text( Title.english_title) %]/store">Anime Store</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div id="anime_ratings_box">
+		<h1>User Rating</h1>
+		
+		<span id="rating_box"><span class="rating_stars">[% show_star_rating( Title.avg_rating ) %]</span></span>
+		<p>
+				<div id="user_rating">
+		[% IF UserRating == "C" %]
+				Please log in to rate
+		[% ELSE %]
+				[% IF UserRating == "N" %]
+		<a class="rate_link" onclick="javascript:$('#rate_form').show();$(this).hide();return false;">Rate</a>
+    <form id="rate_form" title_id="[% Title.id %]">
+    <select name="rating" id="rating">
+		<option value=""><-Rating-></option>
+		[% n = 10 %]
+		[% WHILE n > 0 %]
+		<option value="[% n %]">[% n %][% IF n == 10 %] - Best[% END %][% IF n == 1 %] - Worst[% END %]</option>
+		[% n = n - 1 %]
+		[% END %]
+    </select>
+    <input type="Submit" value="Rate!">
+    </form>
+    <br clear="all">
+				[% ELSE %]
+						Your Rating: [% UserRating %]
+				[% END %]
+		[% END %]
+				</div>
+				
+		</div>
+		
+		<div id="your_hidden_rating"></div>
+		<br clear="all">
+		
+
+</div>
+
+
+<div id="anime_db_box">
+
+<a class="reply_linky" href="/artist/fiction/setup_add">Add a Fan Fiction</a>
+<p>
+
+
+[% IF Fiction > 0 %]
+
+<hr>
+[% WHILE (f = Fiction.next) %]
+<div class="fiction_list a">
+    <h1><a href="/artist/fiction/view_story/[% f.id %]/1/[% prettify_text( f.title) %]">[% f.title %]</a></h1>
+    <div style="padding-left: 15px;">[% f.description.replace("\n", "<p>") %]</div>
+Rated: [% f.rating.rating %], [% IF f.chapters.max() == 0 %]1 chapter[% ELSE %][% f.chapters.size %] chapters[% END %], 
+started by <a href="/profile/[% f.started_by.username %]">[% f.started_by.username %]</a> on [% prettify_date( f.createdate, 3) %]<br>    
+</div>
+<hr>
+[% END %]
+
+[% ELSE %]
+
+There is no Fan Fiction for this anime yet.
+[% END %]
+
+
+		<div id="box_comments">
+
+<p />
+
+    
+		</div>
+		
+
+</div>
+
+
+
+
+		</div>
+
+		
+				
+		<div id="right_column">
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1, images_approved) %]
+			
+		</div>

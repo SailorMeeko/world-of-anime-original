@@ -1,0 +1,133 @@
+[% meta.title = "World of Anime | The Anime Social Network | Artists Alley - Add New Fan Fiction" %]
+[% META keywords = "anime, social networking, artist, add fan fiction" %]
+[% meta.description = "World of Anime - a social networking site for anime fans: Add New Fan Fiction" %]
+
+<script src="/static/javascript/artist.js"></script>
+
+<script>
+
+fetched = 0;
+
+function hideAnime() {
+    $('#anime_selection').hide();
+}
+
+function populateAnime() {
+    if (fetched == 0) {
+        $('#anime_selection').load('/artists/fiction/ajax/populate_anime_box');
+        fetched = 1;
+    } else {
+        $('#anime_selection').show();
+    }
+}
+
+/* Validation Rules */
+$(function() {
+    $('#begin_fiction_form').submit(function(e) {
+    
+	title        = $("#fiction-title").val();
+	rating       = $("#fiction-rating").val();
+	existing     = $('input:radio[name=existing]:checked').val();
+	title_id     = $('select[name=anime_title_id]').val();
+	description  = $("#fiction-description").val();
+	chap_content = $("#fiction-chap1-content").val();
+	
+	if (!(title)) {
+	    alert("Please submit a title for this Fan Fiction");
+	    return false;
+	}
+	
+	if (!(rating)) {
+	    alert("Please submit a rating for this Fan Fiction");
+	    return false;
+	}
+	
+	if (!(existing)) {
+	    alert("Please choose whether this is an original story, or based on an existing anime");
+	    return false;
+	}
+	
+	if ( (existing == 1) && !(title_id) ) {
+	    alert("You have said this is based off an existing anime, but have not specified which one");
+	    return false;	
+	}
+	
+	if (!(description)) {
+	    alert("Please enter a description");
+	    return false;
+	}
+
+	if (!(chap_content)) {
+	    alert("Your chapter has no content!");
+	    return false;
+	}
+	
+	$('.final_removable').remove();
+    });
+});
+
+</script>
+
+<div id="content">
+
+
+<div id="main_page">
+
+
+<form class="removable_button" action="/artist/fiction/add_new_title" method="post" id="begin_fiction_form">
+
+    Thank you for contributing a new Fan Fiction!
+
+    <p>
+
+    <fieldset>
+    <label for="fiction-title">Title</label>    
+    <input type="text" name="fiction_title" value="[% fiction_title %]" size="45" maxlength="255" id="fiction-title">
+    <p>
+    <label for="fiction-rating">Rating     <a href="#" title="K = Ages 5+, Content Suitable For Most Ages<p>K+ = Ages 9+, May Not Be Suitable For Young Children<p>T = Ages 13+, Not Suitable For Children<p>M = Ages 16+, Suitable For Mature Teens and Older" id="tip" class="tip_question">?</a></label>
+    [% rating_select %]
+    <p>
+    <label for="fiction-type">Is this an original story, or is it based off of an existing anime?</label>
+    <input type="radio" name="existing" value="0" onclick="javascript:hideAnime();">Original story<br>
+    <input type="radio" name="existing" value="1" onclick="javascript:populateAnime();">Based of an existing anime
+    <p>
+    <div id="anime_selection"></div>
+    </fieldset>
+    
+    <p>
+
+    <fieldset>
+    <label for="fiction-description">Short Description of your Fan Fiction</label>
+    <textarea name="description" rows="3" cols="64" id="fiction-description">[% description %]</textarea>
+    </fieldset>
+    
+    <p>
+    
+    <h2>Please write chapter 1</h2>
+    <fieldset>
+    <label for="fiction-chap1-title">Chapter 1 Title</label>
+    <input type="text" name="chapter_title" value="[% chapter_title %]" size="45" maxlength="255" id="fiction-chap1-title">
+
+    <p>
+
+    <textarea name="chapter_content" rows="45" cols="64" id="fiction-chap1-content">[% chapter_content %]</textarea>
+    </fieldset>
+
+    <input type="submit" value="Add New Fan Fiction Title" class="final_removable">
+
+</form>
+
+</div>
+
+
+		</div>
+		
+				
+		<div id="right_column">
+
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1, images_approved) %]
+
+		</div>

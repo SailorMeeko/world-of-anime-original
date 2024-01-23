@@ -1,0 +1,8 @@
+body { background-color: #FFF; background-image: url('/static/images/backgrounds/vintage.jpg');  background-repeat: repeat-x repeat-y; background-attachment: fixed; }
+#page { border: solid 0.125em #D6BF86; }
+#navbar { width:auto; display:block; height:1.875em; background: #FFFBD0; margin-bottom: 1em; }
+#links_box_link a { color: #9C2A00; }
+#links_box_link a:hover { color: #9C2A00; background-color: #D6BF86; }
+.sf-menu li { background: #FFFBD0; }
+.sf-menu li li { background: #FFFBD0; }
+.sf-menu li:hover, .sf-menu li.sfHover, .sf-menu a:focus, .sf-menu a:hover, .sf-menu a:active { background: #D6BF86; }

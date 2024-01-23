@@ -1,0 +1,68 @@
+[% meta.title = "World of Anime | Private Message Thread" %]
+[% META keywords = "anime,social networking,private message thread" %]
+[% META description = "World of Anime - Private Message Thread" %]
+
+<script src="/static/javascript/pm.js?v=3"></script>
+[% USE SimpleJson %]
+
+		<div id="content">
+
+<p />
+
+[% messages_json = SimpleJson.fromJson(thread.messages) %]
+[% FOREACH m IN messages_json %]
+[% message_id = m.message_id %]
+[% from_user_id = m.from_user_id %]
+[% to_user_id = m.to_user_id %]
+[% profile = get_user_profile_image( m.from_user_id ) %]
+
+[% i = image_info( profile.profile_image_id ) %]
+
+[% IF to_user_id == c.user.id OR from_user_id == c.user.id %]
+
+<div id="story_header">
+		<div class="header_image">
+				<a href="/profile/[% m.from_username %]"><img src="[% i.thumb_url %]"></a>
+		</div>
+		
+		<div class="header_extra">
+				<h1>[% m.subject %]</h1>
+				<h2>From <a href="/profile/[% m.from_username %]">[% m.from_username %]</a> to <a href="/profile/[% m.to_username %]">[% m.to_username %]</a></h2><br>
+				<h2>Sent on [% prettify_date( m.createdate, 1) %]</h2>
+				
+		</div>
+<p>
+    <div id="fiction_description_box">
+	
+[% parse_bbcode( m.message ) %]
+
+    </div>
+
+</div>
+[% ELSE %]
+		[% NotRightUser = 1 %]
+[% END %]
+
+<p />
+[% END %]
+
+[% IF to_user_id == c.user.id %]
+<a href="/pm/setup/[% from_user_id %]?orig=[% message_id %]" class="newWindow share_button comment_button">Reply to this Thread</a>
+[% END %]
+
+
+[% IF NotRightUser %]
+		Stop trying to look at other people's private messages, [% c.user.username %]!
+[% END %]
+
+
+		</div>
+		
+				
+		<div id="right_column">
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1) %]
+			
+		</div>

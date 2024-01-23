@@ -1,0 +1,111 @@
+[% meta.title = "$user.username's Comment Page for $metadate" %]
+[% meta.keywords = "anime, $user.username, comment, reply, replies" %]
+[% meta.description = "On $metadate, $user.username received the following amazing comment: $metadescription" %]
+
+<script src="/static/javascript/profile.js"></script>
+
+[% USE SimpleJson %]
+
+		<div id="content">
+
+[% IF autoScroll %]
+<script>
+    $(function() {
+	    $.scrollTo( '.highlighted', 500);
+    });
+</script>
+[% END %]
+		
+[% IF notice_header %]
+		<h1 class="notice_header">[% notice_header %]</h1>
+[% END %]
+
+[% i = image_info( user.profile_image_id ) %]
+
+<div id="box_comments">
+
+
+<div id="user_header">
+
+		<div class="header_image">
+				<a href="/profile/[% user.username %]"><img src="[% i.thumb_url %]" border="0"></a>
+		</div>
+		
+		<div class="header_extra">
+				<span class="header_topic">This exciting thread is taking place on [% user.username %]'s profile</span><p>
+		</div>
+</div>
+
+     
+[% IF is_blocked %]
+<span class="user_block">
+[% user.username %] has blocked you from commenting on their profile
+</span>
+[% END %]
+
+<!-- Old User Comments -->
+[% user_comments %]
+<!-- Old -->
+
+[% IF comment.id AND (comment.user_id == user.id) %]
+
+<div id="posts">
+		[% display_comment( comment, 2, fetch_comment_id, is_self ) %]
+</div>		
+		[% IF comment.replies %]
+				[% replies = SimpleJson.fromJson(comment.replies) %]
+				[% FOREACH r IN replies %]
+						[% display_comment( r.id, 3, fetch_comment_id, is_self ) %]
+				[% END %]
+		[% END %]
+
+[% IF comment.parent_comment_id > 0 %]
+     [% parent_id = comment.parent_comment_id %]
+[% ELSE %]
+     [% parent_id = comment.id %]
+[% END %]
+
+<br clear="all">
+
+<div class="replies_[% parent_id %]">  </div>
+
+<br clear="all">
+[% IF !is_blocked %]
+		<div id="setup_reply_[% parent_id %]" style="text-align: right;"><a href="#" class="reply_linky" onclick="javascript:$('#reply_[% parent_id %]').show();$('#add_comment_single #comment_box_[% parent_id %]').focus();$('#setup_reply_[% parent_id %]').hide();$.scrollTo( '.bottom', 500);return false">Post a Reply</a></div>
+		<div id="reply_[% parent_id %]" class="reply_box">
+		<h2>Post a Reply</h2>
+		<form id="add_comment_single" parent="[% parent_id %]" user="[% user.username %]" latest="latest_reply">
+		<input type="hidden" name="parent_comment" value="[% parent_id %]">
+		<textarea id="comment_box_[% parent_id %]" rows="4" cols="44" name="comment_box_[% parent_id %]"></textarea><br clear="all">
+		<input type="submit" value="Reply" style="float: right; margin-right: 25px; margin-top: 5px; margin-bottom: 5px;" class="removable"><br clear="all">
+		</form>
+		</div>
+[% END %]
+
+<br clear="all">
+
+<div style="text-align:center;">
+[% pick_ad(2, images_approved) %]
+</div>
+
+[% ELSE %]
+		Can't seem to find this comment.
+[% END %]
+
+
+</div>
+
+		</div>
+
+		
+				
+		<div id="right_column">
+			
+[% PROCESS 'users/login_form.tt2' %]
+
+<p />
+
+[% pick_ad(1, images_approved) %]
+			
+		</div>
+	

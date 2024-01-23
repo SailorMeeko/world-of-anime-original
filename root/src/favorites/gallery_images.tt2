@@ -1,0 +1,53 @@
+[% META title = "World of Anime | My Favorite Gallery Images" %]
+[% META keywords = "anime,social networking,favorite gallery images" %]
+[% META description = "These are my favorite Gallery mages on World of Anime" %]
+
+<script>
+$(function() {
+    // $('[image_desc]').qtip({
+    
+    $('[image_desc]').each(function() {
+		$(this).qtip({
+	
+      content: $(this).attr('image_desc'),
+      position: {
+               my: 'bottom center',
+               at: 'top center' },
+      style: { 
+      name: 'dark', // Inherit from preset style
+      classes: 'ui-tooltip-dark ui-tooltip-rounded'
+   }
+    });
+    });
+});
+</script>
+
+		<div id="content">
+
+[% i = image_info( user.profile_image_id ) %]
+
+<div id="user_header">
+
+		<div class="header_image">
+				<a href="/profile/[% user.username %]"><img src="[% i.thumb_url %]" border="0"></a>
+		</div>
+		
+		<div class="header_extra">
+				<span class="header_topic">[% user.username %]'s Favorite User Gallery Images</span><p>
+		</div>
+</div>
+<p>
+
+<div id="desc_box"></div>
+
+[% images %]
+		</div>
+		
+				
+		<div id="right_column">
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(5) %]
+
+		</div>

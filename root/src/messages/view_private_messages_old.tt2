@@ -1,0 +1,127 @@
+[% META title = "World of Anime | The Anime Social Network | View Private Messages" %]
+[% META keywords = "anime,social networking,forums" %]
+[% META description = "World of Anime - View Private Messages" %]
+
+<script src="/static/javascript/pm.js"></script>
+
+		<div id="content">
+			<h1 class="front_header">Private Messages</h1>
+<p />
+
+<div style="text-align: left; padding: 8px;"><a href="/pm/sent" class="reply_linky">View all private messages you have sent</a></div>
+
+<p />
+
+<div id="pager_line">
+[% page_counter_num = 1 %]
+
+[% IF pager.previous_page %]
+<a href="[% c.request.uri_with( page => pager.previous_page ) %]">Previous</a>
+[% END %]
+
+[% page_count = pager.current_page - 3 %]
+[% IF page_count < 1 %]
+     [% page_count = 1 %]
+[% END %]
+
+[% WHILE page_count <= pager.last_page %]
+     [% IF page_counter_num <= 18 %]
+          [% IF page_count == pager.current_page %]
+          [% page_count %]
+          [% ELSE %]
+          <a href="[% c.request.uri_with( page => page_count ) %]">[% page_count %]</a>
+          [% END %]
+     [% END %]
+[% page_count = page_count + 1 %]
+[% page_counter_num = page_counter_num + 1 %]
+[% END %]
+
+[% IF pager.next_page %]
+<a href="[% c.request.uri_with( page => pager.next_page ) %]">Next</a>
+[% END %]
+</div>
+
+<p />
+
+[% WHILE (m = message.next) %]
+[% other_pms = m.get_column('num_messages') - 1 %]
+[% mess_text = parse_bbcode( m.get_column('mess_text') ) %]
+[% mess_createdate = m.get_column('mess_createdate') %]
+[% latest_id = m.get_column('latest_id') %]
+[% profile = get_user_profile_image( m.from_user_id ) %]
+
+<!--
+		<div id="individual_post">
+		<table>
+
+		     <tr>
+		          <td valign="top"><a href="/profile/[% profile.username %]"><img src="/static/images/t80/[% profile.profile_image_name %]" border="0"></a>
+			  
+			  </td>
+			  <td valign="top"><span class="post">[% mess_text.replace('\n', '<br />') %]</span></td>
+		     </tr>
+		</table>
+		<span class="post_byline" style="padding: 0;">Sent by [% profile.username %] on [% prettify_date(mess_createdate, 1) %]</span>
+		<span class="post_byline" style="padding: 0;"><a href="/pm/setup/[% m.from_user_id %]" class="newWindow">New private message to [% profile.username %]</a><br></span>
+		<span class="post_byline" style="padding: 0;"><a href="/pm/from/[% m.from_user_id %]">View all private messages to and from [% profile.username %]</a></span>
+		</div>
+-->
+
+
+		<div class="topic_header">
+
+				<div class="header_image" style="display: none;">
+						<a href="/profile/[% user.username %]"><img src="/[% user.filedir.replace("/u/", "/t80/") %]/[% user.filename %]" border="0"></a>
+				</div><a href="/profile/[% profile.username %]"><img src="/static/images/t80/[% profile.profile_image_name %]" border="0"></a>
+		
+		<span class="post">[% mess_text.replace('\n', '<br />') %]</span>
+
+		<span class="post_byline" style="padding: 0;">Sent by [% profile.username %] on [% prettify_date(mess_createdate, 1) %]</span>
+		<span class="post_byline" style="padding: 0;"><a href="/pm/setup/[% m.from_user_id %]" class="newWindow">New private message to [% profile.username %]</a><br></span>
+		<span class="post_byline" style="padding: 0;"><a href="/pm/from/[% m.from_user_id %]">View all private messages to and from [% profile.username %]</a></span>
+		</div>
+
+
+[% END %]
+
+<p />
+
+<div id="pager_line">
+[% page_counter_num = 1 %]
+
+[% IF pager.previous_page %]
+<a href="[% c.request.uri_with( page => pager.previous_page ) %]">Previous</a>
+[% END %]
+
+[% page_count = pager.current_page - 3 %]
+[% IF page_count < 1 %]
+     [% page_count = 1 %]
+[% END %]
+
+[% WHILE page_count <= pager.last_page %]
+     [% IF page_counter_num <= 30 %]
+          [% IF page_count == pager.current_page %]
+          [% page_count %]
+          [% ELSE %]
+          <a href="[% c.request.uri_with( page => page_count ) %]">[% page_count %]</a>
+          [% END %]
+     [% END %]
+[% page_count = page_count + 1 %]
+[% page_counter_num = page_counter_num + 1 %]
+[% END %]
+
+[% IF pager.next_page %]
+<a href="[% c.request.uri_with( page => pager.next_page ) %]">Next</a>
+[% END %]
+</div>
+
+		</div>
+		
+				
+		<div id="right_column">
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1) %]
+			
+		</div>

@@ -1,0 +1,42 @@
+[% meta.title = "World of Anime | The Anime Social Network | Game" %]
+[% META keywords = "anime,social networking,games,game" %]
+[% META description = "World of Anime Game" %]
+[% IF alert %]
+		<div id="alert">
+				[% alert %]
+		</div>
+[% END %]
+		<div id="content">
+
+[% IF ! c.user_exists %]
+You must be logged in to play games.
+[% ELSE %]
+
+<h1 class="front_header">[% Game.name %]</h1>
+
+<div align="center">
+[% pick_ad(2) %]
+
+<p />
+
+[% IF Game.embedurl %]
+    [% Game.embedurl %]
+[% ELSE %]
+	<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" width="[% Game.width %]" height="[% Game.height %]"><param name="movie" value="http://www.worldofanime.com/static/games/swf/[% Game.filename %]"><param name="quality" value="high"><param name="menu" value="true"><embed width="[% Game.width %]" height="[% Game.height %]" src="http://www.worldofanime.com/static/games/swf/[% Game.filename %]" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash"></embed></object>
+[% END %]
+
+</div>
+
+[% END %]
+
+                
+                </div>
+		
+				
+		<div id="right_column">
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1) %]
+			
+		</div>

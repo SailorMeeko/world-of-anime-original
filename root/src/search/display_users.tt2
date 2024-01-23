@@ -1,0 +1,144 @@
+[% META title = "World of Anime | The Anime Social Network | Search Members" %]
+[% META keywords = "anime,social networking" %]
+[% META description = "World of Anime is a social networking site specifically for anime fans" %]
+
+[% IF alert %]
+		<div id="alert">
+				[% alert %]
+		</div>
+[% END %]
+		<div id="content">
+<h1 class="front_header">Search Members</h1>
+
+<div id="search_user_box">
+
+<h2>Current Search Parameters:</h2>
+<p />
+<table id="search_user_table">
+<tr>
+	<td width="25%">User Name:</td>
+	<td>[% username %]</td>
+</tr>
+<tr>
+	<td>Real Name:</td>
+	<td>[% realname %]</td>
+</tr>
+<tr>
+	<td>Gender:</td>
+	<td>[% gender %]</td>
+</tr>
+<tr>	
+	<td>About Me:</td>
+	<td>[% about_me %]</td>
+</tr>
+<tr>
+	<td>Favorite Anime:</td>
+	<td>[% favorite_anime %]</td>
+</tr>
+<tr>
+	<td>Favorite Movies:</td>
+	<td>[% favorite_movies %]</td>
+</tr>
+</table>
+<p />
+<form action="search" method="post">
+<input type="hidden" name="clear" value="1">
+<input type="Submit" value="Clear Search Parameters and Start Over">
+</form>
+
+</div>
+
+<p />
+
+[% IF Members > 0 %]
+
+<p />
+Current Page: [% pager.current_page %]
+
+<p />
+
+<div id="pager_line">
+[% page_counter_num = 1 %]
+
+[% IF pager.previous_page %]
+<a href="[% c.request.uri_with( page => pager.previous_page ) %]">Previous</a>
+[% END %]
+
+[% page_count = pager.current_page - 3 %]
+[% IF page_count < 1 %]
+     [% page_count = 1 %]
+[% END %]
+
+[% WHILE page_count <= pager.last_page %]
+     [% IF page_counter_num <= 30 %]
+          [% IF page_count == pager.current_page %]
+          [% page_count %]
+          [% ELSE %]
+          <a href="[% c.request.uri_with( page => page_count ) %]">[% page_count %]</a>
+          [% END %]
+     [% END %]
+[% page_count = page_count + 1 %]
+[% page_counter_num = page_counter_num + 1 %]
+[% END %]
+
+[% IF pager.next_page %]
+<a href="[% c.request.uri_with( page => pager.next_page ) %]">Next</a>
+[% END %]
+</div>
+
+
+[% WHILE (member = Members.next) %]
+[% i = image_info( member.user_profiles.profile_image_id ) %]
+<div id="home_user_profile_box">
+    <a href="/profile/[% member.username %]"><img src="[% i.thumb_url %]" border="0"></a>
+    <span class="home_user_profile_name">[% member.username %]</span>
+</div>
+[% END %]
+
+<br clear="all">
+
+<div id="pager_line">
+[% page_counter_num = 1 %]
+
+[% IF pager.previous_page %]
+<a href="[% c.request.uri_with( page => pager.previous_page ) %]">Previous</a>
+[% END %]
+
+[% page_count = pager.current_page - 3 %]
+[% IF page_count < 1 %]
+     [% page_count = 1 %]
+[% END %]
+
+[% WHILE page_count <= pager.last_page %]
+     [% IF page_counter_num <= 30 %]
+          [% IF page_count == pager.current_page %]
+          [% page_count %]
+          [% ELSE %]
+          <a href="[% c.request.uri_with( page => page_count ) %]">[% page_count %]</a>
+          [% END %]
+     [% END %]
+[% page_count = page_count + 1 %]
+[% page_counter_num = page_counter_num + 1 %]
+[% END %]
+
+[% IF pager.next_page %]
+<a href="[% c.request.uri_with( page => pager.next_page ) %]">Next</a>
+[% END %]
+</div>
+
+[% ELSE %]
+
+<span class="info_text">No users matched that criteria.</span>
+
+[% END %]
+
+</div>
+				
+		<div id="right_column">
+
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1) %]
+			
+		</div>

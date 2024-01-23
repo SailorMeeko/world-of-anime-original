@@ -1,0 +1,252 @@
+[% meta.title = "World of Anime | The Anime Social Network | $Title.english_title Episode $Episode.episode_number: $Episode.english_title" %]
+[% meta.keywords = "anime, $Title.english_title, $Episode.english_title" %]
+[% meta.description = "World of Anime Page for $Title.english_title Episode $Episode.episode_number: $Episode.english_title" %]
+
+<script src="/static/javascript/anime.js?v=1"></script>
+
+[% USE SimpleJson %]
+[% USE format %]
+[% USE Math %]
+
+[% rating = Title.avg_rating | format('%.2f') %]
+[% tip = "$rating out of 10; based on $Title.num_ratings rating" %]
+[% IF Math.int(Title.num_ratings) != 1 %][% tip = tip _ "s" %][% END %]
+
+<div id="content">
+	
+[% site.jquery = "$jquery" %]
+
+<script>
+    
+    $(function() {
+       $('.edit_episode').live('click', function(e) {
+            var id = $(this).attr('id');
+            $('#db_box').empty();
+	    $('#db_box').load('/anime/ajax/load_episode_editable/' + id);
+            return false;
+	});
+    });
+
+$(function() {
+     $('#rating_box').qtip({
+	
+          content: '[% tip %]',
+          position: {
+               my: 'right bottom',
+               at: 'left center' },
+          style: { 
+               name: 'dark', // Inherit from preset style
+               classes: 'ui-tooltip-dark ui-tooltip-rounded' }
+    });
+});    
+</script>		
+		
+		
+[% IF notice_header %]
+		<h1 class="notice_header">[% notice_header %]</h1>
+[% END %]
+
+
+		
+<!-- User Profile -->
+
+		<h1 class="media_title">[% Title.english_title %]</h1>
+
+<div class="gen_profile_box">
+
+     <div id="anime_profile_box">
+	  [% i = image_info( Title.profile_image_id ) %]
+
+          <a href="/anime/[% Title.id %]/[% prettify_text( Title.english_title) %]"><img src="[% i.small_url %]"></a>
+
+     </div>
+
+<br clear="all">
+
+<p>
+
+
+<nav>
+    <div class="vert_tabs">
+        <ul>
+            <li><a href="/anime/[% Title.id %]/[% prettify_text( Title.english_title) %]">Main Title</a></li>
+            <li><a class="current" href="/anime/[% Title.id %]/[% prettify_text( Title.english_title) %]/episodes">Episodes</a></li>
+	    <li><a href="/anime/[% Title.id %]/[% prettify_text( Title.english_title) %]/ratings">Ratings</a></li>	    
+	    <li><a href="/anime/[% Title.id %]/[% prettify_text( Title.english_title) %]/reviews">Reviews</a></li>
+	    <li><a href="/anime/[% Title.id %]/[% prettify_text( Title.english_title) %]/fan_fiction">Fan Fiction</a></li>
+	    <li><a href="/anime/[% Title.id %]/[% prettify_text( Title.english_title) %]/store">Anime Store</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div id="anime_ratings_box">
+		<h1>User Rating</h1>
+		
+		<span id="rating_box"><span class="rating_stars">[% show_star_rating( Title.avg_rating ) %]</span></span>
+		<p>
+				<div id="user_rating">
+		[% IF UserRating == "C" %]
+				Please log in to rate
+		[% ELSE %]
+				[% IF UserRating == "N" %]
+		<a class="rate_link" onclick="javascript:$('#rate_form').show();$(this).hide();return false;">Rate</a>
+    <form id="rate_form" title_id="[% Title.id %]">
+    <select name="rating" id="rating">
+		<option value=""><-Rating-></option>
+		[% n = 10 %]
+		[% WHILE n > 0 %]
+		<option value="[% n %]">[% n %][% IF n == 10 %] - Best[% END %][% IF n == 1 %] - Worst[% END %]</option>
+		[% n = n - 1 %]
+		[% END %]
+    </select>
+    <input type="Submit" value="Rate!">
+    </form>
+    <br clear="all">
+				[% ELSE %]
+						Your Rating: [% UserRating %]
+				[% END %]
+		[% END %]
+				</div>
+				
+		</div>
+		
+		<div id="your_hidden_rating"></div>
+		<br clear="all">
+		
+
+</div>
+
+
+<div id="anime_db_box">
+
+		<div id="db_box">
+                                    
+				<h2>Episode Title</h2>
+                                    <span class="db_text">[% Episode.english_title %]</span>
+                                    <p />
+				
+				[% IF Episode.japanese_title %]
+						<h2>Japanese Title</h2>
+		                                    <span class="db_text">[% Episode.japanese_title %]</span>
+		                                    <p />
+				[% END %]
+				    
+				<h2>Episode Number</h2>
+                                    <span class="db_text">[% Episode.episode_number %]</span>
+                                    <p />
+				    
+				[% IF Episode.length %]
+						<h2>Episode Length</h2>
+						<span class="db_text">[% Episode.length %] minutes</span>
+						<p />
+				[% END %]
+				
+
+				[% IF Episode.original_airdate %]
+						<h2>Original Japanese Air Date</h2>
+		                                    <span class="db_text">[% prettify_date( Episode.original_airdate, 3) %]</span>
+		                                    <p />
+				[% END %]
+
+				[% IF Episode.english_airdate %]				    
+						<h2>Original English Air Date</h2>
+						    <span class="db_text">[% prettify_date( Episode.english_airdate, 3) %]</span>
+						    <p />
+				[% END %]
+				    
+				<h2>Description</h2>
+				<span class="db_text">[% Episode.description.replace('\n', '<p />') %]</span>
+
+		<p />
+		
+                [% IF c.user_exists %]
+                    <a href="#" class="reply_linky edit_episode" id="[% Episode.id %]">Edit this episode</a>
+                [% END %]
+                
+		</div>
+		
+		<br clear="all">
+
+
+		<div id="box_comments">
+
+
+
+<p />
+
+   
+		</div>
+		
+
+</div>
+
+
+
+
+		</div>
+
+		
+				
+		<div id="right_column">
+			
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1, images_approved) %]
+			
+		</div>
+		
+		
+<script>
+$(function() {
+       $('.reply_link').live('click', function(e) {
+            var finish = $(this).attr('finish');
+            var id   = $(this).attr('id');
+	    $('#reply_' + id).show();
+	    $('#comment_form_' + id + ' #comment_box_' + id).focus();
+            if (finish != 1) {
+	         return false;
+            }
+	});
+    });
+
+    $(function() {
+       $('#add_comment').live('submit', function(e) {
+            var parent = $(this).attr('parent');
+	    var user   = $(this).attr('user');
+	    var latest = $(this).attr('latest');
+            var group  = $(this).attr('group');
+	    $('#reply_' + parent).hide();
+
+	    var message = $('textarea#comment_box_' + parent);
+            var data = 'post='  + encodeURIComponent(message.val()) + '&user=' + user + '&latest=' + latest + '&group=' + group;
+	    $('textarea#comment_box_' + parent).val("");
+
+	    $.ajax({  
+               url: "/groups/ajax/add_reply/" + parent,
+               type: "POST",
+               data: data,       
+               cache: false,
+               success: function(response) {
+
+		    $.ajax({
+		         url: "/groups/ajax/load_profile_replies/" + parent,
+			 type: "POST",
+			 data: data,
+			 cache: false,
+                         success: function(new_replies) {
+			        $('.replies_' + parent).empty();
+				$('.replies_' + parent).append(new_replies);
+				$('#setup_reply_' + parent).show();
+		          },
+                          dataType: 'html'
+                     });
+		     
+		}
+            });
+	    
+
+            return false;
+	});
+    });
+    
+</script>	

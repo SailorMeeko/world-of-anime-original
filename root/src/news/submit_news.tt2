@@ -1,0 +1,31 @@
+[% meta.title = "World of Anime | The Anime Social Network | News" %]
+[% META keywords = "anime, social networking, friends, news, manga, video games" %]
+[% meta.description = "World of Anime News - Anime, Manga, and Video Game News" %]
+
+<div id="content">
+
+<div class="section_image"><img src="/static/images/icons/anime_news.jpg"></div>
+<span class="conversation_text">Thanks for the article!</span>
+
+<br clear="all">
+
+[% IF c.user %]
+<span class="normal_text">
+<p>Thanks for submitting a new news article to World of Anime!  You have been awarded your points.</p>
+<p>The article has been sent to a site admin for approval.  If approved, you will see it on the site later, and receive your additional bonus points.</p>
+<p>Remember that we may receive multiple submissions of the same news article.  Only the first one to submit the article will receive the bonus points.</p>
+</span>
+[% END %]
+
+
+		</div>
+		
+				
+		<div id="right_column">
+
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1) %]
+
+		</div>

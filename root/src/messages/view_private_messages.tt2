@@ -1,0 +1,78 @@
+[% META title = "World of Anime | The Anime Social Network | View Private Messages" %]
+[% META keywords = "anime,social networking,forums" %]
+[% META description = "World of Anime - View Private Messages" %]
+
+<script>
+$(document).ready(function() 
+    { 
+        $("#myTable").tablesorter( {sortList: [[3,1]], widgets: ['zebra']  } ); 
+    } 
+);
+</script>
+    
+<script src="/static/javascript/pm.js?v=3"></script>
+
+[% USE SimpleJson %]
+
+		<div id="content">
+			<h1 class="front_header">Private Messages</h1>
+<p />
+
+<div style="text-align: left; padding: 8px;"><a href="/pm/sent" class="reply_linky">View all private messages you have sent</a></div>
+
+<p />
+[% IF pms.messages_from_users %]
+[% receivers = SimpleJson.fromJson(pms.messages_from_users) %]
+
+<table id="myTable" class="tablesorter">
+<thead> 
+<tr>
+		<th>User</th>
+		<th>Read</th>
+		<th>Unread</th>
+		<th>Most Recent</th>
+</tr>
+</thead>
+<tbody>
+[% unreads = 0 %]
+[% count = 0 %]
+[% FOREACH r IN receivers %]
+[% IF r.num_read == 0 %][% r.num_read = '' %][% END %]
+
+[% IF r.num_unread == 0 %][% r.num_unread = '' %]
+[% count = count + 1 %]
+[% ELSE %]
+[% unreads = unreads + r.num_unread %]
+[% END %]
+
+<tr>
+		<td><span class="topic"><a href="/pm/from/[% r.user_id %]">[% r.username %]</a></span></td>
+		<td>[% r.num_read %]</td>
+		<td>[% r.num_unread %]</td>
+		<td>[% prettify_date( r.latest, 1) %]</td>
+</tr>
+[% END %]
+</tbody> 
+</table>
+
+[% IF unreads > 0 %]
+<span id="mark_all_pms_read"><a href="#" class="share_button comment_button">Mark All As Read</a></span>
+[% END %]
+
+[% IF count > 0 %]
+<span id="delete_all_pms"><a href="#" class="share_button comment_button">Delete All Private Messages</a></span>
+[% END %]
+
+[% ELSE %]
+You have no private messages.
+[% END %]
+		</div>
+		
+				
+		<div id="right_column">
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1, images_approved) %]
+			
+		</div>

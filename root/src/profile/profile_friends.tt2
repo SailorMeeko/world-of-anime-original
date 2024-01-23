@@ -1,0 +1,55 @@
+[% meta.title = "World of Anime | The Anime Social Network | $user.username's Friends" %]
+[% meta.keywords = "anime, $user.username, $favorite_anime, $favorite_movies" %]
+[% meta.description = "World of Anime profile page for $user.username - with personal information, favorite anime, favorite movies, blog, image gallery, friends, and profile comments" %]
+
+<div id="content">
+
+
+[% IF user %]
+
+[% i = image_info( user.profile_image_id ) %]
+
+<div id="main_page" ng-controller="FriendController" ng-init="init('[% user.username %]')">
+
+<div id="user_header">
+
+		<div class="header_image">
+				<a href="/profile/[% user.username %]"><img src="[% i.thumb_url %]" border="0"></a>
+		</div>
+		
+		<div class="header_extra">
+				<span class="header_topic">[% user.username %]'s Friends</span><p>
+				<span class="header_info ng-cloak">{{ results.length }} friend<span ng-if="results.length != 1">s</span></span>
+		</div>
+</div>
+
+<p>
+<div class="search_box">
+Find a friend: <input type="text" placeholder="Friend's Name" class="search-query" ng-model="search.name">
+</div>
+
+<p>
+
+   	<ul class="random_members">
+        <li class="thumb_image_group" ng-repeat="f in results = (friends | filter:search)"><a href="/profile/{{ f.name }}" title="{{ f.name }}" class="ng-cloak"><img src="{{ f.thumb_url }}" border="0"></a></li>
+    </ul>
+</div>
+
+
+
+[% ELSE %]
+<h1 class="error_header">Not a user</h1>
+This user does not exist.
+[% END %]
+
+
+		</div>
+		
+				
+		<div id="right_column">
+			
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1) %]
+			
+		</div>

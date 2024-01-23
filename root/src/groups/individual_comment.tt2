@@ -1,0 +1,173 @@
+[% meta.title = "$group.name's Group Comment Page for $metadate" %]
+[% meta.keywords = "anime, $group.name Group" %]
+[% meta.description = "On $metadate, the Group $group.name received the following amazing comment: $metadescription" %]
+
+<script src="/static/javascript/groups.js?v=2"></script>
+
+[% IF alert %]
+		<div id="alert">
+				[% alert %]
+		</div>
+[% END %]
+
+
+		<div id="content">
+		
+		[% site.jquery = "$jquery" %]
+[% IF autoScroll %]		
+<script type="text/javascript">
+    $(function() {
+	    $.scrollTo( '#highlighted_post', 500);
+    });		
+</script>
+[% END %]
+		
+[% IF notice_header %]
+		<h1 class="notice_header">[% notice_header %]</h1>
+[% END %]
+
+[% i = image_info( group.profile_image_id ) %]
+
+<div id="plain_user_profile_box">
+<table border="0">
+	<tr>
+		<td valign="top" rowspan="2">
+			<a href="/groups/[% group.id %]/[% group.pretty_url %]"><img src="[% i.thumb_url %]"></a>		</td>
+		<td valign="top" width="360">
+			<span class="plain_user_profile_name">[% group.name %]</span><br />
+
+		</td>
+		<td valign="top">
+		</td>
+	</tr>
+</table>
+</div>
+
+
+[% IF group %]
+
+		[% IF !IsPrivate || IsMember %]
+		
+<!-- User Profile -->
+
+<div id="user_profile_box">
+
+<p>
+
+</div>
+
+
+
+<div id="user_info_box">
+
+		<div id="box_comments">
+
+<p>
+
+[% GroupComments %]
+
+
+<div align="center">
+
+</div>
+     
+		</div>
+		
+
+</div>
+
+				[% ELSE %]
+		
+			This group is private, and you are not a member.<p />
+			
+						[% IF Invites > 0 %]
+[% num_of_invites = Invites %]
+<div id="group_invite">
+<span class="group_invite_header">You have been invited to join this group!</span>
+<p />
+You have been invited to join this group by the following people: 
+[% i = Invites.next %]
+<a href="/profile/[% i.invited_by.username %]">[% i.invited_by.username %]</a>
+[% WHILE (i = Invites.next) %]
+<a href="/profile/[% i.invited_by.username %]">[% i.invited_by.username %]</a>
+[% END %]
+<p />
+Do you want to join?
+<a href="[% current_uri %]/accept_invite">Yes, Join</a> | <a href="[% current_uri %]/decline_invite">No, Do Not Join</a>
+</div>
+						[% END %]
+						
+				[% END %]
+
+
+[% ELSE %]
+<h1 class="error_header">Not a Valid Group</h1>
+This Group either does not exist, or is private.
+[% END %]
+
+
+
+		</div>
+
+		
+				
+		<div id="right_column">
+			
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1) %]
+	
+		</div>
+		
+		
+<script>
+$(function() {
+       $('.reply_link').live('click', function(e) {
+            var id   = $(this).attr('id');
+	    $('#reply_' + id).show();
+	    $('#comment_form_' + id + ' #comment_box_' + id).focus();
+            return false;
+	});
+    });
+
+    $(function() {
+       $('#add_comment').live('submit', function(e) {
+            var parent = $(this).attr('parent');
+	    var user   = $(this).attr('user');
+	    var latest = $(this).attr('latest');
+            var group  = $(this).attr('group');
+	    $('#reply_' + parent).hide();
+
+	    var message = $('textarea#comment_box_' + parent);
+            var data = 'post='  + encodeURIComponent(message.val()) + '&user=' + user + '&latest=' + latest + '&group=' + group;
+	    $('textarea#comment_box_' + parent).val("");
+
+	    $.ajax({  
+               url: "/groups/ajax/add_reply/" + parent,
+               type: "POST",
+               data: data,       
+               cache: false,
+               success: function(response) {
+
+		    $.ajax({
+		         url: "/groups/ajax/load_profile_replies/" + parent,
+			 type: "POST",
+			 data: data,
+			 cache: false,
+                         success: function(new_replies) {
+			        $('.replies_' + parent).empty();
+				$('.replies_' + parent).append(new_replies);
+				$('#setup_reply_' + parent).show();
+		          },
+                          dataType: 'html'
+                     });
+		     
+		}
+            });
+	    
+
+            return false;
+	});
+    });
+    
+</script>		

@@ -1,0 +1,45 @@
+[% meta.title = "World of Anime Items Tagged $tag" %]
+[% meta.keywords = "anime, social networking, tag, $tag" %]
+[% meta.description = "These are the World of Anime items tagged $tag" %]
+
+<script>
+$(function() {
+    // $('[image_desc]').qtip({
+    
+    $('[image_desc]').each(function() {
+		$(this).qtip({
+	
+      content: $(this).attr('image_desc'),
+      position: { target: $('#desc_box') },
+      style: { 
+      name: 'dark' // Inherit from preset style
+   }
+    });
+    });
+});
+</script>
+
+<div id="content">
+
+<h1 class="front_header">Tagged Items</h1>
+
+<span class="normal_text">World of Anime Items Tagged "[% tag %]"</span>
+<p>
+<h1 class="front_header">User Gallery Images</h1>
+<p>
+<div id="desc_box"></div>
+<p>
+[% gallery_images %]
+
+
+</div>
+
+		
+				
+		<div id="right_column">
+			
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1) %]
+
+		</div>

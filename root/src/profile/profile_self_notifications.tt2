@@ -1,0 +1,94 @@
+[% META title = "World of Anime | The Anime Social Network | Your Profile" %]
+[% META keywords = "anime,social networking" %]
+[% META description = "World of Anime is a social networking site specifically for anime fans" %]
+
+<div id="content">
+[% IF notice_header %]
+		<h1 class="notice_header">[% notice_header %]</h1>
+[% END %]
+
+[% IF c.user_exists %]
+
+    <div id="tabs">
+        <ul>
+            <li><a href="/profile">Main Profile</a></li>
+            <li><a class="current" href="/edit_notifications">Notifications</a></li>
+            <li><a href="/edit_appearance">Appearance</a></li>
+        </ul>
+    </div>
+
+<p>
+
+<div id="profile_table"><form action="update_profile_notifications" method="post" enctype="multipart/form-data" id="profile_form">
+<input type="hidden" name="do_update" value="1">
+    
+<fieldset>
+    <label for="profile-email-suppression">Never send me any e-mails</label><br>
+	<input type="checkbox" name="suppress_email" [% IF IsSuppressed %]checked[% END %]>Ignore my settings below, and never send me e-mails<br>
+</fieldset>
+
+<fieldset>
+     <label for="profile-email-actions">Receive E-mail notifications upon the following profile actions</label><br>
+						<input type="checkbox" name="notify_announcements" [% IF Profile.notify_announcements %]checked[% END %]> Site Announcements<br>
+						<input type="checkbox" name="notify_friend_request" [% IF Profile.notify_friend_request %]checked[% END %]> New Friending Activity (Requests, Accepts, Rejects, Removals, etc...)<br>
+						<input type="checkbox" name="notify_comment" [% IF Profile.notify_comment %]checked[% END %]> New Comment<br>
+						<input type="checkbox" name="notify_image_comment" [% IF Profile.notify_image_comment %]checked[% END %]> New Image Gallery Comment<br>
+						<input type="checkbox" name="notify_blog_comment" [% IF Profile.notify_blog_comment %]checked[% END %]> New Blog Comment<br>
+						<input type="checkbox" name="notify_private_message" [% IF Profile.notify_private_message %]checked[% END %]> New Private Message<br>
+						<input type="checkbox" name="notify_friend_now_box" [% IF Profile.notify_friend_now_box %]checked[% END %]> When a friend updates what they are doing<br>
+						<input type="checkbox" name="notify_friend_blog_post" [% IF Profile.notify_friend_blog_post %]checked[% END %]> When a friend posts a new blog entry<br>
+						<input type="checkbox" name="notify_friend_upload_image" [% IF Profile.notify_friend_upload_image %]checked[% END %]> When a friend uploads a new image<br>
+						<input type="checkbox" name="notify_friend_new_review" [% IF Profile.notify_friend_new_review %]checked[% END %]> When a friend writes a new review<br>
+</fieldset>
+<p>
+<fieldset>
+     <label for="profile-email-group-actions">Receive E-mail notifications upon the following group actions</label><br>
+						<input type="checkbox" name="notify_group_comment" [% IF Profile.notify_group_comment %]checked[% END %]> New Group Comment<br>
+						<input type="checkbox" name="notify_group_image_comment" [% IF Profile.notify_group_image_comment %]checked[% END %]> New Group Image Gallery Comment<br>
+						<input type="checkbox" name="notify_group_new_member" [% IF Profile.notify_group_new_member %]checked[% END %]> When a new member joins<br>
+						<input type="checkbox" name="notify_group_member_upload_image" [% IF Profile.notify_group_member_upload_image %]checked[% END %]> When a member uploads an image<br>
+</fieldset>
+<p>
+<fieldset>
+     <label for="profile-site-notifications">Receive web site notifications upon the following actions</label><br>
+						<input type="checkbox" name="notify_site_comment" [% IF Prefs.notify_site_comment %]checked[% END %]> A new comment is posted to your profile or something you are subscribed to<br>
+						<input type="checkbox" name="notify_site_group_comment" [% IF Prefs.notify_site_group_comment %]checked[% END %]> A new comment is posted to a group you belong to<br>
+						<input type="checkbox" name="notify_site_images" [% IF Prefs.notify_site_images %]checked[% END %]> A new image is posted by a friend<br>
+						<input type="checkbox" name="notify_site_blog" [% IF Prefs.notify_site_blog %]checked[% END %]> A new blog is posted by a friend<br>
+						<input type="checkbox" name="notify_site_pm" [% IF Prefs.notify_site_pm %]checked[% END %]> Your receive a new private message<br>
+						<input type="checkbox" name="notify_site_friend_request" [% IF Prefs.notify_site_friend_request %]checked[% END %]> You receive a friend request, or someone removes you as a friend<br>
+						<input type="checkbox" name="notify_site_subscription" [% IF Prefs.notify_site_subscription %]checked[% END %]> Someone subscribes to something of yours (blog, question, forum thread...)<br>
+						<input type="checkbox" name="notify_site_favorites" [% IF Prefs.notify_site_favorites %]checked[% END %]> Someone puts something of yours on their Favorites List<br>
+						<input type="checkbox" name="notify_site_tag" [% IF Prefs.notify_site_tag %]checked[% END %]> Someone tags something of yours<br>
+						<input type="checkbox" name="notify_site_questions" [% IF Prefs.notify_site_questions %]checked[% END %]> A friend or group member asks a new question in Anime Answers<br>
+						<input type="checkbox" name="notify_site_threads" [% IF Prefs.notify_site_threads %]checked[% END %]> A friend posts a new forum thread<br>
+						<input type="checkbox" name="notify_site_now_actions" [% IF Prefs.notify_site_now_actions %]checked[% END %]> A friend updates what they are doing/watching/reading/playing<br>
+						<input type="checkbox" name="notify_site_new_group" [% IF Prefs.notify_site_new_group %]checked[% END %]> A friend creates a new group<br>
+						<input type="checkbox" name="notify_site_fan_fiction" [% IF Prefs.notify_site_fan_fiction %]checked[% END %]> A friend writes a new fan fiction chapter<br>
+						<input type="checkbox" name="notify_site_friend_new_review" [% IF Prefs.notify_site_friend_new_review %]checked[% END %]> A friend writes a new review<br>						
+						<input type="checkbox" name="notify_site_group_joins" [% IF Prefs.notify_site_group_joins %]checked[% END %]> You receive a group invite<br>
+						<input type="checkbox" name="notify_site_group_membership" [% IF Prefs.notify_site_group_membership %]checked[% END %]> Group membership actions (joins/requests/invites/accepts/promotions)<br>
+						<input type="checkbox" name="notify_site_referral" [% IF Prefs.notify_site_referral %]checked[% END %]> Someone you referred to the site has joined<br>
+<p>
+<input type="Submit" value="Update Notification Settings">
+</div>
+
+[% ELSE %]
+<h1 class="error_header">Error</h1>
+You must be logged in to edit your notification settings.
+
+[% END %]
+
+
+
+		</div>
+
+		
+				
+		<div id="right_column">
+			
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1) %]
+		
+		</div>

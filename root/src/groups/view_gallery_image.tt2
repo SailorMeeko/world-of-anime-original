@@ -1,0 +1,200 @@
+[% meta.title = "$group.name's Image from $metadisplaydate" %]
+[% meta.keywords = "anime, $group.name, image" %]
+[% meta.description = "On $metadisplaydate, someone from the group $group.name uploaded this lovely image" %]
+[% IF alert %]
+		<div id="alert">
+				[% alert %]
+		</div>
+[% END %]
+		<div id="content">
+
+[% IF notice_header %]
+		<h1 class="notice_header">[% notice_header %]</h1>
+[% END %]
+
+
+[% i = image_info( group.profile_image_id ) %]
+
+<div id="plain_user_profile_box">
+<table border="0">
+	<tr>
+		<td valign="top" rowspan="2">
+			<a href="/groups/[% group.id %]/[% group.pretty_url %]/gallery"><img src="[% i.thumb_url %]"></a>		</td>
+		<td valign="top" width="360">
+			<span class="plain_user_profile_name">[% group.name %]</span><br />
+
+		</td>
+		<td valign="top">
+		</td>
+	</tr>
+</table>
+</div>
+
+
+
+
+[% IF reject_message %]
+		[% reject_message %]
+[% ELSE %]
+
+
+
+[% IF image.image_images.width > 600 %]
+     [% scaler = 600 / image.image_images.width %]
+     [% image.image_images.width = 600 %]
+     [% image.image_images.height = image.image_images.height * scaler %]
+[% END %]
+
+	[% IF IsAdmin %]
+
+<a class="comment_link" href="#" onclick="javascript:$('#delete_image_box').toggle(400);return false">Delete Image</a><p />
+<div id="delete_image_box"></a>
+<form action="[% current_uri %]/delete" method="post">
+
+This will permanently delete this image.  Are you sure?
+<p />	
+<input type="submit" value="Yes, Delete This Image">
+</form>
+</div>
+
+		<div id="setup_change_info" style="float: right; display: inline;"><a href="#" class="reply_link" onclick="javascript:$('#change_info').show(200);$('.display_posts').remove();$('#setup_change_info').remove();return false">Edit Image Info</a></div>
+
+<p />
+
+	[% END %]
+	
+	[% IF image.title == null %]
+		[% displaytitle = '&lt;No Title&gt;' %]
+        [% ELSE %]
+		[% displaytitle = image.title %]
+        [% END %]
+
+	[% IF image.description == null %]
+		[% displaydescription = '&lt;No Description&gt;' %]
+        [% ELSE %]
+		[% displaydescription = image.description %]
+        [% END %]
+
+<div id="posts" class="display_posts">
+<table>
+<tr>
+		<td valign="top">Title:</td>
+		<td><span class="qa_subject">[% displaytitle %]</span></td>
+</tr>
+<tr>
+		<td valign="top">Description:</td>
+		<td><span class="qa_question">[% displaydescription.replace('\n', '<br />') %]</span></td>
+</tr>
+<tr>
+		<td colspan="2" valign="bottom"><span class="top_user_profile_date">Image uploaded by <a href="/profile/[% image.image_owner.username %]">[% image.image_owner.username %]</a> on [% prettify_date( image.createdate, 1) %]</span></td>
+</tr>
+</table>
+</div>
+
+<p />
+
+       [% IF IsAdmin %]
+
+		<div id="change_info" style="display: none">
+				<div id="posts">
+				<form class="removable_button" action="[% current_uri %]/update_image" method="post">
+						<table>
+						<tr>
+								<td>Title:</td>
+								<td><input type="text" name="title" size="25" maxlength="255" value="[% image.title %]"></td>
+						</tr>
+						<tr>
+								<td valign="top">Description:</td>
+								<td><textarea name="description" rows="8" cols="45">[% image.description %]</textarea></td>
+						</tr>
+						</table>
+						<br />
+						<input type="Submit" value="Set New Image Info" class="removable">
+						<p />
+				</form>
+				</div>
+		</div>
+		
+		<p />
+       
+       [% END %]
+
+[% i = image_info( image.image_id ) %]
+
+<a href="[% i.full_url %]"><img src="[% i.full_url %]"></a>
+
+<p />
+
+[% IF reject_message.size > 0 %]
+
+[% ELSE %]
+
+[% IF !IsMember %]
+You must be a member of this group to comment.
+[% ELSE %]
+<a class="comment_link" href="#" onclick="javascript:$('#new_comment_box').toggle(400);return false">Post Comment</a><br />
+<div id="new_comment_box"></a>
+<form class="removable_button" action="[% current_uri %]/add_comment" method="post">
+
+    <h2>Post Comment</h2>
+	
+    <div id="form_field">
+
+    <h3>Website:</h3>
+    <br />
+    <span><input type="text" name="website" size="75" maxlength="255"></span>
+    </div>
+
+    <span class="form-field"><textarea name="comment" rows="8" cols="60">[% post %]</textarea></span>
+	
+    <p />
+	
+    <input type="submit" value="Add New Comment" class="removable">
+    </form>
+</div>
+<p />
+[% END %]
+
+[% IF comments > 0 %]
+
+
+<div id="posts">
+[% END %]
+
+[% WHILE (comment = comments.next) %]
+
+[% i = image_info( comment.group_image_commentor.user_profiles.user_profile_image_id.id ) %]
+
+<div id="individual_post">
+<table>
+<tr>
+  <td valign="top"><a href="/profile/[% comment.group_image_commentor.username %]"><img src="[% i.thumb_url %]" border="0"></a></td>
+  <td valign="top"><span class="post">[% comment.comment.replace('\n', '<br />') %]</span></td>
+</tr>
+</table>
+<span class="post_byline">Posted by [% comment.group_image_commentor.username %] on [% prettify_date( comment.createdate, 1) %]</span>
+</div>
+[% END %]
+
+[% IF comments > 0 %]
+</div>
+
+
+[% END %]
+
+[% END %]
+
+
+[% END %]
+
+		</div>
+
+		
+				
+		<div id="right_column">
+			
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(5) %]
+		
+		</div>

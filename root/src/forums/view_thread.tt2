@@ -1,0 +1,225 @@
+[% meta.title = "World of Anime | The Anime Social Network | $thread.subject" %]
+[% META keywords = "anime,forum,anime forum,anime friends,anime network" %]
+[% meta.description = "$description" %]
+[% IF alert %]
+		<div id="alert">
+				[% alert %]
+		</div>
+[% END %]
+		<div id="content">
+		
+<script type="text/javascript">
+    $(function() {    
+	$('.removable_button').submit(function() {
+            $('.removable').remove();
+	});
+    });
+</script>
+
+
+<script type="text/javascript">
+    $(function() {
+       $('.reply_thread').live('click', function(e) {
+            $('#new_thread_box').show(400);
+	    $.scrollTo( '#new_thread_box', 500);
+	    $('#new_thread_box #reply-field').focus();
+            return false;
+	});
+    });
+
+
+    $(function() {
+       $('.reply_thread_quote').live('click', function(e) {
+            var id   = $(this).attr('id');
+	    var name = encodeURIComponent($(this).attr('user'));
+            $('#new_thread_box').show(400);
+	    $.scrollTo( '#new_thread_box', 500);
+	    $('#new_thread_box #reply-field').focus()
+            $('#new_thread_box #reply-field').load('/forums/ajax/load_post_content/' + id + '?name=' + name);
+	    
+
+            return false;
+	});
+    });
+    
+    
+    $(function() {
+       $('.edit_post').live('click', function(e) {
+            var id = $(this).attr('id');
+            $('#post_' + id).empty();
+	    $('#post_' + id).load('/forums/ajax/load_post_editable/' + id);
+            return false;
+	});
+    });
+    
+    
+    $(function() {
+       $('#submit_edit').live('submit', function(e) {
+            var id = $('input[name=post_id]').val();
+	    var message = $('textarea#post');
+            var data = 'post='  + encodeURIComponent(message.val());
+	    
+	    $.ajax({  
+                url: "/forums/ajax/edit_post/" + id,
+                type: "POST",
+                data: data,       
+                cache: false,
+		complete: function(data) {
+                     $('#post_' + id).empty();
+                     $('#post_' + id).load('/forums/ajax/load_post/' + id);
+		}
+            });
+	    
+
+            return false;
+	});
+    });
+    
+    
+    $(function() {
+       $('div[title]').qtip({
+            position: {
+               my: 'top center',
+               at: 'top center'
+            },
+	   style: {
+	      classes: 'ui-tooltip-green ui-tooltip-shadow'
+	   },
+	   show: {
+               event: false, // Don't specify a show event...
+               ready: true // ... but show the tooltip when ready
+            },
+		hide: false, // Don't specify a hide event either!
+       });
+    });
+    
+</script>
+
+			<h1 class="front_header">Forums -> [% thread.forum_id.category_id.category_name %] -> <a href="/forums/[% thread.forum_id.category_id.pretty_url %]/[% thread.forum_id.pretty_url %]">[% thread.forum_id.forum_name %]</a></h1>
+<p />
+[% forum_name %]
+<p />
+
+[% IF c.user_exists %]
+                <div id="subscription_box">
+		[% IF IsSub %]
+		<span class="sub_yes">You are subscribed to this thread.</span><br />
+		<a href="[% thread.id %]/unsubscribe">Unsubscribe</a>
+		[% ELSE %]
+		<span class="sub_no">You are not subscribed to this thread.</span><br />
+		<a href="[% thread.id %]/subscribe">Subscribe</a>
+		[% END %]
+		</div>
+		<p />
+[% END %]
+
+<p />
+
+<div id="pager_line">
+[% page_counter_num = 1 %]
+
+[% IF pager.previous_page %]
+<a href="[% c.request.uri_with( page => pager.previous_page ) %]">Previous</a>
+[% END %]
+
+[% page_count = pager.current_page - 3 %]
+[% IF page_count < 1 %]
+     [% page_count = 1 %]
+[% END %]
+
+[% WHILE page_count <= pager.last_page %]
+     [% IF page_counter_num <= 30 %]
+          [% IF page_count == pager.current_page %]
+	  [% page_count %]	
+          [% ELSE %]
+          <a href="[% c.request.uri_with( page => page_count ) %]">[% page_count %]</a>
+          [% END %]
+     [% END %]
+[% page_count = page_count + 1 %]
+[% page_counter_num = page_counter_num + 1 %]
+[% END %]
+
+[% IF pager.next_page %]
+<a href="[% c.request.uri_with( page => pager.next_page ) %]">Next</a>
+[% END %]
+</div>
+
+<p />
+
+<div id="posts">
+
+[% posts_html %]
+
+</div>
+</table>
+
+<p />
+
+<div id="pager_line">
+[% page_counter_num = 1 %]
+
+[% IF pager.previous_page %]
+<a href="[% c.request.uri_with( page => pager.previous_page ) %]">Previous</a>
+[% END %]
+
+[% page_count = pager.current_page - 3 %]
+[% IF page_count < 1 %]
+     [% page_count = 1 %]
+[% END %]
+
+[% WHILE page_count <= pager.last_page %]
+     [% IF page_counter_num <= 30 %]
+          [% IF page_count == pager.current_page %]
+	  [% page_count %]	
+          [% ELSE %]
+          <a href="[% c.request.uri_with( page => page_count ) %]">[% page_count %]</a>
+          [% END %]
+     [% END %]
+[% page_count = page_count + 1 %]
+[% page_counter_num = page_counter_num + 1 %]
+[% END %]
+
+[% IF pager.next_page %]
+<a href="[% c.request.uri_with( page => pager.next_page ) %]">Next</a>
+[% END %]
+</div>
+
+<p />
+
+[% IF ! c.user_exists %]
+Please log in if you wish to post a reply.
+[% ELSE %]
+<p />
+<div id="new_thread_box" class="reply-box"></a>
+<form class="removable_button" action="[% current_uri %]/add_post" method="post">
+
+    <h2>Post Reply</h2>
+	
+    <div id="form_field">
+
+    <h3>Website:</h3>
+    <br />
+    <span><input type="text" name="website" size="75" maxlength="255"></span>
+    </div>
+
+    <span class="form-field"><textarea id="reply-field" name="post" rows="8"></textarea></span>
+
+    <p />
+    
+    <input type="submit" value="Add New Post" class="removable">
+    </form>
+</div>
+
+
+[% END %]
+
+		</div>
+		
+				
+		<div id="right_column">
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1) %]
+
+		</div>

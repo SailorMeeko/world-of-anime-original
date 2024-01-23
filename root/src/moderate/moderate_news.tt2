@@ -1,0 +1,11 @@
+[% META title = "World of Anime | Moderate News" %]
+[% META keywords = "" %]
+[% META description = "" %]
+
+<h1>Moderate Specific Article</h1>
+<a href="/moderate/article/ID">Click then change ID</a>
+
+<h1>Articles Awaiting Approval</h1>    
+[% WHILE (a = waiting_articles.next) %]
+<a href="/moderate/article/[% a.id %]">[% a.title %]<br />
+[% END %]

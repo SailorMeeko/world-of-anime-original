@@ -1,0 +1,32 @@
+[% META title = "World of Anime | The Anime Social Network | Add Link" %]
+[% META keywords = "anime sites, anime links, add link, add anime link, add anime web site" %]
+[% META description = "Add your link to our Anime Links database" %]
+
+[% IF alert %]
+		<div id="alert">
+				[% alert %]
+		</div>
+[% END %]
+		<div id="content">
+		
+<h1 class="front_header">Link Added</h1>
+
+<span class="info_text">
+Thank you for adding your link to our directory.
+<p />
+All links need to be approved before appearing on the web site.
+<p />
+</span>
+
+		</div>
+		
+				
+		<div id="right_column">
+
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1) %]
+
+			
+		</div>

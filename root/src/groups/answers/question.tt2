@@ -1,0 +1,91 @@
+[% meta.title = "World of Anime | The Anime Social Network | Questions and Answers for $group.name | $Subject" %]
+[% META keywords = "anime, social networking, friends, members, users, top members, top users" %]
+[% meta.description = "World of Anime - a social networking site for anime fans: Anime Questions and Answers for $group.name" %]
+
+[% IF alert %]
+		<div id="alert">
+				[% alert %]
+		</div>
+[% END %]
+		<div id="content">
+		
+		[% site.jquery = "$jquery" %]
+
+[% IF error_message %]		
+<h1 class="error_header">Error</h1>
+[% error_message %]
+<p />
+[% END %]
+
+
+[% IF group %]
+
+		[% IF !IsPrivate || IsMember %]
+
+		[% i = image_info( group.profile_image_id ) %]
+
+<div id="plain_user_profile_box">
+<table border="0">
+	<tr>
+		<td valign="top" rowspan="2">
+			<a href="/groups/[% group.id %]/[% group.pretty_url %]"><img src="[% i.thumb_url %]"></a>		</td>
+		<td valign="top" width="360">
+			<span class="plain_user_profile_name">[% group.name %]</span><br />
+
+		</td>
+		<td valign="top">
+		</td>
+	</tr>
+</table>
+</div>
+
+
+[% IF !IsMember %]
+<span class="normal_text">You must be a member of this group to answer a question</span>
+[% END %]
+
+[% IF IsMember %]
+                <div id="subscription_box">
+		[% IF IsSub %]
+		<span class="sub_yes">You are subscribed to this question.</span><br />
+		<a href="[% QuestionID %]/unsubscribe">Unsubscribe</a>
+		[% ELSE %]
+		<span class="sub_no">You are not subscribed to this question.</span><br />
+		<a href="[% QuestionID %]/subscribe">Subscribe</a>
+		[% END %]
+                </div>
+<p />
+[% END %]
+
+<h1 class="clean_header">Question</h1>
+
+<p />
+
+[% QuestionHTML %]
+
+<h1 class="clean_header">Answers</h1>
+
+<p />
+
+[% AnswersHTML %]
+
+				[% ELSE %]
+		
+			This group is private, and you are not a member.<p />
+				[% END %]
+[% ELSE %]
+<h1 class="error_header">Not a Valid Group</h1>
+This Group either does not exist, or is private.
+[% END %]		
+
+		</div>
+		
+				
+		<div id="right_column">
+
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1) %]
+
+		</div>

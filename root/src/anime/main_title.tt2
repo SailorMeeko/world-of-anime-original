@@ -1,0 +1,232 @@
+[% meta.title = "World of Anime | The Anime Social Network | $Title.english_title" %]
+[% meta.keywords = "anime, $Title.english_title" %]
+[% meta.description = "$Title.english_title - $Title.description" %]
+
+<script src="/static/javascript/anime.js?v=1"></script>
+
+[% USE SimpleJson %]
+[% USE format %]
+[% USE Math %]
+
+[% rating = Title.avg_rating | format('%.2f') %]
+[% tip = "$rating out of 10; based on $Title.num_ratings rating" %]
+[% IF Math.int(Title.num_ratings) != 1 %][% tip = tip _ "s" %][% END %]
+		
+		<div id="content">
+		
+<script>
+    $(function() {
+       $('.edit_title').live('click', function(e) {
+            var id = $(this).attr('id');
+            $('#anime_db_box').empty();
+	    $('#anime_db_box').load('/anime/ajax/load_title_editable/' + id);
+            return false;
+	});
+    });
+    
+$(function() {
+     $('#rating_box').qtip({
+	
+          content: '[% tip %]',
+          position: {
+               my: 'right bottom',
+               at: 'left center' },
+          style: { 
+               name: 'dark', // Inherit from preset style
+               classes: 'ui-tooltip-dark ui-tooltip-rounded' }
+    });
+});
+</script>		
+
+
+	
+		
+<!-- User Profile -->
+
+		<h1 class="media_title">[% Title.english_title %]</h1>
+
+<div class="gen_profile_box">
+
+
+<div id="anime_profile_box">
+
+[% i = image_info( Title.profile_image_id ) %]
+     <img src="[% i.small_url %]">
+
+    		
+</div>
+
+<br clear="all">
+
+<p>
+
+<nav>
+    <div class="vert_tabs">
+        <ul>
+            <li><a class="current" href="[% current_uri %]">Main Title</a></li>
+            <li><a href="[% current_uri %]/episodes">Episodes</a></li>
+            <li><a href="[% current_uri %]/ratings">Ratings</a></li>
+	    <li><a href="[% current_uri %]/reviews">Reviews</a></li>
+	    <li><a href="[% current_uri %]/fan_fiction">Fan Fiction</a></li>
+	    <li><a href="[% current_uri %]/store">Anime Store</a></li>
+        </ul>
+    </div>
+</nav>
+
+
+<div id="anime_ratings_box">
+		<h1>User Rating</h1>
+		
+		<span id="rating_box"><span class="rating_stars">[% show_star_rating( Title.avg_rating ) %]</span></span>
+		<p>
+				<div id="user_rating">
+		[% IF UserRating == "C" %]
+				Please log in to rate
+		[% ELSE %]
+				[% IF UserRating == "N" %]
+		<a class="rate_link" onclick="javascript:$('#rate_form').show();$(this).hide();return false;">Rate</a>
+    <form id="rate_form" title_id="[% Title.id %]">
+    <select name="rating" id="rating">
+		<option value=""><-Rating-></option>
+		[% n = 10 %]
+		[% WHILE n > 0 %]
+		<option value="[% n %]">[% n %][% IF n == 10 %] - Best[% END %][% IF n == 1 %] - Worst[% END %]</option>
+		[% n = n - 1 %]
+		[% END %]
+    </select>
+    <input type="Submit" value="Rate!">
+    </form>
+    <br clear="all">
+				[% ELSE %]
+						Your Rating: [% UserRating %]
+				[% END %]
+		[% END %]
+		
+				</div>
+		
+		</div>
+		
+		<div id="your_hidden_rating"></div>
+		<br clear="all">
+</div>
+
+
+
+<div id="anime_db_box">
+
+    <a href="[% current_uri %]/store" class="btn btn-success">Buy [% Title.english_title %] Merchandise</a>
+
+		<div id="db_box">
+				
+				[% IF Title.japanese_title %]
+						<h2>Japanese Title</h2>
+						<span class="db_text">[% Title.japanese_title %]</span>
+				[% END %]
+				
+		<h2>Year Published</h2>
+		<span class="db_text">[% Title.publish_year %]</span>
+		
+		<h2>Type</h2>
+		<span class="db_text">[% Title.type %]</span>
+		
+		<h2>Number of Episodes</h2>
+		<span class="db_text">[% Title.num_episodes %]</span>
+		
+		<h2>Episode Length</h2>
+		<span class="db_text">[% Title.episode_length %] minutes</span>
+				
+				<h2>Genres</h2>
+
+				[% genres = SimpleJson.fromJson(Title.genres) %]				
+				[% FOREACH g IN genres %]
+						<a href="/anime/browse/genre/[% prettify_text( g.name ) %]">[% g.name %]</a>
+				[% END %]
+				
+				<p />
+				
+				<h2>Description</h2>
+				<span class="db_text">[% Title.description.replace('\n', '<p />') %]</span>
+				
+		</div>
+		
+		[% IF c.user_exists %]
+				[% IF 0 %]
+				<p><a href="#" class="action_button edit_title" id="[% Title.id %]" style="float: right;">Edit this title</a></p>
+				[% END %]
+		[% END %]
+		
+		<br clear="all">
+
+
+</div>
+
+
+
+
+		</div>
+
+		
+				
+		<div id="right_column">
+			
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1, images_approved) %]
+			
+		</div>
+		
+		
+<script>
+$(function() {
+       $('.reply_link').live('click', function(e) {
+            var finish = $(this).attr('finish');
+            var id   = $(this).attr('id');
+	    $('#reply_' + id).show();
+	    $('#comment_form_' + id + ' #comment_box_' + id).focus();
+            if (finish != 1) {
+	         return false;
+            }
+	});
+    });
+
+    $(function() {
+       $('#add_comment').live('submit', function(e) {
+            var parent = $(this).attr('parent');
+	    var user   = $(this).attr('user');
+	    var latest = $(this).attr('latest');
+            var group  = $(this).attr('group');
+	    $('#reply_' + parent).hide();
+
+	    var message = $('textarea#comment_box_' + parent);
+            var data = 'post='  + encodeURIComponent(message.val()) + '&user=' + user + '&latest=' + latest + '&group=' + group;
+	    $('textarea#comment_box_' + parent).val("");
+
+	    $.ajax({  
+               url: "/groups/ajax/add_reply/" + parent,
+               type: "POST",
+               data: data,       
+               cache: false,
+               success: function(response) {
+
+		    $.ajax({
+		         url: "/groups/ajax/load_profile_replies/" + parent,
+			 type: "POST",
+			 data: data,
+			 cache: false,
+                         success: function(new_replies) {
+			        $('.replies_' + parent).empty();
+				$('.replies_' + parent).append(new_replies);
+				$('#setup_reply_' + parent).show();
+		          },
+                          dataType: 'html'
+                     });
+		     
+		}
+            });
+	    
+
+            return false;
+	});
+    });
+    
+</script>	

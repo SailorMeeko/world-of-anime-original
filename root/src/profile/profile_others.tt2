@@ -1,0 +1,342 @@
+[% meta.title = "$user.username's Profile" %]
+[% meta.keywords = "anime, $user.username, $favorite_anime, $favorite_movies, blog, image galleries, status" %]
+[% meta.description = "$user.username's very own Page!  Everything you always wanted to know about $user.username, but were afraid to ask." %]
+
+<script src="/static/javascript/profile.js?v=4"></script>
+[% IF (friend_status == 2) AND ! is_self %]<script src="/static/javascript/pm.js?v=3"></script>[% END %]
+
+		<div id="content">
+
+[% IF notice_header %]
+		<h1 class="notice_header">[% notice_header %]</h1>
+[% END %]
+
+[% IF user %]
+
+[% i = image_info( user.profile_image_id ) %]
+
+<!-- User Profile -->
+
+<div id="user_profile_box">
+     <span class="user_profile_name">[% user.username %]'s Profile</span>
+     [% i = image_info( user.profile_image_id ) %]
+     <img src="[% i.small_url %]">
+<p />
+
+
+<div style="font-family: Arial; font-size: 12px; color: grey;">
+[% IF user.user_profiles.show_visible == 1 AND is_online %]
+<img src="/static/images/icons/answer.gif">[% user.username %] is online
+<p />
+[% END %]
+Joined: [% join_date %]
+[% IF profile.show_visible == 1 %]
+[% lastactiondate = get_last_action_date( user.id ) %]
+[% lastaction = prettify_date(lastactiondate, 1) || "A long, long time ago..." %]
+[% IF is_online %][% lastaction = "Right now" %][% END %]
+<br />
+Last Online: [% lastaction %]
+[% END %]
+</div>
+
+<p>
+
+[% IF is_self %]
+		<!-- <a href="/profile" class="reply_button">Edit your profile</a>
+		<p> -->
+		<a class="btn btn-success" href="/profile">Edit your profile</a>
+[% END %]
+
+
+<h1 class="front_header">Personal Information</h1>
+		<div id="personal_info">
+<table id="profile_table" cellspacing="1" cellpadding="2">
+[% IF profile.name.size > 0 %]
+<tr>
+     <th>Name:</th>
+</tr>
+<tr>
+     <td>[% profile.name %]</td>
+</tr>
+[% END %]
+<tr>
+     <th>Gender:</th>
+</tr>
+<tr>
+     <td>[% gender %]</td>
+</tr>
+[% IF profile.show_age %]
+<tr>
+     <th>Age:</th>
+</tr>
+<tr>
+     <td>[% age %]</td>
+</tr>
+[% END %]
+[% IF 0 %]
+<tr>
+     <th>Points:</th>
+</tr>
+<tr>
+    <td>[% points %] point[% IF points == 1 %][% ELSE %]s[% END %] [% IF profile.show_actions %]<span class="top_user_profile_points">(<a href="/points/[% user.username %]">point history</a>)</span>[% END %]
+    </td>
+</tr>
+[% END %]
+<tr>
+     <th>About Me:</th>
+</tr>
+<tr>
+     <td>[% about_me %]</td>
+</tr>
+<tr>
+     <th>Favorite Anime:</th>
+</tr>
+<tr>
+     <td>
+     
+[% favorite_anime | html %]
+
+         </td>
+</tr>
+<tr>
+     <th>Favorite Movies:</th>
+</tr>
+<tr>
+     <td>
+
+[% favorite_movies | html %]
+
+         </td>
+</tr>
+<tr>
+     <th>Groups:</th>
+</tr>
+<tr>
+     <td>
+
+[% groups %]
+
+         </td>
+</tr>
+</table>
+
+
+		</div>
+</div>
+
+
+[% IF ! c.user_exists %]
+<span class="friend_text">Please log in if you wish to become this person's friend.</span><p />
+[% ELSE %]
+
+<!-- Check if already friend (or yourself) -->
+
+[% IF (friend_status == 1) %]
+     <span class="friend_text">You are almost friends with [% user.username %]</span><p />
+     [% ELSIF (friend_status == 2) AND ! is_self %]
+     
+<div id="popuup_unfriend_div" class="popup_unfriend_msg">
+   Friend has been removed.
+</div>
+     
+     <div class="your_friend">
+     <table>
+     <tr>
+		<!-- <td><img src="/static/images/icons/friend.gif"></td> -->
+		<td><span class="friend_text">[% user.username %] is your friend</span><br />
+		<span class="top_user_profile_date">Friends since [% prettify_date( friend_date, 3) %] - 
+		<div id="remove_friend_[% user.id %]" style="display: inline;"><span class="top_user_profile_date"><a href="#" class="friend-remove" id="[% user.id %]" style="color: grey;">Remove Friend</a></span></div>
+		</td>
+		    
+     </tr>
+     </table>
+     </div>
+[% ELSE %]
+
+<!-- Check if this person is allowing friend requests -->
+
+<!-- If so... -->
+[% UNLESS is_self == 1 %]
+     <span class="removable_button"><a href="[% current_uri %]/friend_request" class="friend_request_link" style="float: left;" onClick="javascript:$('.removable_button').remove();">Send a Friend Request to [% user.username %]</a></span>
+[% END %]     
+
+
+[% END %]
+
+[% END %]
+
+
+
+<div id="profile_description_box">
+<i class="icon-flag pull-right inappropriate" type="profile_image" content="[% user.id %]" title="Flag profile as inappropriate"></i>
+ <a href="/profile/[% user.username %]/gallery"><span>Image Galleries</span></a><br />
+ <a href="/profile/[% user.username %]/friends"><span>Friends</span></a> <span class="friend_text">[% IF num_friends > 0 %]([% num_friends %])[% END %]</span><br />
+ <a href="/blogs/[% user.username %]"><span>Blog</span></a>
+ <br clear="all">
+ <p />
+
+[% IF ! c.user_exists %]
+		Please log in if you wish to post a comment.
+[% ELSE %]
+		[% IF !is_blocked %]<a href="#" id="comment_link" onclick="javascript:$('#new_comment_box').toggle();$('#comment_form #comment_box').focus();$('#comment_link').remove();return false">Post a comment</a><br />[% END %]
+		
+		[% IF (friend_status == 2) AND ! is_self %]<a href="/pm/setup/[% user.id %]" class="newWindow">Send a private message</a>[% END %]
+[% END %]
+</div>
+
+
+<div id="user_info_box">
+		
+
+		<div id="box_comments">
+    
+[% IF is_blocked %]
+<span class="user_block">
+[% user.username %] has blocked you from commenting on their profile
+</span>
+[% END %]
+
+[% IF c.user_exists %]
+<div id="new_comment_box"></a>
+<form id="comment_form" class="removable_button" action="[% current_uri %]/add_comment" method="post">
+
+    <h2>Post Comment</h2>
+	
+    <div id="form_field">
+
+    <h3>Website:</h3>
+    <br />
+    <span><input type="text" name="website" size="75" maxlength="255"></span>
+    </div>
+
+    <span class="form-field"><textarea id="comment_box" name="comment" rows="8" cols="40">[% post %]</textarea></span>
+	
+    <p />
+	
+    <input type="submit" value="Add New Comment" class="removable">
+    </form>
+</div>
+[% END %]
+
+
+[% user_comments %]
+
+<p>
+
+
+[% IF cpager.next_page %]
+<div id="pager_line">
+[% cpage_counter_num = 1 %]
+
+[% IF cpager.previous_page %]
+<a href="[% c.request.uri_with( cpage => cpager.previous_page ) %]">Previous</a>
+[% END %]
+
+[% cpage_count = cpager.current_page - 3 %]
+[% IF cpage_count < 1 %]
+     [% cpage_count = 1 %]
+[% END %]
+
+[% WHILE cpage_count <= cpager.last_page %]
+     [% IF cpage_counter_num <= 10 %]
+          [% IF cpage_count == cpager.current_page %]
+          [% cpage_count %]
+          [% ELSE %]
+          <a href="[% c.request.uri_with( cpage => cpage_count ) %]">[% cpage_count %]</a>
+          [% END %]
+     [% END %]
+[% cpage_count = cpage_count + 1 %]
+[% cpage_counter_num = cpage_counter_num + 1 %]
+[% END %]
+
+[% IF cpager.next_page %]
+<a href="[% c.request.uri_with( cpage => cpager.next_page ) %]">Next</a>
+[% END %]
+</div>
+[% END %]
+
+     
+		</div>
+		
+		
+		
+</div>
+
+
+[% ELSE %]
+<h1 class="error_header">Not a user</h1>
+This user does not exist.
+[% END %]
+
+
+
+		</div>
+
+		
+				
+		<div id="right_column">
+			
+[% PROCESS 'users/login_form.tt2' %]
+
+<p />
+<h1 class="front_header">What is [% user.username %] doing?
+[% IF is_self == 1 %]
+<a href="javascript:clearNowBlocks();" class="pull-right" style="text-decoration: none; color: #000; font-size: 10px;"><i class="icon-eraser"></i> Clear These</a>
+[% END %]
+</h1>
+<p />
+<table id="profile_table" cellspacing="1" cellpadding="2" width="100%">
+<tr>
+     <th align="left">Now Watching:</th>
+</tr>
+<tr>
+     <td><div id="now_watching" class="now_watching now_block">[% now_watching %]</div>
+     [% IF is_self == 1 %]
+     <div id="setup_change_now_watching" class=""><a href="#" class="reply_link" onclick="javascript:$('#change_now_watching').show();$('#now_watching').hide();$('#setup_change_now_watching').hide();$('#change_now_watching #new_action_now_watching').focus().select();return false">Change</a></div>
+     <div id="change_now_watching" style="display: none;"><form id="now_action" type="now_watching"><input type="text" id="new_action_now_watching" size="25" maxlength="255" value="[% now_watching %]"> <input type="Submit" value="Set"></form></div>
+     [% END %]
+     </td>
+</tr>
+<tr>
+     <th align="left">Now Playing:</th>
+</tr>
+<tr>
+     <td><div id="now_playing" class="now_playing now_block">[% now_playing %]</div>
+     [% IF is_self == 1 %]
+     <div id="setup_change_now_playing"><a href="#" class="reply_link" onclick="javascript:$('#change_now_playing').show();$('#now_playing').hide();$('#setup_change_now_playing').hide();$('#change_now_playing #new_action_now_playing').focus().select();return false">Change</a></div>
+     <div id="change_now_playing" style="display: none;"><form id="now_action" type="now_playing"><input type="text" id="new_action_now_playing" size="25" maxlength="255" value="[% now_playing %]"> <input type="Submit" value="Set"></form></div>
+     [% END %]
+     </td>
+</tr>
+<tr>
+     <th align="left">Now Reading:</th>
+</tr>
+<tr>
+     <td><div id="now_reading" class="now_reading now_block">[% now_reading %]</div>
+     [% IF is_self == 1 %]
+     <div id="setup_change_now_reading"><a href="#" class="reply_link" onclick="javascript:$('#change_now_reading').show();$('#now_reading').hide();$('#setup_change_now_reading').hide();$('#change_now_reading #new_action_now_reading').focus().select();return false">Change</a></div>
+     <div id="change_now_reading" style="display: none;"><form id="now_action" type="now_reading"><input type="text" id="new_action_now_reading" size="25" maxlength="255" value="[% now_reading %]"> <input type="Submit" value="Set"></form></div>
+     [% END %]
+     </td>
+</tr>
+<tr>
+     <th align="left">Now Doing:</th>
+</tr>
+<tr>
+     <td><div id="now_doing" class="now_doing now_block">[% now_doing %]</div>
+     [% IF is_self == 1 %]
+     <div id="setup_change_now_doing"><a href="#" class="reply_link" onclick="javascript:$('#change_now_doing').show();$('#now_doing').hide();$('#setup_change_now_doing').hide();$('#change_now_doing #new_action_now_doing').focus().select();return false">Change</a></div>
+     <div id="change_now_doing" style="display: none;"><form id="now_action" type="now_doing"><input type="text" id="new_action_now_doing" size="25" maxlength="255" value="[% now_doing %]"> <input type="Submit" value="Set"></form></div>
+     [% END %]
+     </td>
+</tr>
+</table>
+
+<p>
+
+[% pick_ad(1, images_approved) %]
+
+			
+		</div>
+
+	

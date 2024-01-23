@@ -1,0 +1,128 @@
+[% META title = "World of Anime | The Anime Social Network | Admin Page" %]
+[% META keywords = "" %]
+[% META description = "" %]
+
+    
+Welcome to the Admin Page.  Here you can:
+<p />
+<a href="/admin/setup_image_verification/100">Verify 100 Internal Images</a>
+<p />
+<a href="/admin/setup_image_verification/5">Verify 5 Internal Images</a>
+<p />
+<a href="/admin/setup_external_image_verification/100">Verify 100 External Images</a>
+<p />
+<a href="/admin/setup_external_image_verification/5">Verify 5 External Images</a>
+<p />
+<a href="/admin/setup_external_link_verification/100">Verify 100 External Links</a>
+<p />
+<a href="/admin/setup_external_link_verification/5">Verify 5 External Links</a>
+<p />
+Verify the image checker is working
+<form action="/admin/check_images_appropriate" method="post">
+    <input type="text" name="image_ids"><p></p>
+        <input type="Submit" value="Check These Images">
+</form>
+<h1>Memcached Stuff</h1>
+<a href="/admin/memcached">View and Delete Memcached Objects</a>
+<p />
+<h1>Link Stuff</h1>
+<a href="/admin/link_categories/1">Manage Link Categories</a>
+<h1>Notices</h1>
+<a href="/admin/setup_announcement">Create an announcement</a>
+
+<hr>
+<h1>Game Stuff</h1>
+<h2>Add New Game</h2>
+<div id="join_form">
+<form action="/admin/add_new_game" method="post">
+<table>
+<tr>
+    <td>Category:</td>
+    <td><select name="categories" multiple><option value=""><-- Select Categories --></option>
+[% WHILE (cat = GameCategories.next) %]
+<option value="[% cat.id %]">[% cat.name %]</option>
+[% END %]
+</select></td>
+</tr>
+<tr>
+    <td>Name</td>
+    <td><input type="text" name="game_name" size="50"></td>
+</tr>
+<tr>
+    <td>Pretty URL</td>
+    <td><input type="text" name="pretty_url" size="50"></td>
+</tr>
+<tr>
+    <td>Game Filename</td>
+    <td><input type="text" name="filename" size="10"></td>
+</tr>
+<tr>
+    <td>Image Filename</td>
+    <td><input type="text" name="imagename" size="10"></td>
+</tr>
+<tr>
+    <td>Width</td>
+    <td><input type="text" name="width" size="6"></td>
+</tr>
+<tr>
+    <td>Height</td>
+    <td><input type="text" name="height" size="6"></td>
+</tr>
+<tr>
+    <td>Description</td>
+    <td><textarea name="description" cols="40" rows="8"></textarea></td>
+</tr>
+</table>
+<input type="Submit" value="Enter This New Game">
+</form>
+</div>
+
+<p />
+<h1>Edit a Game</h1>
+<form action="/admin/edit_game" method="post">
+<select name="game_id"><option value=""><- Select Game -></option>
+[% WHILE (game = Games.next) %]
+<option value="[% game.id %]">[% game.name %]</option>
+[% END %]
+</select>
+<input type="Submit" value="Edit This Game">
+</form>
+<hr>
+<h1>Ad Stuff</h1>
+<b>Add New Affiliate</b>
+<p />
+<form action="/admin/add_new_affiliate" method="post">
+Name: <input type="text" name="name" size="50"> <input type="Submit" value="Add Affiliate">
+</form>
+<p />
+<b>Add New Ad Size</b>
+<p />
+<form action="/admin/add_new_ad_size" method="post">
+Ad Size: <input type="text" name="size_desc" size="50"> <input type="Submit" value="Add Ad Size">
+</form>
+<p />
+<b>Create New Ad</b>
+<p />
+<form action="/admin/create_new_ad" method="post">
+Affiliate:
+<select name="affiliate">
+<option value=""><- Select Affiliate -></option>
+[% WHILE (aff = AdAffiliates.next) %]
+<option value="[% aff.id %]">[% aff.name %]</option>
+[% END %]
+</select>
+<br />
+Size:
+<select name="ad_size">
+<option value=""><- Select Ad Size -></option>
+[% WHILE (size = AdSizes.next) %]
+<option value="[% size.id %]">[% size.size_desc %]</option>
+[% END %]
+</select>
+<br />
+HTML Code: <textarea name="html_code" rows="6" cols="45"></textarea>
+<br />
+Description: <textarea name="description" rows="6" cols="45"></textarea>
+<br />
+<input type="Submit" value="Add New Ad">
+</form>

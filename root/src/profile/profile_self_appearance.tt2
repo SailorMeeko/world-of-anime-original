@@ -1,0 +1,58 @@
+[% META title = "World of Anime | The Anime Social Network | Your Profile" %]
+[% META keywords = "anime,social networking" %]
+[% META description = "World of Anime is a social networking site specifically for anime fans" %]
+
+<div id="content">
+[% IF notice_header %]
+		<h1 class="notice_header">[% notice_header %]</h1>
+[% END %]
+
+[% IF c.user_exists %]
+
+    <div id="tabs">
+        <ul>
+            <li><a href="/profile">Main Profile</a></li>
+            <li><a href="/edit_notifications">Notifications</a></li>
+            <li><a class="current" href="/edit_appearance">Appearance</a></li>
+        </ul>
+    </div>
+
+<p>
+
+<div id="profile_table"><form action="update_profile_appearance" method="post" enctype="multipart/form-data" id="profile_form">
+<input type="hidden" name="do_update" value="1">
+
+<fieldset>
+     <label for="profile-background_picture">Background Picture</label>
+     <input type="file" name="background_image" size="50" id="profile-background_picture">
+<p>     
+     <input type="checkbox" name="scroll_background" [% IF Profile.scroll_background %]checked[% END %] id="profile-scroll_background"> Scroll Background
+<br>
+     <input type="checkbox" name="repeat_x" [% IF Profile.repeat_x %]checked[% END %] id="profile-repeat-x"> repeat-x
+<br>     
+     <input type="checkbox" name="repeat_y" [% IF Profile.repeat_y %]checked[% END %] id="profile-repeat-y"> repeat-y
+<p>
+     <input type="checkbox" name="remove_background_image" id="profile-remove_background"> (Check this box to remove your background picture)
+<p>
+<input type="Submit" value="Update Profile Appearance">
+</div>
+
+[% ELSE %]
+<h1 class="error_header">Error</h1>
+You must be logged in to edit your profile appearance.
+
+[% END %]
+
+
+
+		</div>
+
+		
+				
+		<div id="right_column">
+			
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1) %]
+		
+		</div>

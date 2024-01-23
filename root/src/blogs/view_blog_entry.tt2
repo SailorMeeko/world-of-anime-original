@@ -1,0 +1,188 @@
+[% meta.title = "World of Anime | The Anime Social Network | $blog.subject" %]
+[% meta.keywords = "anime sites, anime blog entry, blog, blog entry, $blog.subject" %]
+[% meta.description = "World of Anime Blog entry for $user.username - $blog.subject" %]
+
+<script src="/static/javascript/blogs.js"></script>
+
+[% IF is_self %]
+<script>
+$(function() {
+    $('.delete-blog').click( function() {
+        var id = $(this).attr('id');
+	if ( confirm("Are you sure you want to permanently delete this blog and all it's comments?\n\nThis can not be undone.") ) {
+
+	    var url = '/blogs/delete_blog/' + id;
+	    $(location).attr('href',url);
+        }
+        return false;
+    });
+});
+</script>
+[% END %]
+
+
+[% IF alert %]
+		<div id="alert">
+				[% alert %]
+		</div>
+[% END %]
+		<div id="content">
+
+<script>
+    $(document).ready(function(){
+
+	checkBlogSubscription();
+
+        });
+
+	function checkBlogSubscription() {
+		$('#subscription_box').load('/blogs/check_subscription/[% user.username.replace(" ", "%20") %]/[% user.id %]/[% c.user.id %]/[% blog.id %]');
+		return false;
+        }
+</script>
+
+[% IF c.user_exists && !add_blog_link %]
+		<div id="subscription_box">
+		</div>
+		<p>
+[% END %]
+
+		[% IF is_self %]
+				<div id="add_button" style="width: 115px; text-align: right;"><a href="#" onclick="javascript:$('#blog_entry').empty(); $('#new_thread_box').show();">Edit</a> | <a href="#" class="delete-blog" id="[% blog.id %]">Delete</a></div>
+		[% END %]
+		
+<div id="blog_header">
+
+[% i = image_info( user.profile_image_id ) %]
+
+		<div class="header_image">
+				<a href="/profile/[% user.username %]"><img src="[% i.thumb_url %]" border="0"></a>
+		</div>
+		
+		<div class="header_extra">
+				<span class="blog_subject">[% blog.subject %]</span><p>
+				<span class="header_info">Posted by <a href="/profile/[% user.username %]">[% user.username %]</a> on [% prettify_date( blog.createdate, 1) %]</span><br>
+				<span class="header_info">View all of <a href="/blogs/[% user.username %]">[% user.username %]'s Blog</a></span><br>
+				<span class="header_info"><img src="/static/images/comment.gif"> <a href="#comments">[% num_comments %] Comments</a></span>
+		</div>
+</div>
+
+<!-- Blog Entry -->
+<div id="blog_entry">
+<span class="blog_post">[% blog.post %]</span>
+</div>
+<!-- End Blog Entry -->
+
+<!-- Edit Blog -->
+[% IF is_self %]
+<p>
+[% EmbedTip = 'To embed video from YouTube, do the following:<p>
+First, on your blog entry, click the Source button so you are in HTML Source mode.<p>
+Now, on the YouTube Video you want to embed, click Share, then Embed.<p>
+Copy and Paste the Embed Code into your blog where you want it to appear.<p>
+Now, click the Source button again to go back into WYSIWIG mode.' %]
+
+<div id="new_thread_box">    
+<form class="removable_button" id="blog_form" name="blog_form" action="/blogs/edit_blog_entry/[% blog.id %]" method="post" enctype="multipart/form-data" onSubmit="return checkform()">
+    <h2>Edit Blog Entry</h2>
+
+    <h3>Title:</h3>
+    <br />
+
+    <span class="form-field"><input type="text" id="blog_title" name="blog_title" value="[% blog.subject %]" size="45" maxlength="255"></span>
+    
+    <p />
+    
+    <div id="form_field">
+
+    <h3>Website:</h3>
+    <br />
+    <span><input type="text" name="website" size="75" maxlength="255"></span>
+    </div>
+
+    <span class="form-field">
+
+	<a href="#" title="[% EmbedTip %]" id="tip" class="tip_question">(How do I embed video?)</a>
+	<p>
+
+    <textarea name="blog_post">[% blog.post %]</textarea>
+    
+    </span>
+
+    <p />
+	
+    <input type="submit" value="Edit Blog Entry" class="removable">
+
+</form>
+</div>
+
+<script type="text/javascript">
+	CKEDITOR.replace( 'blog_post', {
+	toolbar: 
+        [
+            ['Source','-','Preview','-','Bold','Italic','Underline','Strike','-','Subscript','Superscript'],
+            ['NumberedList','BulletedList','-','Outdent','Indent','Blockquote','/'],
+            ['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
+            ['Link','Unlink','Anchor'],
+	    ['Image','Flash','Table','HorizontalRule','Smiley','SpecialChar','PageBreak','/'],
+            ['Styles','Format','Font','FontSize','TextColor','BGColor'],
+        ]
+
+    } );
+</script>
+
+[% END %]
+<!-- End Edit Blog -->
+
+
+<p />
+<a name="comments"><h1 class="front_header">Comments</h1></a>
+<p />
+[% IF ! c.user_exists %]
+<p />
+Please log in if you wish to post a comment.
+[% ELSE %]
+<p />
+
+[% IF is_blocked %]
+<span class="user_block">
+[% user.username %] has blocked you from commenting on their blog
+</span>
+[% ELSE %]
+<a class="comment_link" href="#" onclick="javascript:$('#new_comment_box').toggle();$('#comment_form #comment_box').focus();return false">Post Comment</a><br />
+<div id="new_comment_box"></a>
+<form id="comment_form" class="removable_button" action="[% c.req.uri %]/add_comment" method="post">
+
+    <h2>Post Comment</h2>
+	
+    <div id="form_field">
+
+    <h3>Website:</h3>
+    <br />
+    <span><input type="text" name="website" size="75" maxlength="255"></span>
+    </div>
+
+    <span class="form-field"><textarea id="comment_box" name="comment" rows="8" cols="60">[% post %]</textarea></span>
+	
+    <p />
+	
+    <input type="submit" value="Add New Comment" class="removable">
+    </form>
+</div>
+[% END %]
+
+<p />
+[% END %]
+
+[% blog_comments %]
+		</div>
+		
+				
+		<div id="right_column">
+
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1) %]
+		
+		</div>

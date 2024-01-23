@@ -1,0 +1,96 @@
+[% meta.title = "World of Anime | The Anime Social Network | Artists Alley - Fan Fiction" %]
+[% META keywords = "anime, social networking, database, fan fiction" %]
+[% meta.description = "World of Anime - a social networking site for anime fans: Fan Fiction" %]
+
+<script src="/static/javascript/artist.js"></script>
+
+<div id="content">
+
+<a class="btn btn-success" href="/artist/fiction/setup_add">Add a Fan Fiction</a>
+<br clear="all">
+
+[% IF browse_type == 'by_title' %]
+
+<span class="normal_text">The following anime have fan fictions</span>
+<p>
+<table id="anime_titles">
+<tr>
+		<th>Title</th>
+		<th>#</th>
+</tr>
+
+[% FOREACH key IN story_count.keys %]
+		<tr>
+				<td width="90%"><a href="/anime/[% story_id.$key %]/[% prettify_text( key) %]/fan_fiction">[% key %]</a></td>
+				<td align="center">[% story_count.$key %]</td>
+		</tr>
+[% END %]
+
+</table>
+
+[% END %]
+
+
+
+
+[% IF browse_type == 'original' %]
+
+[% WHILE (f = fiction.next) %]
+<div class="fiction_list a">
+    <h1><a href="/artist/fiction/view_story/[% f.id %]/1/[% prettify_text( f.title) %]">[% f.title %]</a></h1>
+    <div style="padding-left: 15px;">[% clean_html( f.description.replace("\n", "<p>") ) %]</div>
+[% IF f.rating.rating %]Rated: [% f.rating.rating %],[% END %] [% IF f.chapters.max() == 0 %]1 chapter[% ELSE %][% f.chapters.size %] chapters[% END %], 
+started by <a href="/profile/[% f.started_by.username %]">[% f.started_by.username %]</a> on [% prettify_date( f.createdate, 3) %]<br>    
+</div>
+<hr>
+[% END %]
+
+
+
+<div id="pager_line">
+[% cpage_counter_num = 1 %]
+
+[% IF cpager.previous_page %]
+<a href="[% c.request.uri_with( cpage => cpager.previous_page ) %]">Previous</a>
+[% END %]
+
+[% cpage_count = cpager.current_page - 3 %]
+[% IF cpage_count < 1 %]
+     [% cpage_count = 1 %]
+[% END %]
+
+[% WHILE cpage_count <= cpager.last_page %]
+     [% IF cpage_counter_num <= 10 %]
+          [% IF cpage_count == cpager.current_page %]
+		[% IF cpager.next_page %]
+				[% cpage_count %]
+		[% END %]
+          [% ELSE %]
+          <a href="[% c.request.uri_with( cpage => cpage_count ) %]">[% cpage_count %]</a>
+          [% END %]
+     [% END %]
+[% cpage_count = cpage_count + 1 %]
+[% cpage_counter_num = cpage_counter_num + 1 %]
+[% END %]
+
+[% IF cpager.next_page %]
+<a href="[% c.request.uri_with( cpage => cpager.next_page ) %]">Next</a>
+[% END %]
+</div>
+
+
+
+[% END %]
+
+
+		</div>
+		
+				
+		<div id="right_column">
+
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1, images_approved) %]
+
+		</div>

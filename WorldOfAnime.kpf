@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Komodo Project File - DO NOT EDIT -->
+<project id="852afd95-d680-42b9-91fd-521e6782d744" kpf_version="4" name="WorldOfAnime.kpf">
+<livefolder id="852afd95-d680-42b9-91fd-521e6782d744/root/src/forums/groups" idref="852afd95-d680-42b9-91fd-521e6782d744/root/src/forums" name="groups" url="root/src/groups">
+</livefolder>
+<preference-set idref="852afd95-d680-42b9-91fd-521e6782d744">
+  <boolean id="import_live">1</boolean>
+</preference-set>
+</project>

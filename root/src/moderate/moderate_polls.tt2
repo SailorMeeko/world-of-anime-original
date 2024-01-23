@@ -1,0 +1,8 @@
+[% META title = "World of Anime | Moderate Polls" %]
+[% META keywords = "" %]
+[% META description = "" %]
+
+
+[% WHILE (p = waiting_polls.next) %]
+<a href="/moderate/poll/[% p.id %]">[% p.poll %]<br />
+[% END %]

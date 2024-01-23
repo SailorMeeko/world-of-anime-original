@@ -1,0 +1,137 @@
+[% META title = "World of Anime | The Anime Social Network | Your Profile" %]
+[% META keywords = "anime,social networking" %]
+[% META description = "World of Anime is a social networking site specifically for anime fans" %]
+
+<div id="content">
+[% IF notice_header %]
+		<h1 class="notice_header">[% notice_header %]</h1>
+[% END %]
+
+
+[% IF c.user_exists %]			
+
+    <div id="tabs">
+        <ul>
+            <li><a class="current" href="/profile">Main Profile</a></li>
+            <li><a href="/edit_notifications">Notifications</a></li>
+            <li><a href="/edit_appearance">Appearance</a></li>
+        </ul>
+    </div>
+
+<p>
+
+[% i = image_info( Profile.profile_image_id ) %]
+
+<img src="[% i.thumb_url %]">
+
+<form action="update_profile" method="post" enctype="multipart/form-data" id="profile_form">
+
+<input type="hidden" name="do_update" value="1">
+
+<fieldset>
+     <label for="profile-picture">Profile Picture</label>
+     <input type="file" name="profile_image" size="50" id="profile-picture" />
+     <br>
+     To change your profile picture, upload an image here.
+</fieldset>
+
+
+<fieldset>
+     <label for="profile-name">Name</label>
+     <input type="text" name="profile_name" size="50" maxlength="255" value="[% Profile.name %]" id="profile-name" />
+<p>
+     <label for="profile-gender">Gender</label>
+     <select name="gender" id="profile-gender"> <option value="m" [% IF Profile.gender == "m" %]selected[% END %]>Male
+                            <option value="f" [% IF Profile.gender == "f" %]selected[% END %]>Female
+                            <option value="u" [% IF Profile.gender == "u" %]selected[% END %]>Not Disclosed
+     </select>
+</fieldset>
+
+<fieldset>
+	<label for="profile-birthday">Birthday</label>
+	<input type="date" name="birthday" placeholder="YYYY-MM-DD" value="[% birthday %]" id="profile-birthday" />
+        
+        <input type="checkbox" name="show_age" [% IF Profile.show_age %]checked[% END %] id="profile-show_age"> Show my Age
+</fieldset>
+
+<fieldset>
+        <label for="profile-privacy">Privacy</label>
+	<input type="checkbox" name="show_actions" [% IF Profile.show_actions %]checked[% END %] id="profile-show_actions"> Show Actions
+		<br>
+	<input type="checkbox" name="show_visible" [% IF Profile.show_visible %]checked[% END %] id="profile-show_visible"> Make Me Visible When Online
+		<font size="-1">(If unchecked, you will not show up in the Who's Online, and your Online Status and Last Online Date will not be shown)</font>
+		<p>
+        <label for="profile-blocked">Blocked Users <span class="label_desc">(the following users will be blocked from posting to you)</span></label>
+	<textarea name="blocked_users" rows="6" cols="25" id="profile-blocked">[% WHILE (bu = blocked_users.next ) %][% bu.blocked_users.username | html %]
+[% END %]</textarea>		
+</fieldset>
+
+<fieldset>
+        <label for="profile-timezone">Timezone</label>
+	<select name="timezone" id="profile-timezone">
+[% WHILE (tz = timezones.next) %]
+		<option value="[% tz.timezone %]" [% IF tz.timezone == Profile.timezone %]selected[% END %]>[% tz.timezone %]
+[% END %]
+		</select>
+</fieldset>
+
+<fieldset>
+        <label for="profile-about">About Me</label>
+	<textarea name="about_me" rows="15" cols="80" id="profile-about">[% Profile.about_me %]</textarea>
+</fieldset>
+<p>
+<fieldset>
+        <label for="profile-fav_anime">Favorite Anime <span class="label_desc">(One per line)</span></label>
+        <textarea name="favorite_anime" rows="15" cols="80" id="profile-fav_anime">[% WHILE (fa = favorite_anime.next) %][% fa.favorite_to_anime_title.name | html %]
+[% END %]</textarea>
+</fieldset>
+<p>
+<fieldset>
+        <label for="profile-fav_movies">Favorite Movies <span class="label_desc">(One per line)</span></label>
+	<textarea name="favorite_movies" rows="15" cols="80" id="profile-fav_movies">[% WHILE (fm = favorite_movies.next) %][% fm.favorite_to_movie_title.name | html %]
+[% END %]</textarea>
+</fieldset>
+<p>
+<fieldset>
+        <label for="profile-signature">Forum Signature</label>
+	<textarea name="signature" rows="15" cols="80" id="profile-signature">[% Profile.signature %]</textarea>
+<p>
+<input type="Submit" value="Update Profile">
+
+
+
+<script type="text/javascript">
+	CKEDITOR.replace( 'signature', {
+	toolbar: 
+        [
+            ['Source','-','Preview','-','Bold','Italic','Underline','Strike','-','Subscript','Superscript'],
+            ['NumberedList','BulletedList','-','Outdent','Indent','Blockquote','/'],
+            ['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
+            ['Link','Unlink','Anchor'],
+	    ['Image','Flash','Table','HorizontalRule','Smiley','SpecialChar','PageBreak','/'],
+            ['Styles','Format','Font','FontSize','TextColor','BGColor'],
+        ]
+
+    } );
+</script>
+
+
+[% ELSE %]
+<h1 class="error_header">Error</h1>
+You must be logged in to view your profile.
+
+[% END %]
+
+
+
+		</div>
+
+		
+				
+		<div id="right_column">
+			
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1) %]
+		
+		</div>

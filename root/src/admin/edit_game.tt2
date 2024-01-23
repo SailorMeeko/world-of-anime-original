@@ -1,0 +1,72 @@
+[% META title = "World of Anime | The Anime Social Network | Edit Game" %]
+[% META keywords = "" %]
+[% META description = "" %]
+
+
+[% IF done %]
+
+[% ELSE %]
+
+<h1>Editing Game</h1>
+
+<div id="join_form">
+<form action="/admin/edit_game" method="post">
+<input type="hidden" name="edit" value="1">
+<input type="hidden" name="game_id" value="[% Game.id %]">
+
+<table>
+<tr>
+    <td>Categories</td>
+    <td><select name="categories" multiple>
+[% WHILE (cat = Categories.next) %]
+<option value="[% cat.id %]"
+[% IF Game.categories.max() == 0 %]
+    [% IF Game.categories.id == cat.id %] selected
+    [% END %]
+[% ELSE %]
+    [% FOREACH game_cat IN Game.categories %]
+	[% IF game_cat.id == cat.id %] selected[% END %]
+    [% END %]
+[% END %]
+>[% cat.name %]</option>
+[% END %]
+</select></td>
+</tr>
+<tr>
+    <td>Name</td>
+    <td><input type="text" name="game_name" value="[% Game.name %]" size="50"></td>
+</tr>
+<tr>
+    <td>Pretty URL</td>
+    <td><input type="text" name="pretty_url" value="[% Game.pretty_url %]" size="50"></td>
+</tr>
+<tr>
+    <td>Embed URL</td>
+    <td><input type="text" name="embedurl" value='[% Game.embedurl %]' size="50"></td>
+</tr>
+<tr>
+    <td>Filename</td>
+    <td><input type="text" name="filename" value="[% Game.filename %]" size="10"></td>
+</tr>
+<tr>
+    <td>Image filename</td>
+    <td><input type="text" name="imagename" value="[% Game.image %]" size="10"></td>
+</tr>
+<tr>
+    <td>Width</td>
+    <td><input type="text" name="width" value="[% Game.width %]" size="6"></td>
+</tr>
+<tr>
+    <td>Height</td>
+    <td><input type="text" name="height" value="[% Game.height %]" size="6"></td>
+</tr>
+<tr>
+    <td>Description</td>
+    <td><textarea name="description" cols="40" rows="8">[% Game.description %]</textarea></td>
+</tr>
+</table>
+<input type="Submit" value="Edit This Game">
+</form>
+</div>
+
+[% END %]

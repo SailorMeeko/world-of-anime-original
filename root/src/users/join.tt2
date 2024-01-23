@@ -1,0 +1,85 @@
+[% META title = "World of Anime | The Anime Social Network | Join" %]
+[% META keywords = "anime,social networking" %]
+[% META description = "World of Anime is a social networking site specifically for anime fans" %]
+[% IF alert %]
+		<div id="alert">
+				<span class="error_header">[% alert %]</span>
+		</div>
+[% END %]
+		<div id="content">
+			
+<div class="section_image" style="float: right;"><img src="/static/images/icons/anime_join.jpg"></div>
+<span class="conversation_text">
+		<p>So you've decided to join World of Anime?  That's great!  We're happy to have you!  To join, just follow these very simple steps:</p>
+</span>
+<span class="normal_text">
+		<ul>
+				<li>Choose a username and a password, and give us your e-mail address.</li>
+				<li>Read and agree to the <a href="/terms" target="new_browser">terms of service</a></li>
+				<li>If someone referred you to the site, let us know by putting in their WOA Username (so they get their referral points).</li>
+				<li>Click the "Sign Me Up" button.  You will receive a confirmation link by e-mail.  Just click the link, and you're officially a member.</li>
+				<li>Have lots and lots of fun!</li>
+		</ul>
+</span>
+
+<br clear="all">
+
+<div id="join_form">
+
+	<form action="join_submit" method="post">
+	
+	<table>
+		<tr>
+			<td><b>Username:</b></td>
+			<td><input class="field span3" type="text" name="username" value="[% username %]" maxlength="16" placeholder="Username"> (You can't change this, so pick a good one!)</td>
+		</tr>
+		
+		<tr>
+
+			<td><b>E-mail Address:</b></td>
+			<td><input class="field span3" type="text" name="email" value="[% email %]" maxlength="100" placeholder="E-mail Address"></td>
+		</tr>
+		
+		<tr>
+			<td><b>Password:</b></td>
+			<td><input class="field span3" type="password" name="password" maxlength="16" placeholder="Password"></td>
+		</tr>
+		
+		<tr>
+
+			<td><b>Password (again):</b></td>
+			<td><input class="field span3" type="password" name="password2" maxlength="16" placeholder="Password (again)"></td>
+		</tr>
+	</table>
+
+	<p />
+	
+	<b>You must be at least 13 years of age, and agree to the terms of service</b>
+	<br />
+	<input type="checkbox" name="age">I am 13 years of age or older</a><br />
+	<input type="checkbox" name="terms">I agree to the <a href="/terms" target="new_browser">terms of service</a>
+	
+	<p />
+	
+	<b>If you were referred to World of Anime by someone, enter their World of Anime username here.</b>
+	<br />
+	I was referred by: <input class="field span3" type="text" name="referred_by" value="[% referred_by %]" placeholder="Referred By">
+	
+	<hr />
+	
+	<input type="Submit" value="Sign Me Up!">
+	
+	</form>
+</div>
+
+		</div>
+
+		
+				
+		<div id="right_column">
+			
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1) %]
+		
+		</div>

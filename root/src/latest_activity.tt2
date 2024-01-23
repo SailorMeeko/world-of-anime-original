@@ -1,0 +1,47 @@
+[% meta.title = "World of Anime | The Anime Social Network | Latest Activity" %]
+[% meta.description = "World of Anime is the #1 social networking site for fans of Japanese anime and manga.  Create your own profile and find friends who share your love of anime!" %]
+[% META keywords = "anime, manga, social networking, friends, community, social, networking, japanese, forum, blog, image gallery, reviews, groups, answers" %]
+
+<script>
+$(document).ready(function() {
+		$.ajax({
+		    url: "/ajax/load_latest_activity",
+		    type: "POST",
+		    cache: false,
+                    success: function(act) {
+ 			 $("p#latest_activities").append(act['html']);
+			 if ( ([% images_approved %] == 1) && (act['approved'] == 0) ){
+				$("#home_header").replaceWith('<center><iframe src="http://rcm-na.amazon-adsystem.com/e/cm?t=worldofanime09-20&o=1&p=48&l=ur1&category=videogames&banner=03XX10Q1NZN7VPMSY702&f=ifr" width="728" height="90" scrolling="no" border="0" marginwidth="0" style="border:none;" frameborder="0"></iframe></center>');
+				$("#right_ad").replaceWith('<center><iframe src="http://rcm-na.amazon-adsystem.com/e/cm?t=worldofanime09-20&o=1&p=12&l=ur1&category=bestdvd&banner=11889EC0X14KAW8DCMG2&f=ifr" width="300" height="250" scrolling="no" border="0" marginwidth="0" style="border:none;" frameborder="0"></iframe></center>');
+			 }
+		},
+                    dataType: 'json'
+                });
+
+});
+</script>
+
+
+		<div id="content">
+
+<div class="icon"><img src="/static/images/icons/latest_activity.jpg"></div>
+<span class="conversation_text">Here's what's been going on lately...</span>
+<br clear="all">
+		
+<p id="latest_activities">
+</p>
+
+		</div>
+		
+				
+		<div id="right_column">
+
+
+[% PROCESS 'users/login_form.tt2' %]
+
+<div id="right_ad">
+[% pick_ad(1, images_approved) %]
+</div>
+
+			
+		</div>

@@ -1,0 +1,57 @@
+[% meta.title = "World of Anime | The Anime Social Network | Newest Members" %]
+[% meta.description = "Newest Members on World of Anime" %]
+[% META keywords = "anime, manga, social networking, friends, community, social, networking, japanese, forum, blog, image gallery, reviews, groups, answers" %]
+
+<script>
+$(function() {
+    // $('[image_desc]').qtip({
+    
+    $('[image_desc]').each(function() {
+		$(this).qtip({
+	
+      content: $(this).attr('image_desc'),
+      position: {
+               my: 'bottom center',
+               at: 'top center' },
+      style: { 
+      name: 'dark', // Inherit from preset style
+      classes: 'ui-tooltip-dark ui-tooltip-rounded'
+   }
+    });
+    });
+});
+</script>
+
+[% IF alert %]
+		<div id="alert">
+				[% alert %]
+		</div>
+[% END %]
+
+
+		<div id="content">
+		
+
+<br clear="all">
+
+<div id="new_members_box">
+<p><h2>Newest Members</h2></p>
+Please take a moment to welcome the newest members to join World of Anime!
+[% NewestMembersHoriz %]
+<br clear="all">
+<a class="text_link" href="/browse">View More World of Anime Members</a>
+</div>
+
+		</div>
+		
+				
+		<div id="right_column">
+
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1, images_approved) %]
+
+
+			
+		</div>

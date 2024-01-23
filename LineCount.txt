@@ -1,0 +1,12 @@
+From /lib:
+find . -name '*.pm' | xargs wc -l
+
+From /root/src
+find . -name '*.tt2' | xargs wc -l
+
+
+02/17/2013
+----------
+30262 lines of .pm
+10782 lines of .tt2
+

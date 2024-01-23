@@ -1,0 +1,327 @@
+[% meta.title = "$user.username's Image from $metadisplaydate" %]
+[% META keywords = "anime, social networking, image" %]
+[% meta.description = "On $metadisplaydate, $user.username uploaded this lovely image" %]
+
+<script>
+function SelectAll(id) {
+    document.getElementById(id).focus();
+    document.getElementById(id).select();
+}
+
+    $(document).ready(function(){
+
+        populateTags();
+	checkGalleryFavorites();
+
+        });
+
+	function checkGalleryFavorites() {
+		$('#on_favorites').load('/favorites/check_gallery_favorites/[% image.id %]');
+		return false;
+        }
+
+	
+    $('#favorite_this').live('click', function(e) {
+          $('#on_favorites').empty();
+          var gallery_image_id = $(this).attr('gallery_image_id');
+	  
+		$.ajax({
+		    url: "/favorites/add_gallery_image_favorite/" + gallery_image_id,
+		    type: "POST",
+		    cache: false,
+		        complete: function(data) {
+		             checkGalleryFavorites();
+		        }
+                });
+		
+
+
+    return false;
+    });
+
+    $('#unfavorite_this').live('click', function(e) {
+          $('#on_favorites').empty();
+          var gallery_image_id = $(this).attr('gallery_image_id');
+
+		$.ajax({
+		    url: "/favorites/remove_gallery_image_favorite/" + gallery_image_id,
+		    type: "POST",
+		    cache: false,
+		        complete: function(data) {
+		             checkGalleryFavorites();
+		        }
+                });
+
+    return false;
+    });
+    
+    
+    $('#add_tag').live('submit', function(e) {
+          var new_tag = $('#new_tag').val();
+	  var gallery_image_id = $(this).attr('gallery_image_id');
+	  $('#new_tag').val('');
+	  $('#new_tag_box').hide();
+
+		var data = 'gallery_image_id=' + gallery_image_id + '&tag='  + encodeURIComponent(new_tag);
+		$.ajax({
+		    url: "/tags/gallery/images/add",
+		    type: "POST",
+     		    data: data,       		    
+		    cache: false,
+		        complete: function(data) {
+		             populateTags();
+		        }
+                });
+
+    return false;
+    });
+    
+    
+     function populateTags() {
+          $('#tag_box').load('/tags/gallery/images/fetch/[% image.id %]');
+          return false;
+     }
+
+
+
+    $('#delete_tag').live('click', function(e) {
+          var tag = $(this).attr('tag');
+	  var tag_id = $(this).attr('tag_id');
+
+		if ( confirm("Are you sure you want to remove the tag \"" + tag + "\" from this image?") ) {
+
+		     var data = 'tag_id=' + tag_id + '&tag='  + encodeURIComponent(tag);
+		     $.ajax({
+		         url: "/tags/gallery/images/remove",
+		         type: "POST",
+     		         data: data,       		    
+		         cache: false,
+		             complete: function(data) {
+  		                  populateTags();
+		             }
+                     });
+	
+		}
+
+    return false;
+    });
+    
+    
+</script>
+
+	<div id="content">
+
+[% IF notice_header %]
+		<h1 class="notice_header">[% notice_header %]</h1>
+[% END %]
+
+[% IF user %]
+		
+[% i = image_info( user.profile_image_id ) %]
+		
+		[% IF is_self %]
+		<div id="add_button" style="width: 115px; text-align: right;"><a href="#" onclick="javascript:$('#change_info').show();$('.display_posts').remove();$('#setup_change_info').remove();return false">Edit</a> | <a href="#" onclick="javascript:$('#delete_image_box').toggle();return false">Delete</a></div>
+		[% END %]		
+		
+		<div id="user_header">
+
+		<div class="header_image">
+				<a href="/profile/[% user.username %]"><img src="[% i.thumb_url %]" border="0"></a>
+		</div>
+		
+		<div class="header_extra">
+				<span class="header_topic">[% image.title %]</span><br>
+				<span class="header_info">[% image.description.replace('\n', '<br />') %]</span><br>
+				<span class="header_info">Image uploaded on [% prettify_date( image.createdate, 1) %]</span><br>
+				<span class="header_info">[% image.num_views %] views</span><br>
+				<span class="header_info"><img src="/static/images/comment.gif"> <a href="#comments">[% image.num_comments %] comments</a></span><p>
+				<span class="header_info"><a href="/profile/[% user.username %]/gallery/[% image.gallery_id %]">View all of this image gallery</a></span>
+		</div>
+</div>
+		
+[% END %]
+
+[% reject_message %]
+
+	[% IF is_self %]
+		<p>
+		<a href="[% current_uri %]/set_profile_image" class="reply_button">Make this my profile image</a>
+<div id="delete_image_box"></a>
+[% IF user.profile_image_id == image.real_image_id %]
+You can not delete this image because it is currently your profile image.  Please change your profile image first.
+<p />
+[% ELSE %]
+<form action="[% current_uri %]/delete" method="post">
+This will permanently delete this image.  Are you sure?
+<p />	
+<input type="submit" value="Yes, Delete This Image">
+</form>
+[% END %]
+</div>
+
+<p />
+
+	[% END %]
+	
+	[% IF image.title == null %]
+		[% displaytitle = '&lt;No Title&gt;' %]
+        [% ELSE %]
+		[% displaytitle = image.title %]
+        [% END %]
+
+	[% IF image.description == null %]
+		[% displaydescription = '&lt;No Description&gt;' %]
+        [% ELSE %]
+		[% displaydescription = image.description %]
+        [% END %]
+
+<p>
+
+       [% IF is_self %]
+
+		<div id="change_info" style="display: none">
+				<div id="posts">
+				<form class="removable_button" action="[% image.id %]/update_image" method="post">
+						<table>
+						<tr>
+								<td>Title:</td>
+								<td><input type="text" name="title" size="25" maxlength="255" value="[% image.title %]"></td>
+						</tr>
+						<tr>
+								<td valign="top">Description:</td>
+								<td><textarea name="description" rows="8" cols="45">[% image.description %]</textarea></td>
+						</tr>
+						<tr>
+								<td valign="top">Move to another Gallery:</td>
+								<td><select name="move_to_gallery">
+										[% gallery_selection %]
+								</td>
+						</table>
+						<br />
+						<input type="Submit" value="Set New Image Info" class="removable">
+						<p />
+				</form>
+				</div>
+		</div>
+		
+		<p />
+       
+       [% END %]
+       
+[% i = image_info( image.image_id ) %]
+
+[% IF image.previous_id %]
+<a class="previous_button" href="[% image.previous_id %]"><- Previous Image</a>
+[% END %]
+
+[% IF image.next_id %]
+<a class="next_button" href="[% image.next_id %]">Next Image -></a>
+[% END %]
+
+<br clear="all">
+<p>
+
+<a href="[% i.full_url %]"><img src="[% i.full_url %]"></a>
+
+<br clear="all">
+<p><i class="icon-flag pull-right inappropriate" type="gallery_image" content="[% image.id %]" title="Flag image as inappropriate"></i></p>
+<br clear="all">
+
+<div id="tag_box"></div>
+<p>
+
+<div id="new_tag_box" style="display: none; align: right;">
+<form id="add_tag" gallery_image_id="[% image.id %]">
+<input type="text" size="8" maxlength="255" id="new_tag">
+<input type="Submit" value="Add new tag">
+</form>
+</div>
+
+<p>
+
+<div id="sharing_tools_box">
+
+[% IF is_blocked %]
+[% ELSE %]
+		[% IF c.user_exists %]
+		<a href="#" onclick="javascript:$('#new_comment_box').toggle();$('#comment_box').focus();return false" class="share_button">Post Comment</a>
+		[% END %]
+[% END %]
+
+[% IF image.show_all %]<a href="#" onclick="javascript:$('#embed_code_box').toggle();return false" class="share_button" id="share_this">Share</a>[% END %]
+
+<span id="on_favorites"></span>
+
+[% IF is_blocked %]
+[% ELSE %]
+		[% IF c.user_exists %]
+		<a href="#" onclick="javascript:$('#new_tag_box').toggle();$('#new_tag').focus();return false" class="share_button" id="tag_this">Tag</a>
+		[% END %]
+[% END %]
+</div>
+
+<p>
+
+[% IF image.show_all %]
+<div id="embed_code_box">
+Embed Codes<p>
+Direct Link<br>
+<input type="text" id="dir_link" onClick="SelectAll('dir_link')" value="http://www.worldofanime.com/profile/[% user.username %]/images/[% image.id %]" size="80"></input><p>
+HTML Link<br>
+<input type="text" id="html_link" onClick="SelectAll('html_link')"  value='<a href="http://www.worldofanime.com/profile/[% user.username %]/images/[% image.id %]"><img src="http://www.worldofanime.com/[% image.filedir %][% image.filename.replace("'", "%27") %]" width="[% image.width %]" height="[% image.height %]" alt="[% image.title %]" title="Hosted by www.worldofanime.com - The Anime Social Network" /></a>' size="80"></input><p>
+BBCode<br>
+<input type="text" id="bbcode_link" onClick="SelectAll('bbcode_link')" value="[IMG]http://www.worldofanime.com/[% image.filedir %][% image.filename %][/IMG]" size="80"></input><p>
+Linked BBCode<br>
+<input type="text" id="linked_bbcode_link" onClick="SelectAll('linked_bbcode_link')" value="[URL=http://www.worldofanime.com/profile/[% user.username %]/images/[% image.id %]][IMG]http://www.worldofanime.com/[% image.filedir %][% image.filename %][/IMG][/URL]" size="80"></input><p>
+</div>
+<p>
+[% END %]
+
+
+[% IF ! c.user_exists %]
+Please log in if you wish to post a comment or tag an image.
+[% ELSE %]
+
+[% IF is_blocked %]
+[% ELSE %]
+<div id="new_comment_box"></a>
+<form class="removable_button" action="[% current_uri %]/add_comment" method="post">
+
+    <h2>Post Comment</h2>
+	
+    <div id="form_field">
+
+    <h3>Website:</h3>
+    <br />
+    <span><input type="text" name="website" size="75" maxlength="255"></span>
+    </div>
+
+    <span class="form-field"><textarea name="comment" rows="8" cols="60" id="comment_box">[% post %]</textarea></span>
+	
+    <p />
+	
+    <input type="submit" value="Add New Comment" class="removable">
+    </form>
+</div>
+[% END %]
+
+
+[% END %]
+
+<p />
+
+<a name="comments"></a>
+[% comments_html %]
+
+
+		</div>
+
+		
+				
+		<div id="right_column">
+			
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1, images_approved) %]
+			
+		</div>

@@ -1,0 +1,45 @@
+[% meta.title = "World of Anime | The Anime Social Network | Opt Out Form" %]
+[% META keywords = "anime, social networking, friends, members, users, top members, top users" %]
+[% meta.description = "World of Anime - a social networking site for anime fans: Opt Out Form" %]
+
+[% IF alert %]
+		<div id="alert">
+				[% alert %]
+		</div>
+[% END %]
+		<div id="content">
+
+<div id="join_form">
+
+        Users of World of Anime have the ability to refer content on the site to their friends who they think would be interested.  If you would like to not receive these e-mails, you can use the form below to opt out your e-mail address.
+        
+        <p />
+        
+	<form action="/optout" method="post">
+	
+	<table>
+		<tr>
+
+			<td>E-mail Address</span></td>
+			<td><input type="text" name="email" value="[% optout %]" size="25" maxlength="100"></td>
+		</tr>
+	</table>
+	<hr />
+	
+	<input type="Submit" value="Opt Me Out!">
+	
+	</form>
+</div>
+
+
+		</div>
+		
+				
+		<div id="right_column">
+
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1) %]
+
+		</div>

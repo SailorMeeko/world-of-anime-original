@@ -1,0 +1,40 @@
+[% META title = "World of Anime | The Anime Social Network | Friend Requests" %]
+[% META keywords = "anime,social networking" %]
+[% META description = "World of Anime is a social networking site specifically for anime fans" %]
+
+<script src="/static/javascript/friends.js"></script>
+
+		<div id="content">
+
+[% IF c.user_exists %]			
+<h1 class="front_header">Friend Requests</h1>
+<div id="popuup_accept_div" class="popup_accept_msg">
+   Friend request accepted!
+</div>
+<div id="popuup_reject_div" class="popup_reject_msg">
+   Friend request rejected!
+</div>
+[% message %]
+<p />
+[% FriendRequests %]
+</form>
+
+[% ELSE %]
+<h1 class="error_header">Error</h1>
+You must be logged in to view your friend requests.
+
+[% END %]
+
+
+
+		</div>
+
+		
+				
+		<div id="right_column">
+			
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1) %]
+		
+		</div>

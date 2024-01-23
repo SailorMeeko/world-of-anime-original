@@ -1,0 +1,27 @@
+[% meta.title = "World of Anime | Recent Blogs" %]
+[% meta.keywords = "anime, anime blogs, recent blogs" %]
+[% meta.description = "Recent Blogs at World of Anime" %]
+
+<script src="/static/javascript/blogs.js"></script>
+
+<div id="content">
+
+<div class="section_image"><img src="/static/images/icons/anime_blog.jpg"></div>
+<span class="conversation_text">Here are the latest blog entries from World of Anime users.</span>
+
+<br clear="all">
+
+<div id="newest_members">
+[% latest_blog_entries %]
+</div>
+
+</div>
+
+<div id="right_column">
+
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1) %]
+
+</div>

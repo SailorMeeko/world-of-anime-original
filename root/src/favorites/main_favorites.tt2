@@ -1,0 +1,32 @@
+[% META title = "World of Anime | My Favorites" %]
+[% META keywords = "anime,social networking,favorite things" %]
+[% META description = "These are my favorite things on World of Anime" %]
+
+<div id="content">
+
+[% i = image_info( user.profile_image_id ) %]
+
+<div id="user_header">
+
+		<div class="header_image">
+				<a href="/profile/[% user.username %]"><img src="[% i.thumb_url %]" border="0"></a>
+		</div>
+		
+		<div class="header_extra">
+				<span class="header_topic">[% user.username %]'s Favorites</span><p>
+		</div>
+</div>
+<p>
+
+<p>
+<a href="favorites/gallery_images" class="reply_linky">My Favorite Gallery Images</a>
+		</div>
+		
+				
+		<div id="right_column">
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1) %]
+			
+		</div>

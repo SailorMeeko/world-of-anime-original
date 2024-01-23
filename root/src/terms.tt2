@@ -1,0 +1,53 @@
+[% META title = "World of Anime | The Anime Social Network | Terms of Service" %]
+[% META keywords = "anime, social networking, friends, Sailor Moon, Tenchi Muyo, Cardcaptor Sakura, Pretty Sammy, Pokemon, vampire knight, inuyasha, bleach, fruits basket, Full Metal Alchemist, naruto, Saint Seiya" %]
+[% META description = "World of Anime is a social networking site specifically for anime fans" %]
+
+[% IF alert %]
+		<div id="alert">
+				[% alert %]
+		</div>
+[% END %]
+		<div id="content">
+		
+<h1 class="front_header">Terms of Service</h1>
+
+<span class="terms">
+
+
+<h2>
+	Web Site Terms and Conditions of Use
+</h2>
+
+<h3>
+	1. Terms
+</h3>
+
+<p />
+World of Anime is a Social Networking site which allows members to create unique personal profiles, communicate and share material with other World of Anime members through tools, such as user comments, private messages, forums, image galleries and other tools and services which may appear at any time. Use of and membership to this social networking site is void where prohibited.
+<p />
+You must register an account for this social networking site in order to use the services contained therein.  You may set privacy levels to determine who can view various information provided in your profile or  image galleries. Your use of this social networking site is subject to this Terms of Service and any Additional Terms. You are solely responsible for your interactions with other users.
+<p />
+You may never use another's members account without their express permission. If you become aware of any misuse of a World of Anime member account by any person, please <a href="/contact">contact us.</a>
+<p />
+You must be 13 years or older to join World of Anime.  If you are not 13 years or older, do not attempt to join World of Anime, and do not provide any personal information about yourself.  If you become aware of any personal information that has been provided by anyone under the age of 13, please <a href="/contact">contact us.</a>
+<h3>
+	2. Guidelines
+</h3>
+
+<p />
+All that is required in order to register an account with World of Anime is a username, password, and e-mail address.  World of Anime does not require, and does not encourage you to provide any personal information about yourself, including real name, age, and gender.  All personal information you provide is completely voluntary and provided at your sole discretion.
+<p />
+If at any time you wish to remove your World of Anime account, you can do so by <a href="/contact">contacting us</a> using the e-mail address you registered with (for verification) requesting that your account be canceled.
+
+
+		</div>
+		
+				
+		<div id="right_column">
+
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1, images_approved) %]
+			
+		</div>

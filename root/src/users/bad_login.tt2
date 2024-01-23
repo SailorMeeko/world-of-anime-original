@@ -1,0 +1,32 @@
+[% META title = "World of Anime | The Anime Social Network | Bad Login" %]
+[% META keywords = "anime,social networking" %]
+[% META description = "World of Anime is a social networking site specifically for anime fans" %]
+[% IF alert %]
+		<div id="alert">
+				[% alert %]
+		</div>
+[% END %]
+		<div id="content">
+			
+<div class="section_image"><img src="/static/images/icons/anime_login.jpg"></div>
+<span class="conversation_text">
+		<p>Wait a minute - WHO are you again?</p>
+</span>
+
+<br clear="all">
+
+		<div id="join_form">
+                Uh oh, there was a problem here.  I don't seem to recognize that username and password.  Please try again.  If you have forgotten your password, you can <a href="/forgot_password">request a link to reset it</a>.
+		</div>
+
+		</div>
+
+		
+				
+		<div id="right_column">
+			
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1) %]
+
+		</div>

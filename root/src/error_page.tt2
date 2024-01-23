@@ -1,0 +1,17 @@
+[% META title = "World of Anime | The Anime Social Network | Error" %]
+[% META keywords = "anime,social networking" %]
+[% META description = "World of Anime is a social networking site specifically for anime fans" %]
+		<div id="content">
+
+<h1 class="error_header">Error</h1>
+[% error_message %]
+
+		</div>
+
+		
+				
+		<div id="right_column">
+			
+[% PROCESS 'users/login_form.tt2' %]
+			
+		</div>

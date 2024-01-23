@@ -1,0 +1,57 @@
+[% meta.title = "World of Anime | The Anime Social Network | Artists Alley - Fan Fiction" %]
+[% META keywords = "anime, social networking, database, fan fiction" %]
+[% meta.description = "World of Anime - a social networking site for anime fans: Fan Fiction" %]
+
+<script src="/static/javascript/artist.js"></script>
+
+<div id="content">
+
+<div id="main_page">
+
+
+<div class="section_image"><img src="/static/images/icons/anime_fanfiction.jpg"></div>
+<span class="conversation_text">Welcome to the Artists Alley - Fan Fiction section of World of Anime.  Here you will be able to enjoy the work of many of our highly talented artists we have on this site.</span>
+
+[% IF c.user %]
+<p class="break_code"><a href="/artist/fiction/setup_add" class="btn btn-success">Add a New Fan Fiction</a></p>
+[% ELSE %]
+<p class="break_code">You must be a member of the site and logged in to add a new Fan Fiction.</p>
+[% END %]
+
+<br clear="all">
+
+<span class="intro">Whether you prefer to read Fan Fiction that is based off of an anime show, or original Fan Fiction not based on an existing show, our talented artists have you covered!  Just click on which one you prefer to read.</span>
+
+<a href="/artist/fiction/browse_fiction_by_title" class="btn btn-info">Browse by Anime Title</a>
+<p></p>
+<a href="/artist/fiction/browse_fiction_original" class="btn btn-info">Browse Original Fiction</a>
+
+
+<p class="break_code">Need to know <a href="/artist/fiction/howto">how to</a> use Fan Fiction?</span>
+
+</div>
+
+<p />
+
+[% IF ! c.user_exists %]
+
+<!-- Everyone can do this -->
+
+
+[% ELSE %]
+
+<!-- Only logged in people can do this -->
+
+[% END %]
+
+
+		</div>
+		
+				
+		<div id="right_column">
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1, images_approved) %]
+
+		</div>

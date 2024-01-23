@@ -1,0 +1,60 @@
+[% meta.title = "World of Anime | The Anime Social Network | Group Requests" %]
+[% META keywords = "anime, social networking, friends, members, groups" %]
+[% meta.description = "Group Requests - people who want to join your groups." %]
+
+[% IF alert %]
+		<div id="alert">
+				[% alert %]
+		</div>
+[% END %]
+		<div id="content">
+		
+<script type="text/javascript">
+
+    $(function() {
+       $('a[title]').qtip({
+            position: {
+               my: 'left bottom',
+               at: 'right center'
+            },
+	   style: {
+	      classes: 'ui-tooltip-green ui-tooltip-shadow'
+	   },
+	   show: {
+               event: false, // Don't specify a show event...
+               ready: true // ... but show the tooltip when ready
+            },
+		hide: false, // Don't specify a hide event either!
+       });
+    });
+
+</script>
+
+[% IF error_message %]		
+<h1 class="error_header">Error</h1>
+[% error_message %]
+<p />
+[% END %]
+
+[% header_html %]
+
+<p />
+
+<span class="normal_text">
+The following are the groups that you are an admin of that have pending join requests.
+</span>
+
+[% GroupsHTML %]
+
+
+		</div>
+		
+				
+		<div id="right_column">
+
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1) %]
+
+		</div>

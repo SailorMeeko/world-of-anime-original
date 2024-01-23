@@ -1,0 +1,56 @@
+[% USE Math %]
+[% META title = "World of Anime | The Anime Social Network | View Private Messages" %]
+[% META keywords = "anime,social networking,forums" %]
+[% META description = "World of Anime - View Private Messages" %]
+[% IF alert %]
+		<div id="alert">
+				[% alert %]
+		</div>
+[% END %]
+
+<script>
+$(document).ready(function() 
+    { 
+        $("#myTable").tablesorter( {sortList: [[2,1]], widgets: ['zebra'] } ); 
+    } 
+);
+</script>
+
+[% USE SimpleJson %]
+
+		<div id="content">
+			<h1 class="front_header">Your Sent Private Messages</h1>
+<p />
+
+[% receivers = SimpleJson.fromJson(pms.messages_sent) %]
+
+<table id="myTable" class="tablesorter">
+<thead> 
+<tr>
+		<th>User</th>
+		<th>Total</th>
+		<th>Most Recent</th>
+</tr>
+</thead>
+<tbody>
+[% FOREACH r IN receivers %]
+[% IF r.num_total == 0 %][% r.num_total = '' %][% END %]
+<tr>
+		<td><span class="topic"><a href="/pm/to/[% r.user_id %]">[% r.username %]</a></span></td>
+		<td>[% r.num_total %]</td>
+		<td>[% prettify_date( r.latest, 1) %]</td>
+</tr>
+[% END %]
+</tbody> 
+</table>
+
+		</div>
+		
+				
+		<div id="right_column">
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1, images_approved) %]
+
+		</div>

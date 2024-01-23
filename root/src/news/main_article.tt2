@@ -1,0 +1,123 @@
+[% meta.title = "World of Anime | $article.title" %]
+[% META keywords = "anime, news, article" %]
+[% meta.description = "$article.article_clean" %]
+
+
+<script>
+$(function() {
+    $('#add_comment').live('submit', function(e) {
+        var article = $(this).attr('article');
+	var latest = $(this).attr('latest');
+
+	var message = $('textarea#comment_box').val();
+	$('textarea#comment_box').val("");
+        $('#sharing_tools_box').remove();
+	$('#new_comment_box').remove();
+        $('.share_button').remove();
+        var data = 'comment='  + encodeURIComponent(message);
+
+	$.ajax({  
+            url: "/news/ajax/add_comment/" + article,
+            type: "POST",
+            data: data,       
+            cache: false,
+	    success: function(response) {
+		$.ajax({
+		    url: "/news/ajax/load_comments/" + article + "/" + latest,
+		    type: "POST",
+		    cache: false,
+                    dataType: 'json',
+                    success: function(new_comments) {
+			$('#new_comments').append(new_comments);
+                        $.scrollTo( '#new_comments', 500);
+		    },
+                    dataType: 'html'
+                });
+
+	    },
+	    error: function(jqXHR, textStatus, errorThrown) {
+	    }
+        });
+
+    return false;
+    });
+});
+</script>
+
+<div id="content">
+
+[% i = image_info( article.image_id ) %]
+
+<div id="news_block">
+
+<div class="news_article">
+<h1>[% article.title %]</h1>
+<h2>Submitted by <a href="/profile/[% article.submitted_by %]">[% article.submitted_by %]</a> on [% prettify_date( article.createdate, 1) %]</h2><br />
+<h2><a href="#comments"><img src="/static/images/comment.gif"> <span id="num_comments">[% num_comments %]</span> comments</a></h2><br />
+<img src="[% i.small_url %]">
+<p class="article">[% article.article.replace("\n", "<p />") %]</p>
+<br clear="all">
+[% IF article.source_name %]<h2>Source: [% IF article.source_url %]<a href="[% article.source_url %]">[% END %][% article.source_name %][% IF article.source_url %]</a>[% END %]</h2><br />[% END %]
+</div>
+
+</div>
+
+<p />
+
+<div id="sharing_tools_box">
+
+		[% IF c.user_exists %]
+		<a href="#" onclick="javascript:$('#new_comment_box').toggle();$('#comment_box').focus();return false" class="share_button">Post Comment</a>
+		[% END %]
+
+
+[% IF image.show_all %]<a href="#" onclick="javascript:$('#embed_code_box').toggle();return false" class="share_button" id="share_this">Share</a>[% END %]
+
+</div>
+
+<p />
+
+[% IF c.user_exists %]
+<div id="new_comment_box"></a>
+<form class="removable_button" id="add_comment" article="[% article.id %]" latest="[% latest %]">
+
+    <h2>Post Comment</h2>
+	
+    <div id="form_field">
+
+    <h3>Website:</h3>
+    <br />
+    <span><input type="text" name="website" size="75" maxlength="255"></span>
+    </div>
+
+    <span class="form-field"><textarea name="comment" rows="8" cols="60" id="comment_box">[% post %]</textarea></span>
+	
+    <p />
+	
+    <input type="submit" value="Add New Comment" class="removable">
+    </form>
+</div>
+[% END %]
+
+<a name="comments">
+<div id="posts">
+
+<div id="new_comments"></div>
+
+[% comments_html %]
+
+</div>
+
+</a>
+
+		</div>
+		
+				
+		<div id="right_column">
+
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1) %]
+
+		</div>

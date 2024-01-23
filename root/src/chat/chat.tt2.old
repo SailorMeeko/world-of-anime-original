@@ -1,0 +1,82 @@
+[% meta.title = "World of Anime | The Anime Social Network | Chat" %]
+[% META keywords = "anime, social networking, chat" %]
+[% meta.description = "World of Anime chat." %]
+
+[% IF alert %]
+		<div id="alert">
+				[% alert %]
+		</div>
+[% END %]
+		<div id="content">
+
+
+[% site.jquery = "$jquery" %]
+
+  </script>
+
+
+	
+        	
+<h1 class="front_header">Chat</h1>
+
+<a href="#last_message"></a>
+
+<div class="chat_users_container">
+    <div class="chat_users_scrollbox">
+		User List:
+            <p></p>
+    </div>
+</div>
+
+
+<div class="chat_container">
+    <div class="chat_scrollbox">
+            <p></p>
+    </div>
+</div>
+
+[% IF ! c.user_exists %]
+You must be logged in to participate in chat
+[% ELSE %]
+<br clear="all">
+<p />
+
+<div id="new_link_box"></a>
+<form name="chat">
+
+    <h4>Send Chat Message</h4>
+
+    <span class="form-field"><input type="text" name="chat_message" value="" size="80" maxlength="255"></span>
+	
+    <input type="Submit" value="Send Chat!" id="submit">
+    
+    <br clear="all">
+
+    </form>
+</div>
+
+[% END %]
+
+
+		</div>
+		
+				
+		<div id="right_column">
+
+
+[% PROCESS 'users/login_form.tt2' %]
+
+<script type="text/javascript"><!--
+google_ad_client = "pub-2012337006268482";
+/* 300x250, created 12/31/09 */
+google_ad_slot = "6089235599";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+
+			
+		</div>

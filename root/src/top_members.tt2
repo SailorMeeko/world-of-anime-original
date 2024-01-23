@@ -1,0 +1,24 @@
+[% meta.title = "World of Anime | The Anime Social Network | Top Members" %]
+[% META keywords = "anime, social networking, friends, members, users, top members, top users" %]
+[% meta.description = "Top Members for World of Anime - a social networking site for anime fans." %]
+
+		<div id="content">
+<p />
+
+<h1 class="front_header">Top Members</h1>
+<br clear="all">
+
+
+The Top Members page is currently offline while I consider an alternative to the now defunct point system.
+
+		</div>
+		
+				
+		<div id="right_column">
+
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1) %]
+
+		</div>

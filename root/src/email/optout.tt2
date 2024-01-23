@@ -1,0 +1,26 @@
+[% meta.title = "World of Anime | The Anime Social Network | Opted Out" %]
+[% META keywords = "anime, social networking, friends, members, users, top members, top users" %]
+[% meta.description = "World of Anime - a social networking site for anime fans: Opted Out" %]
+
+[% IF alert %]
+		<div id="alert">
+				[% alert %]
+		</div>
+[% END %]
+		<div id="content">
+
+<div id="invite_user">
+You have been opted out of receiving referred content.  If you would like to receive this e-mail again, you will need to <a href="/contact">Contact Us</a> and let us know that you would like to be taken off of the opt out list.
+</div>
+
+		</div>
+		
+				
+		<div id="right_column">
+
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1) %]
+
+		</div>

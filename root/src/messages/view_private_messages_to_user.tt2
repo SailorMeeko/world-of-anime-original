@@ -1,0 +1,67 @@
+[% META title = "World of Anime | The Anime Social Network | View Private Messages" %]
+[% META keywords = "anime,social networking,forums" %]
+[% META description = "World of Anime - View Private Messages" %]
+
+<script src="/static/javascript/pm.js?v=3"></script>
+
+[% IF !messages %]
+<script>
+$(document).ready(function() {
+     location.replace('/pm');
+});
+</script>
+[% END %]
+
+<script>
+$(document).ready(function() 
+    { 
+        $("#myTable").tablesorter( {sortList: [[0,1]], widgets: ['zebra'] } ); 
+    } 
+);
+</script>
+
+[% USE SimpleJson %]
+
+		<div id="content">
+			<h1 class="front_header">Private Messages to [% to_user.username %]</h1>
+<p />
+
+<a href="/pm/setup/[% to_user.id %]" class="newWindow share_button comment_button">New private message to [% to_user.username %]</a>
+
+<p />
+
+<table id="myTable" class="tablesorter">
+<thead> 
+<tr>
+		<th width="160">Date Sent</th>
+		<th width="150">Subject</th>
+		<th>Message</th>
+</tr>
+</thead>
+<tbody>
+[% IF messages %]
+		[% messages_json = SimpleJson.fromJson(messages) %]
+		[% unreads = 0 %]
+
+[% FOREACH m IN messages_json %]
+<tr>
+		<td>[% prettify_date( m.createdate, 1) %]</td>
+		<td><a href="/pm/sent/[% m.id %]"><span class="pm">[% m.subject %]</span></a></td>
+		<td><a href="/pm/sent/[% m.id %]"><span class="pm">[% clean_bbcode( m.message ) %]</span></a></td>
+</tr>
+[% END %]
+
+[% END %]
+</tbody> 
+</table>
+
+		</div>
+		
+				
+		<div id="right_column">
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1, images_approved) %]
+			
+		</div>

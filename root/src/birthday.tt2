@@ -1,0 +1,26 @@
+[% meta.title = "World of Anime | The Anime Social Network | User Birthdays" %]
+[% META keywords = "anime, social networking, database, birthday" %]
+[% meta.description = "Birthdays for World of Anime Users" %]
+
+<div id="content">
+
+<div class="section_image"><img src="/static/images/icons/anime_birthday.jpg"></div>
+<span class="conversation_text">Look who is celebrating a birthday at World of Anime!</span>
+
+<br clear="all">
+
+
+		</div>
+		
+				
+		<div id="right_column">
+
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1) %]
+
+		</div>
+
+
+<!-- select * from user_profile where ( (MONTH(birthday)) = (MONTH(NOW() )) ) AND (DAY(birthday)) = (DAY(NOW() )) AND (show_age = 1) -->

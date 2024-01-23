@@ -1,0 +1,123 @@
+[% USE Math %]
+[% META title = "World of Anime | The Anime Social Network | View Private Messages" %]
+[% META keywords = "anime,social networking,forums" %]
+[% META description = "World of Anime - View Private Messages" %]
+[% IF alert %]
+		<div id="alert">
+				[% alert %]
+		</div>
+[% END %]
+		<div id="content">
+			<h1 class="front_header">Your Sent Private Messages</h1>
+<p />
+
+<div id="pager_line">
+[% page_counter_num = 1 %]
+
+[% IF pager.previous_page %]
+<a href="[% c.request.uri_with( page => pager.previous_page ) %]">Previous</a>
+[% END %]
+
+[% page_count = pager.current_page - 3 %]
+[% IF page_count < 1 %]
+     [% page_count = 1 %]
+[% END %]
+
+[% WHILE page_count <= pager.last_page %]
+     [% IF page_counter_num <= 18 %]
+          [% IF page_count == pager.current_page %]
+          [% page_count %]
+          [% ELSE %]
+          <a href="[% c.request.uri_with( page => page_count ) %]">[% page_count %]</a>
+          [% END %]
+     [% END %]
+[% page_count = page_count + 1 %]
+[% page_counter_num = page_counter_num + 1 %]
+[% END %]
+
+[% IF pager.next_page %]
+<a href="[% c.request.uri_with( page => pager.next_page ) %]">Next</a>
+[% END %]
+</div>
+
+<p />
+
+<div id="posts">
+[% WHILE (m = message.next) %]
+[% other_pms = m.get_column('num_messages') - 1 %]
+[% mess_text = m.get_column('mess_text') %]
+[% mess_createdate = m.get_column('mess_createdate') %]
+
+[% to_filedir = m.messages_to_users.user_profiles.user_profile_image_id.filedir.replace('u/', 't80/') %]
+[% to_filename = m.messages_to_users.user_profiles.user_profile_image_id.filename %]
+[% to_height = m.messages_to_users.user_profiles.user_profile_image_id.height %]
+[% to_width = m.messages_to_users.user_profiles.user_profile_image_id.width %]
+[% mult = ( to_height / 80) %]
+[% new_to_height = Math.int( (to_height / mult) / 1.5 ) %]
+[% new_to_width  = Math.int( (to_width / mult) / 1.5) %]
+
+[% from_filedir = m.messages_from_users.user_profiles.user_profile_image_id.filedir.replace('u/', 't80/') %]
+[% from_filename = m.messages_from_users.user_profiles.user_profile_image_id.filename %]
+
+		<div id="individual_post">
+		<table>
+		     <tr>
+		          <td valign="top">
+			  <a href="/profile/[% m.messages_from_users.username %]"><img src="/[% from_filedir %][% from_filename %]" border="0"></a>			  
+			  </td>
+			  <td valign="top"><span class="post">[% mess_text.replace('\n', '<br />') %]</span></td>
+		     </tr>
+		</table>
+		<span class="post_byline">
+		Sent to [% m.messages_to_users.username %] on [% prettify_date(mess_createdate, 1) %]<br />
+		<a href="/profile/[% m.messages_to_users.username %]"><img src="/[% to_filedir %][% to_filename %]" height="[% new_to_height %]" width="[% new_to_width %]" border="0"></a></span>
+
+				<div style="text-align: center; padding: 10px;"><a href="/pm/from/[% m.user_id %]" class="reply_linky">View all private messages to and from [% m.messages_to_users.username %]</a></div>
+
+		</div>
+[% END %]
+
+</div>
+</table>
+
+<p />
+
+<div id="pager_line">
+[% page_counter_num = 1 %]
+
+[% IF pager.previous_page %]
+<a href="[% c.request.uri_with( page => pager.previous_page ) %]">Previous</a>
+[% END %]
+
+[% page_count = pager.current_page - 3 %]
+[% IF page_count < 1 %]
+     [% page_count = 1 %]
+[% END %]
+
+[% WHILE page_count <= pager.last_page %]
+     [% IF page_counter_num <= 30 %]
+          [% IF page_count == pager.current_page %]
+          [% page_count %]
+          [% ELSE %]
+          <a href="[% c.request.uri_with( page => page_count ) %]">[% page_count %]</a>
+          [% END %]
+     [% END %]
+[% page_count = page_count + 1 %]
+[% page_counter_num = page_counter_num + 1 %]
+[% END %]
+
+[% IF pager.next_page %]
+<a href="[% c.request.uri_with( page => pager.next_page ) %]">Next</a>
+[% END %]
+</div>
+
+		</div>
+		
+				
+		<div id="right_column">
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1) %]
+
+		</div>

@@ -1,0 +1,7 @@
+body { background-color: #FFF; background-image: url('/static/images/backgrounds/background1.jpg');  background-repeat: repeat-x repeat-y; background-attachment: fixed; }
+#page { border: solid 0.125em #99CC99; }
+#navbar { width:auto; display:block; height:1.875em; background: #99CC99; margin-bottom: 1em; }
+#links_box_link a:hover { color: #000; background-color: #669966; }
+.sf-menu li { background: #99CC99; }
+.sf-menu li li { background: #99CC99; }
+.sf-menu li:hover, .sf-menu li.sfHover, .sf-menu a:focus, .sf-menu a:hover, .sf-menu a:active { background: #669966; }

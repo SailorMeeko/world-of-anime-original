@@ -1,0 +1,66 @@
+[% META title = "World of Anime | The Anime Social Network | Add Link" %]
+[% META keywords = "anime sites, anime links, add link, add anime link, add anime web site" %]
+[% META description = "Add your link to our Anime Links database" %]
+
+[% IF alert %]
+		<div id="alert">
+				[% alert %]
+		</div>
+[% END %]
+		<div id="content">
+		
+<script type="text/javascript">
+    $(function() {    
+	$('.removable_button').submit(function() {
+            $('.removable').remove();
+	});
+    });
+</script>		
+		
+<h1 class="front_header">Add Your Anime Link</h1>
+
+<span class="info_text">
+To add your anime related web site to our directory of links, enter your information below.  All links must be verified and approved before they will be displayed on the web site.
+<p />
+If you add your link in our database, we would greatly appreciate a link back to our site on yours.
+<p />
+</span>
+
+<p />
+
+<div id="new_link_box"> 
+<form class="removable_button" action="add_link" method="post">
+
+    <h3>Title:</h3><br />
+    <span class="form-field"><input type="text" name="link_title" size="45" maxlength="255"></span>
+    <p />
+    <h3>URL:</h3><br />
+    <span class="form-field"><input type="text" name="link_url" size="45" maxlength="255" value="http://"></span>
+    <p />
+    <h3>Description:</h3><br />
+    <span class="form-field"><textarea name="link_description" rows="4" cols="35"></textarea></span>
+    <p />
+    <h3>Category</h3><br />
+    <span class="form-field"><select name="link_category">
+    <option value=""><- Category ->
+    [% categories_html %]
+    </select></span><p />
+    <h3>* to suggest another category, please <a href="/contact">contact us</a></h3>
+
+<p />
+<input type="Submit" value="Add New Link" class="removable">
+</form>
+</div>
+		
+
+		</div>
+		
+				
+		<div id="right_column">
+
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1) %]
+			
+		</div>

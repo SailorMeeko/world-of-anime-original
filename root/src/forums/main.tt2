@@ -1,0 +1,70 @@
+[% META title = "World of Anime | The Anime Social Network | Forums" %]
+[% META keywords = "anime,forum,anime forum,anime friends,anime network" %]
+[% META description = "World of Anime Forums - General discussion of all things related to anime, manga, and video games" %]
+
+[% IF alert %]
+		<div id="alert">
+				[% alert %]
+		</div>
+[% END %]
+		<div id="content">
+			<h1 class="front_header">World of Anime Forums</h1>
+<p />
+
+
+<div id="forums">
+[% WHILE (cat = categories.next) %]
+    <div id="forum_category">
+        <h1 class="category_name">[% cat.category_name %]</h1>
+    </div>
+    <p>
+    <div id="forum_forums">
+
+				<table id="forum_threads" border="0" cellpadding="0" cellspacing="0" width="100%">
+				<tr>
+						<th width="50%">Forum</th>
+						<th width="35%">Last Post</th>
+						<th width="15%">Threads</th>				
+				</tr>
+
+        [% FOREACH forum IN cat.forum_forums.sort('display_order') %]
+	
+	[% NumThreads = num_threads_by_forum( forum.id ) %]
+	[% LastThread = fetch_last_thread( forum.id ) %]
+	
+            [% IF forum.visible %]
+
+            <tr>
+                <td><span class="forum_topic"><a href="/forums/[% cat.pretty_url %]/[% forum.pretty_url %]">[% forum.forum_name %]</a></span></td>
+                <td><span class="forum_topic_small">
+				<a href="/forums/thread/[% LastThread.id %]">[% LastThread.subject %]</a></span>
+				<span class="top_user_profile_date">[% prettify_date( LastThread.last_post, 1) %]</span><br />
+				<span class="forum_byline">by <a style="color: #000000;" href="/profile/[% last_thread_post_user( LastThread.id ) %]">[% last_thread_post_user( LastThread.id ) %]</a></span>
+				</td>
+                <td align="center"><span class="top_user_profile_date">
+		[% NumThreads %]
+		</span>
+                </td>
+            </tr>
+            [% END %]
+        [% END %]
+
+				</table>
+
+    </div>
+    <p>
+[% END %]
+</div>
+
+
+
+		</div>
+		
+				
+		<div id="right_column">
+
+[% PROCESS 'users/login_form.tt2' %]
+
+[% pick_ad(1, images_approved) %]
+			
+		</div>
